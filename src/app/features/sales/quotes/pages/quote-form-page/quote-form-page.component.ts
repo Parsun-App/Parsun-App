@@ -21,6 +21,7 @@ import { FormContainerComponent } from '@core/forms/components/cards/form-contai
 import { FormHeaderComponent } from '@core/forms/components/headers/form-header/form-header.component';
 
 import { FormActionsComponent } from '@core/forms/components/headers/form-actions/form-actions.component';
+import { QuoteStatus } from '@features/sales/quotes/models/enums/quote-status.enum';
 import { PendingTabsService } from '@core/pending-tabs';
 import { PENDING_TABS_CONFIG } from '@core/pending-tabs/constants';
 import { QuoteApplicationService } from '@features/sales/quotes/services/application/quote-application.service';
@@ -74,6 +75,7 @@ export class QuoteFormPageComponent implements OnInit, OnDestroy {
   readonly quoteId = signal<string | null>(null);
   readonly quoteNumber = signal<string | null>(null);
   readonly isSubmitting = signal<boolean>(false);
+  readonly isCustomerDraft = signal<boolean>(false);
   readonly selectedCustomer = signal<CustomerList | null>(null);
   readonly selectedCustomerLabel = signal<{ name: string; rif: string } | null>(null);
   readonly pickerVisible = signal<boolean>(false);
@@ -96,6 +98,7 @@ export class QuoteFormPageComponent implements OnInit, OnDestroy {
   readonly form = this.fb.group({
     customerId: ['', [Validators.required]],
     notes: [''],
+    itemsRevision: [0],
   });
 
   ngOnInit(): void {
@@ -188,6 +191,7 @@ export class QuoteFormPageComponent implements OnInit, OnDestroy {
   private loadQuote(id: string): void {
     this.quoteService.loadById(id).subscribe({
       next: (quote) => {
+        this.isCustomerDraft.set(quote.status === QuoteStatus.CUSTOMER_DRAFT);
         this.quoteNumber.set(quote.quoteNumber ?? null);
         this.form.patchValue({ notes: quote.notes ?? '' });
         this.selectedCustomerLabel.set({
@@ -258,6 +262,8 @@ export class QuoteFormPageComponent implements OnInit, OnDestroy {
 
   onItemsChange(updated: OrderItemFormData[]): void {
     this.items.set(updated);
+    this.form.markAsDirty();
+    this.form.controls.itemsRevision.setValue((this.form.controls.itemsRevision.value ?? 0) + 1);
     this.updateSubmitTooltip();
     this.scheduleAutoSave();
   }

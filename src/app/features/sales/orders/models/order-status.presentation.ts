@@ -4,6 +4,7 @@ import { OrderStatus } from '@features/sales/orders/models/enums/order-status.en
 export function orderStatusVariant(status: OrderStatus): StatusVariant {
   const variants: Record<OrderStatus, StatusVariant> = {
     [OrderStatus.DRAFT]: 'label',
+    [OrderStatus.CUSTOMER_DRAFT]: 'info',
     [OrderStatus.CONFIRMED]: 'info',
     [OrderStatus.CANCELLED]: 'danger',
     [OrderStatus.INVOICED]: 'success',

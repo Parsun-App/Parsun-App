@@ -22,14 +22,18 @@ describe('OrderStatus', () => {
     expect(OrderStatus.INVOICED).toBe('INVOICED');
   });
 
-  it('should have 4 values', () => {
-    expect(Object.keys(OrderStatus).filter((k) => isNaN(Number(k)))).toHaveLength(4);
+  it('should have 5 values', () => {
+    expect(Object.keys(OrderStatus).filter((k) => isNaN(Number(k)))).toHaveLength(5);
   });
 });
 
 describe('ORDER_STATUS_LABELS', () => {
   it('should have label for DRAFT', () => {
     expect(ORDER_STATUS_LABELS[OrderStatus.DRAFT]).toBe('Borrador');
+  });
+
+  it('should have label for CUSTOMER_DRAFT', () => {
+    expect(ORDER_STATUS_LABELS[OrderStatus.CUSTOMER_DRAFT]).toBe('Borrador de Cliente');
   });
 
   it('should have label for CONFIRMED', () => {

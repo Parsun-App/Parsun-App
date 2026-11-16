@@ -1,6 +1,6 @@
 # Getting Started
 
-This guide helps you run the Cashly frontend on your machine.
+This guide helps you run the Parsun frontend on your machine.
 
 ## Prerequisites
 
@@ -20,8 +20,8 @@ docker --version
 ### Option 1: Local development
 
 ```bash
-git clone git@gitlab.com:personal-proyect-gabriel/cashly/cashly-app.git
-cd cashly-app
+git clone git@gitlab.com:personal-proyect-gabriel/parsun/parsun-app.git
+cd parsun-app
 
 bun install
 bun start
@@ -29,7 +29,7 @@ bun start
 
 Open `http://localhost:4200`.
 
-The dev server proxies `/api` and `/ws` through `proxy.conf.js`. Point it at your running backend (`cashly-api`) before using authenticated screens. See [ENVIRONMENT.md](ENVIRONMENT.md).
+The dev server proxies `/api` and `/ws` through `proxy.conf.js`. Point it at your running backend (`parsun-api`) before using authenticated screens. See [ENVIRONMENT.md](ENVIRONMENT.md).
 
 ### Option 2: Docker development
 
@@ -39,12 +39,12 @@ The Compose development service waits for the backend health endpoint before sta
 docker compose --profile dev up --build
 ```
 
-Open `http://localhost:4200`. The backend must be reachable as `cashly-api-app:8080` on the external `cashly-api_cashly-network` network.
+Open `http://localhost:4200`. The backend must be reachable as `parsun-api-app:8080` on the external `parsun-api_parsun-network` network.
 
 ## Project structure
 
 ```
-cashly-app/
+parsun-app/
 ├── src/
 │   ├── app/
 │   │   ├── core/                # Layout, forms, PDF viewer, pending tabs, error handling
@@ -81,7 +81,7 @@ cashly-app/
 
 ```bash
 bun start              # Development server
-bun run build          # Production build (dist/cashly-app/browser)
+bun run build          # Production build (dist/parsun-app/browser)
 bun run test:run       # Vitest once
 bun run test:watch     # Vitest in watch mode
 bun run test:coverage  # Coverage report
@@ -128,7 +128,7 @@ docker compose down
 docker compose --profile dev up --build
 ```
 
-If API calls fail, verify the backend container is running and that the external `cashly-api_cashly-network` network exists.
+If API calls fail, verify the backend container is running and that the external `parsun-api_parsun-network` network exists.
 
 ## Next steps
 

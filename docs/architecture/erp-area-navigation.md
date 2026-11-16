@@ -55,7 +55,7 @@ Dashboard landing follow-up verification: all 36 affected unit tests and all fou
 
 The desktop capture at 1280 pixels shows all eight area labels within the header. The mobile drawer at 390 pixels keeps the area list scrollable above account actions. Browser scenarios exercise every page destination in both menus, report dialogs, legacy bookmarks and restricted users against mocked API responses.
 
-Screenshots are generated under `output/playwright/area-navigation/`. Raw test and build logs are retained inside the development container under `/tmp/cashly-area-routes-evidence/`.
+Screenshots are generated under `output/playwright/area-navigation/`. Raw test and build logs are retained inside the development container under `/tmp/parsun-area-routes-evidence/`.
 
 ## Verification results
 

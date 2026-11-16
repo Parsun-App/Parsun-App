@@ -1,4 +1,4 @@
-<main class="cashly-login grid min-h-screen bg-surface-50 lg:grid-cols-2">
+<main class="parsun-login grid min-h-screen bg-surface-50 lg:grid-cols-2">
   <section
     class="login-artwork relative hidden overflow-hidden bg-surface-950 p-12 text-surface-50 lg:flex lg:flex-col lg:justify-between"
     aria-labelledby="login-artwork-title"
@@ -6,7 +6,7 @@
     <div
       class="relative z-10 flex items-center justify-between border-b border-surface-700 pb-5 text-xs uppercase tracking-[0.2em]"
     >
-      <span>{{ 'platform.auth.cashlyWorkspace' | translate }}</span>
+      <span>{{ 'platform.auth.parsunWorkspace' | translate }}</span>
       <span>{{ 'platform.auth.text01Connect' | translate }}</span>
     </div>
 
@@ -57,23 +57,21 @@
   </section>
 
   <section
-    class="login-panel flex min-h-screen flex-col px-6 py-8 text-surface-900 dark:text-surface-50 sm:px-12 lg:px-16 xl:px-24"
+    class="login-panel flex min-h-screen flex-col bg-white px-6 py-8 text-surface-900 sm:px-12 lg:px-16 xl:px-24"
     aria-labelledby="login-title"
   >
-    <div
-      class="login-enter flex items-center justify-between border-b border-surface-300 pb-6 dark:border-surface-700"
-    >
+    <div class="login-enter flex items-center justify-between border-b border-surface-300 pb-6">
       @if (logoSrc()) {
         <img
           [ngSrc]="logoSrc()"
-          alt="Logo Cashly"
-          width="180"
-          height="48"
+          alt="Logo Parsun"
+          width="1264"
+          height="578"
           priority
           class="h-9 w-auto object-contain"
         />
       } @else {
-        <span class="text-3xl font-bold">{{ 'platform.auth.cashly' | translate }}</span>
+        <span class="text-3xl font-bold">{{ 'platform.auth.parsun' | translate }}</span>
       }
       <span class="text-xs uppercase tracking-[0.15em] text-surface-500">{{
         'platform.auth.text02SignIn' | translate
@@ -208,10 +206,10 @@
     </div>
 
     <div
-      class="login-enter login-delay-2 flex items-center justify-between gap-4 border-t border-surface-300 pt-5 text-xs text-surface-500 dark:border-surface-700"
+      class="login-enter login-delay-2 flex items-center justify-between gap-4 border-t border-surface-300 pt-5 text-xs text-surface-500"
     >
       <span>{{ 'platform.auth.businessManagementSystem' | translate }}</span>
-      <span class="uppercase tracking-[0.12em]">{{ 'platform.auth.cashly' | translate }}</span>
+      <span class="uppercase tracking-[0.12em]">{{ 'platform.auth.parsun' | translate }}</span>
     </div>
   </section>
 </main>

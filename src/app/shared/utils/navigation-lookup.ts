@@ -14,6 +14,7 @@ export function lookupDescription(
 export function lookupStatusKey(status: string | null | undefined): string {
   const keys: Record<string, string> = {
     DRAFT: 'navigation.options.draft',
+    CUSTOMER_DRAFT: 'navigation.options.customerDraft',
     CONFIRMED: 'navigation.options.confirmed',
     CANCELLED: 'navigation.options.cancelled',
     INVOICED: 'navigation.options.invoiced',

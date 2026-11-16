@@ -2,7 +2,7 @@
   <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
     <app-page-header
       [hero]="true"
-      kicker="finance.billing.creditnotes.cashlyManagement"
+      kicker="finance.billing.creditnotes.parsunManagement"
       title="sales.quotes.quotes"
       subtitle="sales.quotes.manageCustomerQuotes"
     />
@@ -156,10 +156,19 @@
                       <div class="font-medium">{{ quote.customerName }}</div>
                     </td>
                     <td>
-                      <app-text-badge
-                        [label]="getStatusLabel(quote.status) | translate"
-                        [variant]="getStatusVariant(quote.status)"
-                      />
+                      <div class="flex flex-col items-start gap-1">
+                        <app-text-badge
+                          [label]="getStatusLabel(quote.status) | translate"
+                          [variant]="getStatusVariant(quote.status)"
+                        />
+                        @if (quote.status === 'CUSTOMER_DRAFT') {
+                          <app-status-badge
+                            [active]="!!quote.stockAssigned"
+                            activeLabel="Stock asignado"
+                            inactiveLabel="Sin stock"
+                          />
+                        }
+                      </div>
                     </td>
                     <td class="text-right">
                       <span class="text-sm font-medium">{{
@@ -237,6 +246,13 @@
                         [label]="getStatusLabel(quote.status) | translate"
                         [variant]="getStatusVariant(quote.status)"
                       />
+                      @if (quote.status === 'CUSTOMER_DRAFT') {
+                        <app-status-badge
+                          [active]="!!quote.stockAssigned"
+                          activeLabel="Stock asignado"
+                          inactiveLabel="Sin stock"
+                        />
+                      }
                     </div>
                   </div>
                   <div class="text-xs text-surface-400 ml-2">

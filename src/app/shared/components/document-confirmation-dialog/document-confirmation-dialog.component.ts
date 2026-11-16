@@ -46,12 +46,12 @@ export class DocumentConfirmationDialogComponent {
       'border-surface-200 bg-surface-50 text-surface-800 dark:border-surface-700 dark:bg-surface-800 dark:text-surface-100';
     const severity = this.model().notice?.severity ?? 'info';
     const classes = {
-      info: 'in-[.cashly-informative]:border-blue-200 in-[.cashly-informative]:bg-blue-50 in-[.cashly-informative]:text-blue-800 dark:in-[.cashly-informative]:border-blue-800 dark:in-[.cashly-informative]:bg-blue-950 dark:in-[.cashly-informative]:text-blue-200',
+      info: 'in-[.parsun-informative]:border-blue-200 in-[.parsun-informative]:bg-blue-50 in-[.parsun-informative]:text-blue-800 dark:in-[.parsun-informative]:border-blue-800 dark:in-[.parsun-informative]:bg-blue-950 dark:in-[.parsun-informative]:text-blue-200',
       warning:
-        'in-[.cashly-informative]:border-blue-200 in-[.cashly-informative]:bg-blue-50 in-[.cashly-informative]:text-blue-800 dark:in-[.cashly-informative]:border-blue-800 dark:in-[.cashly-informative]:bg-blue-950 dark:in-[.cashly-informative]:text-blue-200',
+        'in-[.parsun-informative]:border-blue-200 in-[.parsun-informative]:bg-blue-50 in-[.parsun-informative]:text-blue-800 dark:in-[.parsun-informative]:border-blue-800 dark:in-[.parsun-informative]:bg-blue-950 dark:in-[.parsun-informative]:text-blue-200',
       danger: '',
       success:
-        'in-[.cashly-informative]:border-green-200 in-[.cashly-informative]:bg-green-50 in-[.cashly-informative]:text-green-800 dark:in-[.cashly-informative]:border-green-800 dark:in-[.cashly-informative]:bg-green-950 dark:in-[.cashly-informative]:text-green-200',
+        'in-[.parsun-informative]:border-green-200 in-[.parsun-informative]:bg-green-50 in-[.parsun-informative]:text-green-800 dark:in-[.parsun-informative]:border-green-800 dark:in-[.parsun-informative]:bg-green-950 dark:in-[.parsun-informative]:text-green-200',
     };
     return `${neutral} ${classes[severity]}`;
   }

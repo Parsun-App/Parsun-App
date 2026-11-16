@@ -1,8 +1,8 @@
-# Cashly – B2B Web Administrative System
+# Parsun – B2B Web Administrative System
 
 ## Project Vision
 
-The Cashly project is a **B2B Web Administrative System** that digitizes and centralizes the company's operational cycle, from inventory management to collections.
+The Parsun project is a **B2B Web Administrative System** that digitizes and centralizes the company's operational cycle, from inventory management to collections.
 
 The system is built from scratch, drawing inspiration from key modules of the **Valery ERP**, adapted to a modern, scalable, and growth-oriented architecture.
 

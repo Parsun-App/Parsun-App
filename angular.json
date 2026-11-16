@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "Cashly": {
+    "Parsun": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -23,7 +23,7 @@
               }
             ],
             "styles": ["node_modules/primeicons/primeicons.css", "src/styles.css"],
-            "outputPath": "dist/cashly-app"
+            "outputPath": "dist/parsun-app"
           },
           "configurations": {
             "production": {
@@ -64,10 +64,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "Cashly:build:production"
+              "buildTarget": "Parsun:build:production"
             },
             "development": {
-              "buildTarget": "Cashly:build:development",
+              "buildTarget": "Parsun:build:development",
               "prebundle": false
             }
           },

@@ -68,6 +68,41 @@ describe('ERP navigation', () => {
     expect(depth(menu)).toBeLessThanOrEqual(4);
   });
 
+  it('exposes every invoice document action inside the Facturas folder', () => {
+    const callbacks = createCallbacks();
+    const menu = buildMenuItems(callbacks);
+    const folder = menu
+      .find((item) => item.label === 'Ventas')
+      ?.children?.find((item) => item.label === 'Facturas');
+    flatten(folder?.children ?? [])
+      .filter((item) => item.command)
+      .forEach((item) => item.command?.());
+    const documentRoutes = [
+      '/sales/invoices',
+      '/sales/returns',
+      '/sales/credit-notes',
+      '/sales/debit-notes',
+    ];
+    for (const definition of LIST_NAVIGATION_DEFINITIONS.filter((entry) =>
+      documentRoutes.includes(entry.route),
+    )) {
+      const document = folder?.children?.find((item) =>
+        item.children?.some((child) => child.routerLink === definition.route),
+      );
+      expect(document, definition.route).toBeDefined();
+      expect(
+        document?.children?.some((child) => child.routerLink === `${definition.route}/new`),
+      ).toBe(true);
+      for (const action of definition.actions) {
+        expect(callbacks.openListAction).toHaveBeenCalledWith(
+          definition.route,
+          action.label,
+          action.queryParams,
+        );
+      }
+    }
+  });
+
   it('opens a single stock destination directly without an action picker', () => {
     const entries = flatten(buildMenuItems(createCallbacks())).filter(
       (item) => item.label === 'Ver stock',
@@ -293,16 +328,7 @@ describe('ERP navigation', () => {
     const callbacks = createCallbacks();
     const items = flatten(buildMenuItems(callbacks));
     items.filter((item) => item.command).forEach((item) => item.command?.());
-    const directDocumentRoutes = [
-      '/sales/invoices',
-      '/sales/credit-notes',
-      '/sales/debit-notes',
-      '/sales/returns',
-    ];
-    for (const route of directDocumentRoutes)
-      expect(items.some((item) => item.routerLink === route)).toBe(true);
     for (const definition of LIST_NAVIGATION_DEFINITIONS) {
-      if (directDocumentRoutes.includes(definition.route)) continue;
       if (definition.create)
         expect(
           items.some(

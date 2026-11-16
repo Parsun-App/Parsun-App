@@ -1,6 +1,6 @@
-# Cashly Frontend Modules
+# Parsun Frontend Modules
 
-This directory documents the frontend features of the Cashly application. Features are grouped by business area under `src/app/features/<area>/<feature>/`.
+This directory documents the frontend features of the Parsun application. Features are grouped by business area under `src/app/features/<area>/<feature>/`.
 
 ---
 

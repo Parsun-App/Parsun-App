@@ -106,7 +106,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main'
     environment:
       name: production
-      url: https://cashly-app-production.up.railway.app
+      url: https://parsun-app-production.up.railway.app
 
     steps:
       - name: Checkout
@@ -127,4 +127,4 @@ jobs:
         env:
           RAILWAY_API_TOKEN: ${{ secrets.RAILWAY_API_TOKEN }}
           RAILWAY_PROJECT_ID: ${{ secrets.RAILWAY_PROJECT_ID }}
-          RAILWAY_SERVICE: cashly-app
+          RAILWAY_SERVICE: parsun-app

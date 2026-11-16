@@ -99,5 +99,6 @@
   "sales.orders.ordersReport": "Orders report",
   "sales.orders.createOrderAction": "Create order",
   "sales.orders.saveOrder": "Save order",
-  "sales.orders.editOrderWithNumber": "Edit Order ${number}"
+  "sales.orders.editOrderWithNumber": "Edit Order ${number}",
+  "sales.orders.customerDraftStockNotice": "This order was created from the customer portal. Assign stock per warehouse on each line before confirming it."
 }

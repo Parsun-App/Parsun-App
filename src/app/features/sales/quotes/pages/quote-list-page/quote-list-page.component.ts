@@ -14,9 +14,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  effect,
   inject,
   signal,
   computed,
+  untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -41,6 +43,7 @@ import {
   ListFilterComponent,
   ListAction,
   ListActionButtonsComponent,
+  listAction,
   ListContainerComponent,
   viewAction,
   editAction,
@@ -52,6 +55,7 @@ import {
   auditHistoryAction,
 } from '@shared/components/list';
 import { TextBadgeComponent } from '@shared/components/ui/text-badge/text-badge.component';
+import { StatusBadgeComponent } from '@shared/components/ui/status-badge/status-badge.component';
 import { SearchFieldComponent } from '@shared/components/ui/search-field/search-field.component';
 import { ConvertToOrderDialogComponent } from '@features/sales/quotes/components/convert-to-order-dialog/convert-to-order-dialog.component';
 import { ConvertToInvoiceDialogComponent } from '@features/sales/quotes/components/convert-to-invoice-dialog/convert-to-invoice-dialog.component';
@@ -68,6 +72,7 @@ import {
 import { QuoteList } from '@features/sales/quotes/models/interfaces/quote-list.interface';
 import { PdfViewerService, PdfViewerConfig } from '@core/pdf-viewer';
 import { DeleteDialogService } from '@shared/services/delete-dialog.service';
+import { ActionDialogService } from '@shared/services/action-dialog.service';
 import { CancelDialogService } from '@shared/services/cancel-dialog.service';
 
 import { PanelCardComponent } from '@shared/components/ui/panel-card/panel-card.component';
@@ -109,6 +114,7 @@ import { PaginatorComponent } from '@shared/components/ui/paginator/paginator.co
     ListContainerComponent,
     ListActionButtonsComponent,
     TextBadgeComponent,
+    StatusBadgeComponent,
     ConvertToOrderDialogComponent,
     ConvertToInvoiceDialogComponent,
   ],
@@ -124,6 +130,15 @@ export class QuoteListPageComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly messageService = inject(MessageService);
+  private readonly actionDialogs = inject(ActionDialogService);
+
+  constructor() {
+    effect(() => {
+      const completion = this.actionDialogs.completion();
+      if (completion?.resource !== 'quotes') return;
+      untracked(() => this.loadWithFilters());
+    });
+  }
 
   readonly quotes = this.quoteService.quotes;
   readonly loading = this.quoteService.loading;
@@ -132,7 +147,7 @@ export class QuoteListPageComponent implements OnInit {
   readonly searchTerm = signal('');
   readonly first = signal(0);
   readonly rows = signal(10);
-  readonly filterStatus = signal('DRAFT');
+  readonly filterStatus = signal('DRAFTS');
   readonly dateFrom = signal<Date | null>(null);
   readonly dateTo = signal<Date | null>(null);
 
@@ -146,15 +161,15 @@ export class QuoteListPageComponent implements OnInit {
   readonly orderDir = signal<'asc' | 'desc'>('desc');
 
   readonly statusOptions = [
-    { label: 'Borrador', value: 'DRAFT' },
-    ...Object.values(QuoteStatus)
-      .filter((s) => s !== QuoteStatus.DRAFT && s !== QuoteStatus.CANCELLED)
-      .map((s) => ({ label: QUOTE_STATUS_LABELS[s], value: s })),
+    { label: 'Borradores', value: 'DRAFTS' },
+    { label: 'Todos', value: 'ALL' },
+    ...Object.values(QuoteStatus).map((s) => ({ label: QUOTE_STATUS_LABELS[s], value: s })),
   ];
 
   readonly activeFilterCount = computed(() => {
     let count = 0;
-    if (this.filterStatus() && this.filterStatus() !== 'DRAFT') count++;
+    if (this.filterStatus() && this.filterStatus() !== 'ALL' && this.filterStatus() !== 'DRAFTS')
+      count++;
     if (this.dateFrom()) count++;
     if (this.dateTo()) count++;
     return count;
@@ -206,7 +221,7 @@ export class QuoteListPageComponent implements OnInit {
   }
 
   onStatusFilterChange(value: string | null): void {
-    const normalized = value ?? 'DRAFT';
+    const normalized = value ?? 'DRAFTS';
     if (normalized === this.filterStatus()) return;
     this.filterStatus.set(normalized);
     this.first.set(0);
@@ -226,7 +241,7 @@ export class QuoteListPageComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.filterStatus.set('DRAFT');
+    this.filterStatus.set('DRAFTS');
     this.dateFrom.set(null);
     this.dateTo.set(null);
     this.first.set(0);
@@ -266,11 +281,22 @@ export class QuoteListPageComponent implements OnInit {
       viewAction(() => this.onView(quote)),
       pdfAction(() => this.onDownloadPdf(quote)),
     ];
-    if (quote.status === 'DRAFT') {
+    if (this.isDraftStatus(quote.status)) {
+      actions.push(editAction(() => this.onEdit(quote)));
+      if (quote.status === QuoteStatus.CUSTOMER_DRAFT) {
+        actions.push(
+          listAction('Asignar stock', 'UPDATE', 'warehouse', () => this.openStockAssignment(quote), {
+            module: BusinessModule.SALES_QUOTES,
+          }),
+        );
+      }
       actions.push(
-        editAction(() => this.onEdit(quote)),
-        convertToOrderAction(() => this.onConvertToOrder(quote)),
-        convertToInvoiceAction(() => this.onConvertToInvoice(quote)),
+        convertToOrderAction(() => this.onConvertToOrder(quote), {
+          disabled: quote.status === 'CUSTOMER_DRAFT' && !quote.stockAssigned,
+        }),
+        convertToInvoiceAction(() => this.onConvertToInvoice(quote), {
+          disabled: quote.status === 'CUSTOMER_DRAFT' && !quote.stockAssigned,
+        }),
         cancelAction('Cancelar presupuesto', () =>
           this.cancellation.open('quotes', quote.id, quote.quoteNumber, () =>
             this.loadWithFilters(),
@@ -283,6 +309,21 @@ export class QuoteListPageComponent implements OnInit {
       auditHistoryAction({ entityType: 'QUOTE', entityId: quote.id, label: quote.quoteNumber }),
     );
     return actions;
+  }
+
+  private isDraftStatus(status: QuoteStatus | string): boolean {
+    return status === QuoteStatus.DRAFT || status === QuoteStatus.CUSTOMER_DRAFT;
+  }
+
+  openStockAssignment(record: { id: string }): void {
+    if (!this.actionDialogs.open('quotes', 'Asignar stock', record.id)) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'No se pudo abrir la asignación de stock.',
+        life: 4000,
+      });
+    }
   }
 
   onDelete(quote: QuoteList): void {

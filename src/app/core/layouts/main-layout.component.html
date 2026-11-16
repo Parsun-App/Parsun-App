@@ -1,6 +1,6 @@
-<div class="cashly-shell min-h-screen bg-surface-50 dark:bg-surface-950">
+<div class="parsun-shell min-h-screen bg-surface-50 dark:bg-surface-950">
   <div
-    class="cashly-topbar fixed top-0 left-0 right-0 z-50 bg-surface-0 dark:bg-surface-950 border-b border-surface-200 dark:border-surface-800"
+    class="parsun-topbar fixed top-0 left-0 right-0 z-50 bg-surface-0 dark:bg-surface-950 border-b border-surface-200 dark:border-surface-800"
   >
     <div class="flex items-center justify-between gap-3 px-4 sm:px-6 h-20">
       <div class="xl:hidden">
@@ -16,7 +16,7 @@
 
       <button
         type="button"
-        class="cashly-brand flex items-center gap-3 shrink-0 mr-auto xl:mr-2 cursor-pointer border-0 bg-transparent p-0 text-inherit rounded focus-visible:outline-2 focus-visible:outline-offset-4"
+        class="parsun-brand flex items-center gap-3 shrink-0 mr-auto xl:mr-2 cursor-pointer border-0 bg-transparent p-0 text-inherit rounded focus-visible:outline-2 focus-visible:outline-offset-4"
         [attr.aria-label]="companyName() + ' — ' + ('navigation.labels.goToDashboard' | translate)"
         (click)="goToDashboard()"
       >
@@ -30,7 +30,13 @@
             (error)="companyService.clearLogo()"
           />
         } @else {
-          <img ngSrc="/cashly-icon.svg" width="32" height="32" alt="" />
+          <img
+            ngSrc="/parsun-logo.png"
+            width="1264"
+            height="578"
+            class="h-8 w-auto max-w-28 object-contain"
+            alt=""
+          />
         }
         <span class="xl:hidden 2xl:inline text-lg font-bold tracking-tight max-w-40 truncate">{{
           companyName()
@@ -44,7 +50,7 @@
         ></p-menubar>
       </div>
 
-      <div class="cashly-toolbar-actions flex items-center gap-1 sm:gap-2 shrink-0">
+      <div class="parsun-toolbar-actions flex items-center gap-1 sm:gap-2 shrink-0">
         @if (notificationPreferences.bellVisible()) {
           <app-notification-bell />
         }
@@ -81,7 +87,7 @@
     [modal]="true"
     [showCloseIcon]="false"
     position="left"
-    styleClass="cashly-navigation-drawer w-80"
+    styleClass="parsun-navigation-drawer w-80"
   >
     <ng-template pTemplate="header">
       <div class="flex items-center justify-between w-full">
@@ -97,9 +103,9 @@
           } @else {
             <img
               [ngSrc]="logoSrc"
-              [alt]="'core.layouts.labels.cashlyLogo' | translate"
-              width="120"
-              height="32"
+              [alt]="'core.layouts.labels.parsunLogo' | translate"
+              width="1264"
+              height="578"
               class="h-8 w-auto object-contain"
             />
           }
@@ -222,7 +228,7 @@
 
   <main
     [attr.data-module]="activeModule()"
-    class="cashly-workspace pt-20 min-h-screen bg-app-bg-primary"
+    class="parsun-workspace pt-20 min-h-screen bg-app-bg-primary"
   >
     <app-shortcut-help class="block max-w-[1800px] mx-auto px-4 sm:px-6" />
     <router-outlet />

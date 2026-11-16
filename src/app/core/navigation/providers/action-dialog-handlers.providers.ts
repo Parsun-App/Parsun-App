@@ -4,6 +4,7 @@ import { provideConfirmHandler as purchaseConfirm } from '@features/procurement/
 import { provideConvertToOrderHandler as quoteConvertToOrder } from '@features/sales/quotes/actions/convert-to-order.provider';
 import { provideConvertToInvoiceHandler as quoteConvertToInvoice } from '@features/sales/quotes/actions/convert-to-invoice.provider';
 import { provideConvertToInvoiceHandler as orderConvertToInvoice } from '@features/sales/orders/actions/convert-to-invoice.provider';
+import { provideStockAssignmentHandlers } from '@shared/components/stock-assignment-dialog/stock-assignment-dialog.providers';
 
 export const ACTION_DIALOG_HANDLER_PROVIDERS: Provider[] = [
   orderConfirm(),
@@ -11,4 +12,5 @@ export const ACTION_DIALOG_HANDLER_PROVIDERS: Provider[] = [
   quoteConvertToOrder(),
   quoteConvertToInvoice(),
   orderConvertToInvoice(),
+  ...provideStockAssignmentHandlers(),
 ];

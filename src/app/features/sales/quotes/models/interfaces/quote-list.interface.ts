@@ -11,4 +11,5 @@ export interface QuoteList {
   createdBy: string | null;
   createdByName: string | null;
   createdAt: string;
+  stockAssigned?: boolean;
 }

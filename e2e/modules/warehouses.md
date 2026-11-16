@@ -25,7 +25,7 @@
 
 - **Severity**: CRITICAL
 - **URL**: `/warehouses`
-- **Prerequisites**: Logged in with MODULE_INVENTORY (admin@cashly.com)
+- **Prerequisites**: Logged in with MODULE_INVENTORY (admin@parsun.com)
 - **Steps**:
   1. Navigate to `/warehouses`
   2. Wait for page to load
@@ -290,13 +290,13 @@
 #### WRH-036 — OPERATOR cannot create/edit/delete
 
 - **Severity**: HIGH
-- **Prerequisites**: Logged in as operator@cashly.com
+- **Prerequisites**: Logged in as operator@parsun.com
 - **Expected**: Create button hidden. Edit/delete hidden.
 
 #### WRH-037 — OPERATOR can view list and details
 
 - **Severity**: MEDIUM
-- **Prerequisites**: Logged in as operator@cashly.com
+- **Prerequisites**: Logged in as operator@parsun.com
 - **Expected**: Can view list and details. Can see stock tab.
 
 ---

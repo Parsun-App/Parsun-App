@@ -80,7 +80,7 @@ export class UserPreferencesService {
     effect(() => {
       if (this.browser)
         this.document.documentElement.classList.toggle(
-          'cashly-informative',
+          'parsun-informative',
           this.colorMode() === 'informative',
         );
     });
@@ -190,7 +190,7 @@ export class UserPreferencesService {
     if (!this.userId) {
       if (this.browser) {
         try {
-          localStorage.setItem('cashly:guest-theme', next.themeMode);
+          localStorage.setItem('parsun:guest-theme', next.themeMode);
         } catch {}
       }
       return;
@@ -246,7 +246,7 @@ export class UserPreferencesService {
     let themeMode: ThemeMode = 'system';
     if (this.browser) {
       try {
-        const legacy = localStorage.getItem('cashly:guest-theme') ?? localStorage.getItem('theme');
+        const legacy = localStorage.getItem('parsun:guest-theme') ?? localStorage.getItem('theme');
         if (legacy === 'light' || legacy === 'dark' || legacy === 'system') themeMode = legacy;
       } catch {}
     }
@@ -257,7 +257,7 @@ export class UserPreferencesService {
     if (!this.browser) return null;
     try {
       const value: unknown = JSON.parse(
-        localStorage.getItem(`cashly:preferences:v2:${userId}`) ?? 'null',
+        localStorage.getItem(`parsun:preferences:v2:${userId}`) ?? 'null',
       );
       return validPreferences(value) ? value : null;
     } catch {
@@ -268,15 +268,15 @@ export class UserPreferencesService {
   private writeCache(value: UserPreferences): void {
     if (!this.browser || !this.userId) return;
     try {
-      localStorage.setItem(`cashly:preferences:v2:${this.userId}`, JSON.stringify(value));
-      localStorage.setItem(`cashly:preferences:v2:${this.userId}:at`, String(Date.now()));
+      localStorage.setItem(`parsun:preferences:v2:${this.userId}`, JSON.stringify(value));
+      localStorage.setItem(`parsun:preferences:v2:${this.userId}:at`, String(Date.now()));
     } catch {}
   }
 
   private cacheIsFresh(userId: string): boolean {
     if (!this.browser) return false;
     try {
-      const savedAt = Number(localStorage.getItem(`cashly:preferences:v2:${userId}:at`));
+      const savedAt = Number(localStorage.getItem(`parsun:preferences:v2:${userId}:at`));
       return savedAt > 0 && Date.now() - savedAt < 5 * 60 * 1000;
     } catch {
       return false;

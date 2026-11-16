@@ -19,8 +19,8 @@ describe('PanelCardComponent', () => {
     const fixture = TestBed.createComponent(PanelCardComponent);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('.cashly-panel')).not.toBeNull();
-    expect(fixture.nativeElement.querySelector('.cashly-panel')?.className).toBe('cashly-panel');
+    expect(fixture.nativeElement.querySelector('.parsun-panel')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('.parsun-panel')?.className).toBe('parsun-panel');
   });
 
   it('applies padding, extra classes and hidden overflow', () => {
@@ -30,7 +30,7 @@ describe('PanelCardComponent', () => {
     fixture.componentRef.setInput('overflowHidden', true);
     fixture.detectChanges();
 
-    const panel = fixture.nativeElement.querySelector('.cashly-panel') as HTMLElement;
+    const panel = fixture.nativeElement.querySelector('.parsun-panel') as HTMLElement;
     expect(panel.classList.contains('p-5')).toBe(true);
     expect(panel.classList.contains('mb-6')).toBe(true);
     expect(panel.classList.contains('overflow-hidden')).toBe(true);
@@ -42,7 +42,7 @@ describe('PanelCardComponent', () => {
     fixture.componentRef.setInput('icon', 'pi-list');
     fixture.detectChanges();
 
-    const panel = fixture.nativeElement.querySelector('.cashly-panel') as HTMLElement;
+    const panel = fixture.nativeElement.querySelector('.parsun-panel') as HTMLElement;
     expect(panel.querySelector('h3')?.textContent?.trim().length).toBeGreaterThan(0);
     expect(panel.querySelector('i')?.className).toContain('pi-list');
   });
@@ -51,7 +51,7 @@ describe('PanelCardComponent', () => {
     const fixture = TestBed.createComponent(PanelCardHostComponent);
     fixture.detectChanges();
 
-    expect(fixture.nativeElement.querySelector('.cashly-panel .projected')?.textContent).toBe(
+    expect(fixture.nativeElement.querySelector('.parsun-panel .projected')?.textContent).toBe(
       'Contenido',
     );
   });

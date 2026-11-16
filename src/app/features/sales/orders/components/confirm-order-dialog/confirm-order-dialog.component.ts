@@ -75,7 +75,8 @@ export class ConfirmOrderDialogComponent implements OnChanges {
     () =>
       !!this.details() &&
       this.details()?.id === this.orderId() &&
-      this.details()?.status === OrderStatus.DRAFT &&
+      (this.details()?.status === OrderStatus.DRAFT ||
+        this.details()?.status === OrderStatus.CUSTOMER_DRAFT) &&
       !this.loading() &&
       !this.error() &&
       !this.submitting() &&

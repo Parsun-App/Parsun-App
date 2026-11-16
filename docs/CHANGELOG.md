@@ -1,6 +1,6 @@
 # Changelog
 
-Notable changes to the Cashly frontend. The project does not publish versioned releases yet; entries are grouped by change type.
+Notable changes to the Parsun frontend. The project does not publish versioned releases yet; entries are grouped by change type.
 
 ## Unreleased
 

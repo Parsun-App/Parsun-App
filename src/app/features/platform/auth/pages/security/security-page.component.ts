@@ -216,7 +216,7 @@ export class SecurityPageComponent {
     );
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'cashly-recovery-codes.txt';
+    link.download = 'parsun-recovery-codes.txt';
     link.click();
     URL.revokeObjectURL(url);
   }

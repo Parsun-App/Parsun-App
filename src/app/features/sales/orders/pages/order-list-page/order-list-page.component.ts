@@ -15,9 +15,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   OnInit,
+  effect,
   inject,
   signal,
   computed,
+  untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -42,6 +44,7 @@ import {
   ListFilterComponent,
   ListAction,
   ListActionButtonsComponent,
+  listAction,
   ListContainerComponent,
   viewAction,
   editAction,
@@ -53,6 +56,7 @@ import {
   auditHistoryAction,
 } from '@shared/components/list';
 import { TextBadgeComponent } from '@shared/components/ui/text-badge/text-badge.component';
+import { StatusBadgeComponent } from '@shared/components/ui/status-badge/status-badge.component';
 import { SearchFieldComponent } from '@shared/components/ui/search-field/search-field.component';
 import { CancelOrderDialogComponent } from '@features/sales/orders/components/cancel-order-dialog/cancel-order-dialog.component';
 import { ConvertToInvoiceDialogComponent } from '@features/sales/orders/components/convert-to-invoice-dialog/convert-to-invoice-dialog.component';
@@ -70,6 +74,7 @@ import {
 import { OrderList } from '@features/sales/orders/models/interfaces/order-list.interface';
 import { PdfViewerService, PdfViewerConfig } from '@core/pdf-viewer';
 import { DeleteDialogService } from '@shared/services/delete-dialog.service';
+import { ActionDialogService } from '@shared/services/action-dialog.service';
 
 import { PanelCardComponent } from '@shared/components/ui/panel-card/panel-card.component';
 import { SubmitButtonComponent } from '@shared/components/ui/submit-button/submit-button.component';
@@ -110,6 +115,7 @@ import { PaginatorComponent } from '@shared/components/ui/paginator/paginator.co
     ListContainerComponent,
     ListActionButtonsComponent,
     TextBadgeComponent,
+    StatusBadgeComponent,
     ConfirmOrderDialogComponent,
     CancelOrderDialogComponent,
     ConvertToInvoiceDialogComponent,
@@ -125,7 +131,16 @@ export class OrderListPageComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly messageService = inject(MessageService);
+  private readonly actionDialogs = inject(ActionDialogService);
   private readonly pdfViewerService = inject(PdfViewerService);
+
+  constructor() {
+    effect(() => {
+      const completion = this.actionDialogs.completion();
+      if (completion?.resource !== 'orders') return;
+      untracked(() => this.loadWithFilters());
+    });
+  }
 
   readonly orders = this.orderService.orders;
   readonly loading = this.orderService.loading;
@@ -134,7 +149,7 @@ export class OrderListPageComponent implements OnInit {
   readonly searchTerm = signal('');
   readonly first = signal(0);
   readonly rows = signal(10);
-  readonly filterStatus = signal('DRAFT');
+  readonly filterStatus = signal('DRAFTS');
   readonly dateFrom = signal<Date | null>(null);
   readonly dateTo = signal<Date | null>(null);
 
@@ -150,12 +165,15 @@ export class OrderListPageComponent implements OnInit {
   readonly orderDir = signal<'asc' | 'desc'>('desc');
 
   readonly statusOptions = [
+    { label: 'Borradores', value: 'DRAFTS' },
+    { label: 'Todos', value: 'ALL' },
     ...Object.values(OrderStatus).map((s) => ({ label: ORDER_STATUS_LABELS[s], value: s })),
   ];
 
   readonly activeFilterCount = computed(() => {
     let count = 0;
-    if (this.filterStatus() && this.filterStatus() !== 'DRAFT') count++;
+    if (this.filterStatus() && this.filterStatus() !== 'ALL' && this.filterStatus() !== 'DRAFTS')
+      count++;
     if (this.dateFrom()) count++;
     if (this.dateTo()) count++;
     return count;
@@ -214,7 +232,7 @@ export class OrderListPageComponent implements OnInit {
   }
 
   onStatusFilterChange(value: string | null): void {
-    const normalized = value ?? 'DRAFT';
+    const normalized = value ?? 'DRAFTS';
     if (normalized === this.filterStatus()) return;
     this.filterStatus.set(normalized);
     this.first.set(0);
@@ -250,7 +268,7 @@ export class OrderListPageComponent implements OnInit {
   }
 
   clearFilters(): void {
-    this.filterStatus.set('DRAFT');
+    this.filterStatus.set('DRAFTS');
     this.dateFrom.set(null);
     this.dateTo.set(null);
     this.first.set(0);
@@ -274,10 +292,19 @@ export class OrderListPageComponent implements OnInit {
       viewAction(() => this.onView(order)),
       pdfAction(() => this.onDownloadPdf(order)),
     ];
-    if (order.status === 'DRAFT') {
+    if (this.isDraftStatus(order.status)) {
+      actions.push(editAction(() => this.onEdit(order)));
+      if (order.status === OrderStatus.CUSTOMER_DRAFT) {
+        actions.push(
+          listAction('Asignar stock', 'UPDATE', 'warehouse', () => this.openStockAssignment(order), {
+            module: BusinessModule.SALES_ORDERS,
+          }),
+        );
+      }
       actions.push(
-        editAction(() => this.onEdit(order)),
-        confirmAction('Confirmar', () => this.onConfirm(order)),
+        confirmAction('Confirmar', () => this.onConfirm(order), {
+          disabled: order.status === 'CUSTOMER_DRAFT' && !order.stockAssigned,
+        }),
         deleteAction(() => this.onDelete(order)),
       );
     }
@@ -291,6 +318,21 @@ export class OrderListPageComponent implements OnInit {
       auditHistoryAction({ entityType: 'ORDER', entityId: order.id, label: order.orderNumber }),
     );
     return actions;
+  }
+
+  private isDraftStatus(status: OrderStatus | string): boolean {
+    return status === OrderStatus.DRAFT || status === OrderStatus.CUSTOMER_DRAFT;
+  }
+
+  openStockAssignment(record: { id: string }): void {
+    if (!this.actionDialogs.open('orders', 'Asignar stock', record.id)) {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'No se pudo abrir la asignación de stock.',
+        life: 4000,
+      });
+    }
   }
 
   onDelete(order: OrderList): void {

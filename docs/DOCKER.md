@@ -1,6 +1,6 @@
 # Docker Guide
 
-This guide covers the Docker images and Compose profiles used by the Cashly frontend.
+This guide covers the Docker images and Compose profiles used by the Parsun frontend.
 
 ## Overview
 
@@ -17,7 +17,7 @@ All images install Bun `1.3.3` and use `bun install --frozen-lockfile`.
 
 Two stages:
 
-1. **builder** — installs dependencies, copies the source, runs `bun run build`. Output: `dist/cashly-app/browser`.
+1. **builder** — installs dependencies, copies the source, runs `bun run build`. Output: `dist/parsun-app/browser`.
 2. **runner** — installs `serve`, copies the build output to `dist`, exposes `8080`, and runs:
 
 ```bash
@@ -27,11 +27,11 @@ serve -s dist -l ${PORT:-8080} -n
 Build and run:
 
 ```bash
-docker build -t cashly-app:prod .
+docker build -t parsun-app:prod .
 
 docker run --rm -p 8080:8080 \
   -e PORT=8080 \
-  cashly-app:prod
+  parsun-app:prod
 ```
 
 The production build uses `src/environments/environment.prod.ts`. The API URL is compiled in; changing it requires rebuilding the image.
@@ -55,7 +55,7 @@ Open `http://localhost:4200`.
 - Default command: `bun test:run`.
 
 ```bash
-docker compose --profile test run --rm cashly-app-test
+docker compose --profile test run --rm parsun-app-test
 ```
 
 ## Compose profiles
@@ -64,11 +64,11 @@ docker compose --profile test run --rm cashly-app-test
 
 | Profile | Service           | Port | Notes                                                        |
 | ------- | ----------------- | ---- | ------------------------------------------------------------ |
-| `dev`   | `cashly-app-dev`  | 4200 | Mounts the repository; waits for the backend health endpoint |
-| `prod`  | `cashly-app-prod` | 4200 | Production image, no volume mounts                           |
-| `test`  | `cashly-app-test` | —    | Runs the Vitest suite once                                   |
+| `dev`   | `parsun-app-dev`  | 4200 | Mounts the repository; waits for the backend health endpoint |
+| `prod`  | `parsun-app-prod` | 4200 | Production image, no volume mounts                           |
+| `test`  | `parsun-app-test` | —    | Runs the Vitest suite once                                   |
 
-All services attach to the external network `cashly-api_cashly-network`, which must exist (normally created by the `cashly-api` Compose stack).
+All services attach to the external network `parsun-api_parsun-network`, which must exist (normally created by the `parsun-api` Compose stack).
 
 ```bash
 # Development
@@ -83,17 +83,17 @@ docker compose --profile test up --build
 
 ## Backend connectivity
 
-- Dev server proxies `/api` and `/ws` to `http://cashly-api-app:8080` through `proxy.conf.js`.
-- The backend container must be reachable on `cashly-api_cashly-network`.
+- Dev server proxies `/api` and `/ws` to `http://parsun-api-app:8080` through `proxy.conf.js`.
+- The backend container must be reachable on `parsun-api_parsun-network`.
 - If the backend runs on the host instead, change the proxy target to `http://host.docker.internal:8080` (Docker Desktop) or `http://localhost:8080` for a non-container dev server.
 
 ## Troubleshooting
 
 | Symptom                              | Check                                                             |
 | ------------------------------------ | ----------------------------------------------------------------- |
-| `cashly-api-app` does not resolve    | Start the backend stack first; verify the external network name.  |
+| `parsun-api-app` does not resolve    | Start the backend stack first; verify the external network name.  |
 | Dev server starts but API calls fail | Check the `proxy.conf.js` target and that the backend is healthy. |
-| Production container returns 404     | Confirm the build output exists at `dist/cashly-app/browser`.     |
+| Production container returns 404     | Confirm the build output exists at `dist/parsun-app/browser`.     |
 | Port already in use                  | Change the host side of the Compose port mapping.                 |
 
 ---

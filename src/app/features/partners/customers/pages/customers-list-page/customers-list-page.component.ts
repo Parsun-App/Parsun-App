@@ -57,6 +57,7 @@ import {
 } from '@features/partners/customers/data/venezuela-geo.data';
 import { CUSTOMER_ERROR_MESSAGES } from '@features/partners/customers/messages/error-messages';
 import { CUSTOMER_SUCCESS_MESSAGES } from '@features/partners/customers/messages/success-messages';
+import { ChangePortalPasswordDialogComponent } from '@features/partners/customers/components/change-portal-password-dialog/change-portal-password-dialog.component';
 import { DeleteDialogService } from '@shared/services/delete-dialog.service';
 
 import { PanelCardComponent } from '@shared/components/ui/panel-card/panel-card.component';
@@ -97,6 +98,7 @@ import { PaginatorComponent } from '@shared/components/ui/paginator/paginator.co
     ListActionButtonsComponent,
     StatusBadgeComponent,
     TextBadgeComponent,
+    ChangePortalPasswordDialogComponent,
   ],
   templateUrl: './customers-list-page.component.html',
   providers: [provideTranslatedConfirmation()],
@@ -121,6 +123,7 @@ export class CustomersListPageComponent implements OnInit {
 
   filterType = signal<string>('');
   filterActive = signal<string>('true');
+  filterPortalAccess = signal<string>('');
   filterState = signal<string>('');
   filterMunicipality = signal<string>('');
 
@@ -128,6 +131,7 @@ export class CustomersListPageComponent implements OnInit {
     let count = 0;
     if (this.filterType()) count++;
     if (this.filterActive() !== 'true') count++;
+    if (this.filterPortalAccess()) count++;
     if (this.filterState()) count++;
     if (this.filterMunicipality()) count++;
     return count;
@@ -147,6 +151,12 @@ export class CustomersListPageComponent implements OnInit {
     { label: 'Inactivos', value: 'false' },
   ];
 
+  portalAccessOptions = [
+    { label: 'navigation.options.all', value: '' },
+    { label: 'navigation.options.portalEnabled', value: 'true' },
+    { label: 'navigation.options.portalDisabled', value: 'false' },
+  ];
+
   stateOptions = VENEZUELA_STATE_NAMES;
 
   showInitialLoading = computed(() => this.loading() && (this.customers()?.length ?? 0) === 0);
@@ -164,6 +174,9 @@ export class CustomersListPageComponent implements OnInit {
       (this.activeFilterCount() > 0 || !!this.searchTerm()),
   );
 
+  passwordCustomer = signal<CustomerList | null>(null);
+  showPasswordDialog = signal(false);
+
   private readonly listNavigation = connectListNavigation({
     records: () => this.customers(),
     loading: () => this.loading(),
@@ -173,6 +186,7 @@ export class CustomersListPageComponent implements OnInit {
     search: (term) => {
       this.filterActive.set('');
       this.filterType.set('');
+      this.filterPortalAccess.set('');
       this.filterState.set('');
       this.filterMunicipality.set('');
       this.onSearch(term);
@@ -229,6 +243,13 @@ export class CustomersListPageComponent implements OnInit {
     this.applyFilters();
   }
 
+  onPortalAccessFilterChange(value: string | null): void {
+    const normalized = value ?? '';
+    if (normalized === this.filterPortalAccess()) return;
+    this.filterPortalAccess.set(normalized);
+    this.applyFilters();
+  }
+
   onStateFilterChange(value: string | null): void {
     const normalized = value ?? '';
     if (normalized === this.filterState()) return;
@@ -247,6 +268,7 @@ export class CustomersListPageComponent implements OnInit {
   clearFilters(): void {
     this.filterType.set('');
     this.filterActive.set('true');
+    this.filterPortalAccess.set('');
     this.filterState.set('');
     this.filterMunicipality.set('');
     this.first.set(0);
@@ -263,6 +285,7 @@ export class CustomersListPageComponent implements OnInit {
     if (this.searchTerm()) filters.search = this.searchTerm();
     if (this.filterType()) filters.type = this.filterType();
     if (this.filterActive()) filters.active = this.filterActive() === 'true';
+    if (this.filterPortalAccess()) filters.portalAccess = this.filterPortalAccess() === 'true';
     if (this.filterState()) filters.state = this.filterState();
     if (this.filterMunicipality()) filters.municipality = this.filterMunicipality();
     this.service.loadAll(filters).subscribe();
@@ -291,6 +314,13 @@ export class CustomersListPageComponent implements OnInit {
       editAction(() => this.onEdit(customer)),
     ];
 
+    actions.push(
+      listAction('Cambiar contraseña', 'UPDATE', 'key', () => this.openPasswordDialog(customer), {
+        module: BusinessModule.CONTACTS_CUSTOMERS,
+        disabled: !customer.portalAccess,
+      }),
+    );
+
     if (this.authService.hasModulePermission(BusinessModule.CONTACTS_CUSTOMERS)) {
       actions.push(
         listAction('Ver saldo', 'READ', 'wallet', () => this.onViewBalance(customer), {
@@ -309,6 +339,11 @@ export class CustomersListPageComponent implements OnInit {
     );
 
     return actions;
+  }
+
+  openPasswordDialog(customer: CustomerList): void {
+    this.passwordCustomer.set(customer);
+    this.showPasswordDialog.set(true);
   }
 
   onDelete(customer: CustomerList): void {

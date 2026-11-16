@@ -98,7 +98,7 @@ describe('DocumentConfirmationDialogComponent', () => {
     expect(classes).toContain('bg-surface-50');
     expect(classes).not.toContain('bg-blue-50');
     expect(classes).not.toContain('bg-amber-50');
-    expect(classes).toContain('in-[.cashly-informative]:bg-blue-50');
+    expect(classes).toContain('in-[.parsun-informative]:bg-blue-50');
   });
 
   it('keeps the accept action visible when the page module differs from the action module', () => {

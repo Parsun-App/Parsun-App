@@ -1,5 +1,5 @@
 @if (dialogs.request(); as request) {
   <ng-container
-    *ngComponentOutlet="request.component; inputs: inputs(request.recordId)"
+    *ngComponentOutlet="request.component; inputs: inputs(request.recordId, request.resource)"
   ></ng-container>
 }

@@ -17,6 +17,7 @@ export const ORDER_LIST_NAVIGATION: ListNavigationDefinition = {
     view(),
     pdf(),
     edit(),
+    listAction('Asignar stock', 'UPDATE', 'warehouse', BusinessModule.SALES_ORDERS),
     listAction('Confirmar', 'CONFIRM', 'check', BusinessModule.SALES_INVOICES_INVOICES),
     listAction('Convertir a factura', 'CREATE', 'file', BusinessModule.SALES_INVOICES_INVOICES),
     listAction('Cancelar', 'CANCEL', 'times', BusinessModule.SALES_INVOICES_INVOICES),

@@ -286,7 +286,7 @@
   "navigation.labels.viewUsers": "Ver usuarios",
   "navigation.labels.viewRoles": "Ver roles",
   "navigation.labels.viewDepartments": "Ver departamentos",
-  "core.layouts.labels.cashlyLogo": "Logo Cashly",
+  "core.layouts.labels.parsunLogo": "Logo Parsun",
   "navigation.labels.goToDashboard": "Ir al dashboard",
   "core.layouts.messages.openANewCashRegisterSession": "Abrir una nueva sesión de caja",
   "common.delete.title": "Confirmar eliminación",
@@ -306,5 +306,9 @@
   "navigation.labels.accountsPayable": "Cuentas por pagar",
   "navigation.labels.accountsPayablePdf": "Cuentas por Pagar PDF",
   "navigation.labels.auditTrail": "Historial de auditoría",
-  "navigation.labels.expenses": "Gastos"
+  "navigation.labels.expenses": "Gastos",
+  "navigation.filters.portalAccess": "Portal del cliente",
+  "navigation.options.portalEnabled": "Con acceso",
+  "navigation.options.portalDisabled": "Sin acceso",
+  "navigation.options.customerDraft": "Borrador de Cliente"
 }

@@ -26,10 +26,10 @@ The Customers module handles: listing/searching customers, creating, editing, vi
 | Email                   | Password           | Role        | Permissions                                                  |
 | ----------------------- | ------------------ | ----------- | ------------------------------------------------------------ |
 | `gabriel@gmail.com`     | `49510561Gabriel.` | SUPER_ADMIN | All modules                                                  |
-| `superadmin@cashly.com` | `49510561Gabriel.` | SUPER_ADMIN | All modules                                                  |
-| `admin@cashly.com`      | `49510561Gabriel.` | ADMIN       | USERS, INVENTORY, SALES, FINANCES, PURCHASES, DOCUMENT_ADMIN |
-| `operator@cashly.com`   | `49510561Gabriel.` | OPERATOR    | INVENTORY, SALES, PURCHASES                                  |
-| `sales@cashly.com`      | `49510561Gabriel.` | OPERATOR    | SALES                                                        |
+| `superadmin@parsun.com` | `49510561Gabriel.` | SUPER_ADMIN | All modules                                                  |
+| `admin@parsun.com`      | `49510561Gabriel.` | ADMIN       | USERS, INVENTORY, SALES, FINANCES, PURCHASES, DOCUMENT_ADMIN |
+| `operator@parsun.com`   | `49510561Gabriel.` | OPERATOR    | INVENTORY, SALES, PURCHASES                                  |
+| `sales@parsun.com`      | `49510561Gabriel.` | OPERATOR    | SALES                                                        |
 
 ## API Endpoints Reference
 
@@ -273,7 +273,7 @@ The Customers module handles: listing/searching customers, creating, editing, vi
 
 - **Severity**: HIGH
 - **URL**: `http://localhost:4200/customers`
-- **Prerequisites**: Authenticated as OPERATOR (`operator@cashly.com`)
+- **Prerequisites**: Authenticated as OPERATOR (`operator@parsun.com`)
 - **Given** I am authenticated as OPERATOR
 - **When** I call `DELETE /api/customers/{id}` directly
 - **Then** the API should return 403 (Forbidden)
@@ -307,7 +307,7 @@ The Customers module handles: listing/searching customers, creating, editing, vi
 
 - **Severity**: HIGH
 - **URL**: `http://localhost:4200/customers`
-- **Prerequisites**: Authenticated as OPERATOR (`operator@cashly.com`)
+- **Prerequisites**: Authenticated as OPERATOR (`operator@parsun.com`)
 - **Given** I am authenticated as OPERATOR
 - **When** I navigate to `/customers`
 - **Then** I should see the customer list
@@ -324,7 +324,7 @@ The Customers module handles: listing/searching customers, creating, editing, vi
 - **Severity**: MEDIUM
 - **URL**: `http://localhost:4200/`
 - **Prerequisites**: Authenticated as a user WITH SALES permission
-- **Given** I am authenticated as `operator@cashly.com` (has SALES)
+- **Given** I am authenticated as `operator@parsun.com` (has SALES)
 - **When** I inspect the sidebar menu
 - **Then** "Clientes" should be visible under "Gestión de Usuarios"
 
@@ -408,7 +408,7 @@ The Customers module handles: listing/searching customers, creating, editing, vi
 
 - **Severity**: HIGH
 - **URL**: `http://localhost:4200/customers`
-- **Prerequisites**: Authenticated as OPERATOR (`operator@cashly.com`) which has SALES
+- **Prerequisites**: Authenticated as OPERATOR (`operator@parsun.com`) which has SALES
 - **Given** I am authenticated as OPERATOR
 - **When** I navigate to `/customers`
 - **Then** I should see the customer list
@@ -448,7 +448,7 @@ The Customers module handles: listing/searching customers, creating, editing, vi
 
 - **Severity**: HIGH
 - **URL**: `http://localhost:4200/customers/new`
-- **Prerequisites**: Authenticated as OPERATOR (`operator@cashly.com`)
+- **Prerequisites**: Authenticated as OPERATOR (`operator@parsun.com`)
 - **Given** I am authenticated as OPERATOR
 - **When** I navigate to `/customers/new`
 - **Then** I should see the create customer form
@@ -555,7 +555,7 @@ The Customers module handles: listing/searching customers, creating, editing, vi
 - **Severity**: HIGH
 - **URL**: `http://localhost:4200/customers/{id}/balance`
 - **Prerequisites**: Authenticated as a user WITHOUT FINANCE permission
-- **Given** I am authenticated as `operator@cashly.com` (has SALES but NOT FINANCE)
+- **Given** I am authenticated as `operator@parsun.com` (has SALES but NOT FINANCE)
 - **When** I navigate directly to `/customers/{id}/balance`
 - **Then** the frontend guard should block access
 - **Note**: The balance route has `module: BusinessModule.FINANCE` in its data

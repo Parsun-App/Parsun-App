@@ -295,7 +295,7 @@
                     }
                   </div>
                   <div class="hidden md:block overflow-x-auto">
-                    <p-table [value]="ret.lines" styleClass="p-datatable-sm cashly-detail-lines">
+                    <p-table [value]="ret.lines" styleClass="p-datatable-sm parsun-detail-lines">
                       <ng-template pTemplate="header">
                         <tr>
                           <th>{{ 'finance.billing.returns.product' | translate }}</th>
@@ -450,7 +450,7 @@
             <div class="hidden md:block overflow-x-auto">
               <p-table
                 [value]="currentInvoice.lines"
-                styleClass="p-datatable-sm cashly-detail-lines"
+                styleClass="p-datatable-sm parsun-detail-lines"
               >
                 <ng-template pTemplate="header">
                   <tr>
@@ -571,7 +571,7 @@
               }
             </div>
             <div class="hidden md:block overflow-x-auto">
-              <p-table [value]="creditNotes()" styleClass="p-datatable-sm cashly-detail-lines">
+              <p-table [value]="creditNotes()" styleClass="p-datatable-sm parsun-detail-lines">
                 <ng-template pTemplate="header">
                   <tr>
                     <th>{{ 'analytics.dashboard.number' | translate }}</th>
@@ -624,7 +624,7 @@
               }
             </div>
             <div class="hidden md:block overflow-x-auto">
-              <p-table [value]="debitNotes()" styleClass="p-datatable-sm cashly-detail-lines">
+              <p-table [value]="debitNotes()" styleClass="p-datatable-sm parsun-detail-lines">
                 <ng-template pTemplate="header">
                   <tr>
                     <th>{{ 'analytics.dashboard.number' | translate }}</th>

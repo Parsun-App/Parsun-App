@@ -23,7 +23,7 @@ describe('UserApiService', () => {
     roleId: 'role-1',
     departmentId: 'department-1',
     id: '1',
-    email: 'test@cashly.com',
+    email: 'test@parsun.com',
     userName: 'Test User',
     role: UserType.OPERATOR,
     active: true,
@@ -41,7 +41,7 @@ describe('UserApiService', () => {
     roleId: 'role-1',
     departmentId: 'department-1',
     id: '1',
-    email: 'test@cashly.com',
+    email: 'test@parsun.com',
     userName: 'Test User',
     role: UserType.OPERATOR,
     active: true,
@@ -140,7 +140,7 @@ describe('UserApiService', () => {
         phone: null,
         roleId: 'role-1',
         departmentId: 'department-1',
-        email: 'new@cashly.com',
+        email: 'new@parsun.com',
         password: 'Password1!',
         userName: 'New User',
       };
@@ -155,7 +155,7 @@ describe('UserApiService', () => {
       req.flush({ ...mockUserDetails, ...createData });
 
       const user = await promise;
-      expect(user.email).toBe('new@cashly.com');
+      expect(user.email).toBe('new@parsun.com');
     });
 
     it('should handle validation errors on create', async () => {

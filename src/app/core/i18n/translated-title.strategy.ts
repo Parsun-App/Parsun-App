@@ -16,7 +16,7 @@ export class TranslatedTitleStrategy extends TitleStrategy {
     effect(() => {
       this.language.language();
       const title = this.rawTitle();
-      this.pageTitle.setTitle(title ? this.translations.t(title) : 'Cashly');
+      this.pageTitle.setTitle(title ? this.translations.t(title) : 'Parsun');
     });
   }
 

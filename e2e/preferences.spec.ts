@@ -46,7 +46,7 @@ async function setup(
     else if (path.endsWith('/unread-count')) json = 0;
     else if (path.endsWith('/notifications/preferences')) json = { enabled: true, modules: [] };
     else if (path.endsWith('/company'))
-      json = { legalName: 'Cashly', tradeName: null, logoPath: null };
+      json = { legalName: 'Parsun', tradeName: null, logoPath: null };
     else if (path.endsWith('/auth/preferences')) {
       if (route.request().method() === 'PUT') {
         if (account.failSave)
@@ -124,7 +124,7 @@ test('read-only summary shows saved settings and the edit button opens the tabbe
     fullPage: true,
   });
   const panelGeometryBefore = await page
-    .locator('app-panel-card .cashly-panel')
+    .locator('app-panel-card .parsun-panel')
     .first()
     .evaluate((el) => getComputedStyle(el).boxShadow);
   expect(panelGeometryBefore).toBeTruthy();
@@ -214,7 +214,7 @@ test('informative colors cover modules and charts without changing shared card s
   await page.goto('/platform/auth/preferences');
   const panelGeometry = () =>
     page
-      .locator('app-panel-card .cashly-panel')
+      .locator('app-panel-card .parsun-panel')
       .first()
       .evaluate((el) => ({
         radius: getComputedStyle(el).borderRadius,
@@ -241,7 +241,7 @@ test('informative colors cover modules and charts without changing shared card s
   await saveForm(page);
   await page.goto('/analytics/dashboard');
   await expect(page.locator('canvas')).toHaveCount(4);
-  await expect(page.locator('html')).toHaveClass(/cashly-informative/);
+  await expect(page.locator('html')).toHaveClass(/parsun-informative/);
   const colors = await page
     .locator('.dashboard-metric')
     .evaluateAll((items) => items.map((el) => getComputedStyle(el).backgroundColor));
@@ -302,7 +302,7 @@ test('mobile settings use shared cards and fit without horizontal overflow', asy
   await page.getByRole('button', { name: 'Menú', exact: true }).click();
   await page.getByRole('button', { name: /Configuración/ }).click();
   await expect(page).toHaveURL(/\/platform\/auth\/preferences$/);
-  await expect(page.locator('app-panel-card .cashly-panel')).toHaveCount(3);
+  await expect(page.locator('app-panel-card .parsun-panel')).toHaveCount(3);
   await openForm(page);
   await chooseColor(page, 'informative');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -319,7 +319,7 @@ test('simple save shortcut submits the valid form outside editable controls', as
   let savedName = '';
   let company = {
     id: 'installation',
-    legalName: 'Cashly',
+    legalName: 'Parsun',
     tradeName: null,
     taxId: null,
     email: null,

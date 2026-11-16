@@ -8,4 +8,5 @@ export interface OrderList {
   status: OrderStatus;
   totalAmount: number;
   createdAt: string;
+  stockAssigned?: boolean;
 }

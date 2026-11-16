@@ -394,10 +394,10 @@ describe('MainLayoutComponent', () => {
         () => component['convertToMobileMenuItem'](item),
       ]) {
         const result = convert();
-        expect(result.styleClass).toBe('cashly-module-sales');
+        expect(result.styleClass).toBe('parsun-module-sales');
         expect(result.items?.map((child) => child.styleClass)).toEqual([
-          'cashly-module-sales',
-          'cashly-module-sales',
+          'parsun-module-sales',
+          'parsun-module-sales',
         ]);
       }
     });
@@ -424,7 +424,7 @@ describe('MainLayoutComponent', () => {
 
   describe('logoSrc', () => {
     it('should use the display-sized logo asset', () => {
-      expect(component.logoSrc).toBe('/cashly-logo.svg');
+      expect(component.logoSrc).toBe('/parsun-logo.png');
     });
   });
 

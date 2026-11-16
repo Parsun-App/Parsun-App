@@ -1,10 +1,10 @@
 # Environment Configuration
 
-This document describes how the Cashly frontend is configured for local development, Docker, tests, and production.
+This document describes how the Parsun frontend is configured for local development, Docker, tests, and production.
 
 ## Overview
 
-Cashly is a static Angular SPA. It does not read backend credentials, database settings, or object-storage secrets. Runtime configuration is limited to:
+Parsun is a static Angular SPA. It does not read backend credentials, database settings, or object-storage secrets. Runtime configuration is limited to:
 
 - The API base URL compiled into the app.
 - The development-server proxy used for `/api` and `/ws`.
@@ -30,7 +30,7 @@ Requests go to the same origin and are forwarded by the Angular dev server.
 ```typescript
 export const environment = {
   production: true,
-  apiUrl: 'https://cashly-api-production.up.railway.app/api',
+  apiUrl: 'https://parsun-api-production.up.railway.app/api',
 };
 ```
 
@@ -43,12 +43,12 @@ export const environment = {
 ```javascript
 const PROXY_CONFIG = {
   '/api': {
-    target: 'http://cashly-api-app:8080',
+    target: 'http://parsun-api-app:8080',
     secure: false,
     changeOrigin: true,
   },
   '/ws': {
-    target: 'ws://cashly-api-app:8080',
+    target: 'ws://parsun-api-app:8080',
     ws: true,
     secure: false,
     changeOrigin: true,
@@ -56,7 +56,7 @@ const PROXY_CONFIG = {
 };
 ```
 
-- Inside Docker Compose, `cashly-api-app` is resolvable on the external `cashly-api_cashly-network` network.
+- Inside Docker Compose, `parsun-api-app` is resolvable on the external `parsun-api_parsun-network` network.
 - For a backend running directly on the host, use `proxy.conf.json` (target `http://localhost:8080`) or point `target` in `proxy.conf.js` to `http://localhost:8080`.
 
 ## Docker Compose variables
@@ -72,7 +72,7 @@ The development service additionally receives:
 | Variable         | Default                      | Purpose                                  |
 | ---------------- | ---------------------------- | ---------------------------------------- |
 | `NODE_ENV`       | `development`                | Angular/Node mode                        |
-| `BACKEND_URL`    | `http://cashly-api-app:8080` | Health-check base used by the entrypoint |
+| `BACKEND_URL`    | `http://parsun-api-app:8080` | Health-check base used by the entrypoint |
 | `MAX_RETRIES`    | `60`                         | Backend readiness attempts               |
 | `RETRY_INTERVAL` | `5`                          | Seconds between readiness attempts       |
 
@@ -102,7 +102,7 @@ The development service additionally receives:
 
 ## What is not configurable here
 
-There is no frontend configuration for databases, S3 buckets, JWT signing keys, or SMTP. Those belong to the backend service (`cashly-api`) and must never be added to this repository.
+There is no frontend configuration for databases, S3 buckets, JWT signing keys, or SMTP. Those belong to the backend service (`parsun-api`) and must never be added to this repository.
 
 ---
 

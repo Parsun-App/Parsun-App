@@ -1,10 +1,10 @@
 # Architecture
 
-This document describes the architecture, project structure, and design patterns used in the Cashly application.
+This document describes the architecture, project structure, and design patterns used in the Parsun application.
 
 ## 🏗️ Application Overview
 
-Cashly is a B2B business management system built with Angular 21, following modern best practices and clean architecture principles.
+Parsun is a B2B business management system built with Angular 21, following modern best practices and clean architecture principles.
 
 ### Technology Stack
 
@@ -21,7 +21,7 @@ Cashly is a B2B business management system built with Angular 21, following mode
 ## 📁 Project Structure
 
 ```
-cashly-app/
+parsun-app/
 ├── public/                          # Static assets
 ├── src/
 │   ├── app/
@@ -153,7 +153,7 @@ Each feature module is self-contained with its own:
 
 **Page Structure**:
 
-Cashly uses **three standardized pages** per module:
+Parsun uses **three standardized pages** per module:
 
 1. **List Page** (`pages/<module>-list-page/`) - Orchestrates list data, filters, navigation, and feature components using `shared/components/list`
 2. **Form Page** (`pages/<module>-form-page/`) - Handles both create and edit using `core/forms`

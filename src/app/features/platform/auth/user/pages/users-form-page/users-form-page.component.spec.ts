@@ -55,7 +55,7 @@ describe('User profile form', () => {
   });
   function valid() {
     component.form.patchValue({
-      email: 'user@cashly.com',
+      email: 'user@parsun.com',
       password: 'Password123',
       userName: 'testuser',
       firstName: ' Test ',

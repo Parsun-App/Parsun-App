@@ -122,7 +122,7 @@ describe('LoginPageComponent', () => {
   });
 
   it('should use the display-sized logo asset', () => {
-    expect(component.logoSrc()).toBe('/cashly-logo.svg');
+    expect(component.logoSrc()).toBe('/parsun-logo.png');
   });
 
   describe('form initialization', () => {

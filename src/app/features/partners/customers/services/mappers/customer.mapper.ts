@@ -14,6 +14,7 @@ export interface CustomerFormModel {
   creditDays: number | null;
   creditLimit: number | null;
   active: boolean;
+  portalAccess: boolean;
   emails: Array<{ id?: string; customerId?: string; email: string }>;
   phones: Array<{ id?: string; customerId?: string; phone: string }>;
   addresses: Array<{
@@ -41,6 +42,7 @@ export class CustomerMapper {
       rif: details.rif,
       type: details.type,
       active: details.active,
+      portalAccess: details.portalAccess,
       paymentType: details.paymentType,
       deletable: details.deletable,
     };
@@ -57,6 +59,7 @@ export class CustomerMapper {
       creditDays: details.creditDays,
       creditLimit: details.creditLimit,
       active: details.active,
+      portalAccess: details.portalAccess,
       emails: details.emails.map((e) => ({ id: e.id, customerId: e.customerId, email: e.email })),
       phones: details.phones.map((p) => ({ id: p.id, customerId: p.customerId, phone: p.phone })),
       addresses: details.addresses.map((a) => ({
@@ -83,6 +86,7 @@ export class CustomerMapper {
       creditDays: form.creditDays ?? 0,
       creditLimit: form.creditLimit ?? 0,
       active: form.active ?? true,
+      portalAccess: form.portalAccess ?? false,
       emails: form.emails.map((e) => ({ email: e.email })),
       phones: form.phones.map((p) => ({ phone: p.phone })),
       addresses: form.addresses.map((a) => ({
@@ -109,6 +113,7 @@ export class CustomerMapper {
       creditDays: form.creditDays ?? 0,
       creditLimit: form.creditLimit ?? 0,
       active: form.active ?? true,
+      portalAccess: form.portalAccess ?? false,
       emails: form.emails.map((e) => ({ email: e.email })),
       phones: form.phones.map((p) => ({ phone: p.phone })),
       addresses: form.addresses.map((a) => ({

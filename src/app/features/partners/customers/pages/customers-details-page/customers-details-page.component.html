@@ -36,6 +36,15 @@
                   (onClick)="actionsMenu.hide(); onEdit()"
                   styleClass="w-full justify-start text-left text-sm"
                 />
+                <p-button
+                  [appPermission]="'UPDATE'"
+                  [label]="'partners.customers.portal.changePasswordAction' | translate"
+                  icon="pi pi-key"
+                  [link]="true"
+                  [disabled]="!currentCustomer.portalAccess"
+                  (onClick)="actionsMenu.hide(); openPasswordDialog()"
+                  styleClass="w-full justify-start text-left text-sm"
+                />
                 @if (showBalance()) {
                   <p-button
                     [label]="'partners.customers.viewBalance' | translate"
@@ -82,6 +91,14 @@
                 [label]="'finance.billing.invoices.status' | translate"
                 type="badge"
                 ><app-status-badge [active]="currentCustomer.active"
+              /></app-details-info-field>
+              <app-details-info-field
+                [label]="'partners.customers.portal.accessTitle' | translate"
+                type="badge"
+                ><app-status-badge
+                  [active]="currentCustomer.portalAccess"
+                  activeLabel="Habilitado"
+                  inactiveLabel="Deshabilitado"
               /></app-details-info-field>
               <app-details-info-field
                 [label]="'partners.customers.creditDays' | translate"
@@ -257,3 +274,13 @@
     }
   </div>
 </div>
+
+@if (customer(); as currentCustomer) {
+  <app-change-portal-password-dialog
+    [customerId]="currentCustomer.id"
+    [customerName]="currentCustomer.legalName"
+    [customerRif]="currentCustomer.rif"
+    [visible]="showPasswordDialog()"
+    (visibleChange)="showPasswordDialog.set($event)"
+  />
+}

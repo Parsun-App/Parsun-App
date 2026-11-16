@@ -129,13 +129,13 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
 
   currentUser = this.authService.currentUser;
 
-  logoSrc = '/cashly-logo.svg';
+  logoSrc = '/parsun-logo.png';
   readonly companyService = inject(CompanyService);
   readonly companyName = computed(
     () =>
       this.companyService.company()?.tradeName ||
       this.companyService.company()?.legalName ||
-      'Cashly',
+      'Parsun',
   );
   private readonly brandingUserId = computed(() => this.currentUser()?.id);
   constructor() {
@@ -286,7 +286,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     group: ModuleGroup = this.menuGroup(item),
   ): PrimeMenuItem {
     const primeItem: PrimeMenuItem = {
-      styleClass: `cashly-module-${group}`,
+      styleClass: `parsun-module-${group}`,
       label: this.translations.t(item.label),
       icon: item.icon,
       routerLink: item.routerLink,
@@ -355,7 +355,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     group: ModuleGroup = this.menuGroup(item),
   ): PrimeMenuItem {
     const primeItem: PrimeMenuItem = {
-      styleClass: `cashly-module-${group}`,
+      styleClass: `parsun-module-${group}`,
       label: this.translations.t(item.label),
       icon: item.icon,
       visible: item.visible ?? true,

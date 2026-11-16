@@ -1,4 +1,4 @@
-# Cashly Documentation
+# Parsun Documentation
 
 Index of the frontend documentation. Start with the architecture and module index, then open the guide for the area you are working on.
 

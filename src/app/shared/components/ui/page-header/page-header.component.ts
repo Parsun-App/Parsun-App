@@ -13,7 +13,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 export class PageHeaderComponent {
   title = input.required<string>();
   subtitle = input<string>();
-  kicker = input('finance.billing.creditnotes.cashlyManagement');
+  kicker = input('finance.billing.creditnotes.parsunManagement');
   icon = input<string>();
   hero = input(true);
 }
