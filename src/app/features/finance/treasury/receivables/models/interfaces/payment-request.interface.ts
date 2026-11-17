@@ -26,6 +26,7 @@ export interface PayPartialDebtRequest {
 
 export interface CreatePaymentRequest {
   customerId: string;
+  targetInvoiceId: string;
   status: 'PENDING';
   amount: number;
   paymentMethodId: string;

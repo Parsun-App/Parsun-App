@@ -364,6 +364,7 @@ export class ReceivablesPageComponent implements OnInit, OnDestroy {
       this.service
         .createPayment({
           customerId: customer.customerId,
+          targetInvoiceId: event.invoiceId ?? '',
           status: 'PENDING',
           amount: event.request.amount ?? 0,
           paymentMethodId: event.request.paymentMethodId,

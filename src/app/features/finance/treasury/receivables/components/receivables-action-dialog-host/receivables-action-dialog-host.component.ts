@@ -137,6 +137,7 @@ export class ReceivablesActionDialogHostComponent {
       this.sendPayment(
         this.service.createPayment({
           customerId: this.customerId(),
+          targetInvoiceId: event.invoiceId ?? '',
           status: 'PENDING',
           amount: event.request.amount ?? 0,
           paymentMethodId: event.request.paymentMethodId,

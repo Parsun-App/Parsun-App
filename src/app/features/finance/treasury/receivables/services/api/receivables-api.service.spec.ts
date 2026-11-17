@@ -39,6 +39,7 @@ describe('Receivables action queries', () => {
     service
       .createPayment({
         customerId: 'customer-1',
+        targetInvoiceId: 'invoice-1',
         status: 'PENDING',
         amount: 25,
         paymentMethodId: 'method-1',

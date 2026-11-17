@@ -40,6 +40,7 @@ export type PaymentFormMode = 'single' | 'all' | 'partial' | 'validation';
 
 export interface PaymentSubmitEvent {
   request: PayInvoiceRequest;
+  invoiceId?: string;
 }
 
 export interface PaymentMethodOption {
@@ -91,6 +92,7 @@ export class PaymentFormDialogComponent implements OnInit {
   readonly visible = input.required<boolean>();
   readonly mode = input.required<PaymentFormMode>();
   readonly invoice = input<CustomerInvoiceDebt | null>(null);
+  readonly customerId = input<string>('');
   readonly customerName = input<string>('');
   readonly totalDebt = input<number>(0);
   readonly customerBalance = input<number>(0);
@@ -102,6 +104,7 @@ export class PaymentFormDialogComponent implements OnInit {
   protected loading = signal(false);
   protected paymentMethods = signal<PaymentMethodOption[]>([]);
   protected useBalance = signal(false);
+  protected validationInvoices = signal<CustomerInvoiceDebt[]>([]);
 
   protected form!: FormGroup;
   protected maxDate = new Date();
@@ -187,8 +190,18 @@ export class PaymentFormDialogComponent implements OnInit {
       const isVisible = this.visible();
       if (!isVisible) return;
       untracked(() => this.loadPaymentMethods());
+      if (this.mode() === 'validation') {
+        untracked(() => this.loadValidationInvoices());
+      }
       if (this.form) {
         const currentMode = this.mode();
+        const invoiceCtrl = this.form.get('invoiceId');
+        if (currentMode === 'validation') {
+          invoiceCtrl?.addValidators(Validators.required);
+        } else {
+          invoiceCtrl?.clearValidators();
+        }
+        invoiceCtrl?.updateValueAndValidity({ emitEvent: false });
         const inv = this.invoice();
         const balance = this.customerBalance();
         const total = currentMode === 'single' ? inv?.balance || 0 : this.totalDebt();
@@ -206,6 +219,7 @@ export class PaymentFormDialogComponent implements OnInit {
           paymentDate: today,
           referenceNumber: '',
           useBalance: false,
+          invoiceId: currentMode === 'validation' ? '' : null,
         };
         const pm = this.form.get('paymentMethodId')?.value;
         if (!pm) {
@@ -285,6 +299,29 @@ export class PaymentFormDialogComponent implements OnInit {
       });
   }
 
+  private loadValidationInvoices(): void {
+    const customerId = this.customerId();
+    if (!customerId) {
+      return;
+    }
+    this.receivablesService
+      .loadCustomerInvoices(customerId, { page: 0, size: 100 })
+      .pipe(catchError(() => of(null)))
+      .subscribe((response) => {
+        const invoices = (response?.content ?? []).filter(
+          (invoice) => invoice.balance > 0,
+        );
+        this.validationInvoices.set(invoices);
+      });
+  }
+
+  protected validationInvoiceOptions = computed(() =>
+    this.validationInvoices().map((invoice) => ({
+      label: `${invoice.invoiceNumber} · ${invoice.balance}`,
+      value: invoice.invoiceId,
+    })),
+  );
+
   protected onSubmit(): void {
     if (this.form.valid && !this.loading()) {
       this.loading.set(true);
@@ -306,7 +343,11 @@ export class PaymentFormDialogComponent implements OnInit {
         request.amount = this.useBalance() ? totalBeforeBalance : formValue.amount;
       }
 
-      this.submit.emit({ request });
+      this.submit.emit({
+        request,
+        invoiceId:
+          this.mode() === 'validation' ? formValue.invoiceId : undefined,
+      });
     }
   }
 
@@ -336,12 +377,13 @@ export class PaymentFormDialogComponent implements OnInit {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    this.form = this.fb.group({
-      amount: [defaultAmount, [Validators.required, Validators.min(0.01)]],
-      paymentDate: [today, [Validators.required]],
-      paymentMethodId: ['', Validators.required],
-      referenceNumber: ['', [Validators.required, Validators.maxLength(100)]],
-    });
+      this.form = this.fb.group({
+        invoiceId: ['', this.mode() === 'validation' ? [Validators.required] : []],
+        amount: [defaultAmount, [Validators.required, Validators.min(0.01)]],
+        paymentDate: [today, [Validators.required]],
+        paymentMethodId: ['', Validators.required],
+        referenceNumber: ['', [Validators.required, Validators.maxLength(100)]],
+      });
 
     if (this.mode() === 'all') {
       this.form.get('amount')?.disable();
