@@ -20,27 +20,13 @@
         [attr.aria-label]="companyName() + ' — ' + ('navigation.labels.goToDashboard' | translate)"
         (click)="goToDashboard()"
       >
-        @if (companyService.logoUrl(); as logo) {
-          <img
-            [src]="logo"
-            width="120"
-            height="32"
-            class="h-8 w-auto max-w-28 object-contain"
-            [alt]="companyName()"
-            (error)="companyService.clearLogo()"
-          />
-        } @else {
-          <img
-            ngSrc="/parsun-logo.png"
-            width="1264"
-            height="578"
-            class="h-8 w-auto max-w-28 object-contain"
-            alt=""
-          />
-        }
-        <span class="xl:hidden 2xl:inline text-lg font-bold tracking-tight max-w-40 truncate">{{
-          companyName()
-        }}</span>
+        <img
+          ngSrc="/parsun-logo.png"
+          width="923"
+          height="130"
+          class="h-6 w-auto max-w-[7rem] object-contain sm:h-7 xl:max-w-[4.5rem] 2xl:h-8 2xl:max-w-none"
+          alt="Parsun"
+        />
       </button>
 
       <div class="hidden xl:flex flex-1 min-w-0">

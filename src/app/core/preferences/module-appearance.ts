@@ -1,12 +1,12 @@
 export const MODULE_APPEARANCE = {
-  sales: { light: '#1d4ed8', dark: '#93c5fd' },
-  procurement: { light: '#7e22ce', dark: '#d8b4fe' },
-  catalog: { light: '#0f766e', dark: '#5eead4' },
-  inventory: { light: '#a16207', dark: '#fcd34d' },
-  finance: { light: '#15803d', dark: '#86efac' },
-  partners: { light: '#be185d', dark: '#f9a8d4' },
-  analytics: { light: '#4338ca', dark: '#a5b4fc' },
-  platform: { light: '#475569', dark: '#cbd5e1' },
+  sales: { light: '#1e40af', dark: '#93c5fd' },
+  procurement: { light: '#b91c2c', dark: '#fca5a5' },
+  catalog: { light: '#2563eb', dark: '#bfdbfe' },
+  inventory: { light: '#1d4ed8', dark: '#60a5fa' },
+  finance: { light: '#dc2626', dark: '#f87171' },
+  partners: { light: '#1e3a8a', dark: '#fda4af' },
+  analytics: { light: '#3b82f6', dark: '#7dd3fc' },
+  platform: { light: '#991b1b', dark: '#fecaca' },
 } as const;
 
 export type ModuleGroup = keyof typeof MODULE_APPEARANCE;

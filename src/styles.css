@@ -599,18 +599,53 @@ a:focus-visible {
 }
 
 .parsun-login .login-panel .login-submit button:not(:disabled) {
-  background: #171715 !important;
-  border-color: #171715 !important;
+  background: #1e40af !important;
+  border-color: #1e40af !important;
   color: #ffffff !important;
 }
 
 .parsun-login .login-panel .login-submit button:not(:disabled):hover {
-  background: #333333 !important;
-  border-color: #333333 !important;
+  background: #1e3a8a !important;
+  border-color: #1e3a8a !important;
+}
+.parsun-login .login-panel {
+  position: relative;
+}
+.parsun-login .login-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, #1e40af 0%, #2563eb 55%, #b91c2c 100%);
 }
 .login-artwork {
-  background: #171715;
-  color: #f5f5f3;
+  background: linear-gradient(115deg, #0c2a66 0%, #1e40af 52%, #b91c2c 100%);
+  color: #ffffff;
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+}
+.login-artwork::before {
+  content: '';
+  position: absolute;
+  top: -6rem;
+  right: 2rem;
+  width: 18rem;
+  height: 18rem;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
+  filter: blur(48px);
+  pointer-events: none;
+}
+.login-artwork::after {
+  content: '';
+  position: absolute;
+  bottom: -7rem;
+  left: -2rem;
+  width: 16rem;
+  height: 16rem;
+  border-radius: 9999px;
+  background: rgba(248, 113, 113, 0.3);
+  filter: blur(56px);
+  pointer-events: none;
 }
 
 @media (max-width: 767px) {
@@ -684,52 +719,52 @@ a:focus-visible {
 }
 
 .parsun-informative :is([data-module='sales'], .parsun-module-sales) {
-  --parsun-accent: #1d4ed8;
+  --parsun-accent: #1e40af;
 }
 .my-app-dark.parsun-informative :is([data-module='sales'], .parsun-module-sales) {
   --parsun-accent: #93c5fd;
 }
 .parsun-informative :is([data-module='procurement'], .parsun-module-procurement) {
-  --parsun-accent: #7e22ce;
+  --parsun-accent: #b91c2c;
 }
 .my-app-dark.parsun-informative :is([data-module='procurement'], .parsun-module-procurement) {
-  --parsun-accent: #d8b4fe;
+  --parsun-accent: #fca5a5;
 }
 .parsun-informative :is([data-module='catalog'], .parsun-module-catalog) {
-  --parsun-accent: #0f766e;
+  --parsun-accent: #2563eb;
 }
 .my-app-dark.parsun-informative :is([data-module='catalog'], .parsun-module-catalog) {
-  --parsun-accent: #5eead4;
+  --parsun-accent: #bfdbfe;
 }
 .parsun-informative :is([data-module='inventory'], .parsun-module-inventory) {
-  --parsun-accent: #a16207;
+  --parsun-accent: #1d4ed8;
 }
 .my-app-dark.parsun-informative :is([data-module='inventory'], .parsun-module-inventory) {
-  --parsun-accent: #fcd34d;
+  --parsun-accent: #60a5fa;
 }
 .parsun-informative :is([data-module='finance'], .parsun-module-finance) {
-  --parsun-accent: #15803d;
+  --parsun-accent: #dc2626;
 }
 .my-app-dark.parsun-informative :is([data-module='finance'], .parsun-module-finance) {
-  --parsun-accent: #86efac;
+  --parsun-accent: #f87171;
 }
 .parsun-informative :is([data-module='partners'], .parsun-module-partners) {
-  --parsun-accent: #be185d;
+  --parsun-accent: #1e3a8a;
 }
 .my-app-dark.parsun-informative :is([data-module='partners'], .parsun-module-partners) {
-  --parsun-accent: #f9a8d4;
+  --parsun-accent: #fda4af;
 }
 .parsun-informative :is([data-module='analytics'], .parsun-module-analytics) {
-  --parsun-accent: #4338ca;
+  --parsun-accent: #3b82f6;
 }
 .my-app-dark.parsun-informative :is([data-module='analytics'], .parsun-module-analytics) {
-  --parsun-accent: #a5b4fc;
+  --parsun-accent: #7dd3fc;
 }
 .parsun-informative :is([data-module='platform'], .parsun-module-platform) {
-  --parsun-accent: #475569;
+  --parsun-accent: #991b1b;
 }
 .my-app-dark.parsun-informative :is([data-module='platform'], .parsun-module-platform) {
-  --parsun-accent: #cbd5e1;
+  --parsun-accent: #fecaca;
 }
 
 .parsun-informative .parsun-workspace {
@@ -955,4 +990,301 @@ app-user-avatar .p-avatar img {
     transition: none !important;
     transform: none !important;
   }
+}
+
+
+.parsun-informative {
+  --p-primary-color: #1e40af;
+  --p-primary-contrast-color: #ffffff;
+  --p-primary-hover-color: #1e3a8a;
+  --p-primary-active-color: #172554;
+  --p-red-500: #b91c2c;
+}
+
+.my-app-dark.parsun-informative {
+  --p-primary-color: #60a5fa;
+  --p-primary-contrast-color: #172554;
+  --p-primary-hover-color: #93c5fd;
+  --p-primary-active-color: #bfdbfe;
+}
+
+/* Company palette in informative mode */
+.parsun-informative .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text) {
+  background: #1e40af;
+  border-color: #1e40af;
+  color: #ffffff;
+}
+.parsun-informative .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text):hover {
+  background: #1e3a8a;
+  border-color: #1e3a8a;
+}
+.parsun-informative .p-button.p-button-contrast.p-button-outlined {
+  background: transparent;
+  border-color: #1e40af;
+  color: #1e40af;
+}
+.parsun-informative .p-button.p-button-contrast.p-button-outlined:hover {
+  background: color-mix(in srgb, #1e40af 10%, transparent);
+}
+.my-app-dark.parsun-informative
+  .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text) {
+  background: #60a5fa;
+  border-color: #60a5fa;
+  color: #172554;
+}
+.my-app-dark.parsun-informative
+  .p-button.p-button-contrast:not(.p-button-outlined):not(.p-button-text):hover {
+  background: #93c5fd;
+  border-color: #93c5fd;
+}
+.my-app-dark.parsun-informative .p-button.p-button-contrast.p-button-outlined {
+  border-color: #60a5fa;
+  color: #93c5fd;
+}
+
+.parsun-informative .p-dialog-close-button {
+  color: #1e40af;
+}
+.parsun-informative .p-dialog-close-button:hover {
+  background: color-mix(in srgb, #1e40af 12%, transparent);
+}
+.my-app-dark.parsun-informative .p-dialog-close-button {
+  color: #93c5fd;
+}
+
+.parsun-informative app-user-avatar .p-avatar {
+  background: #1e40af !important;
+  color: #ffffff !important;
+}
+.my-app-dark.parsun-informative app-user-avatar .p-avatar {
+  background: #60a5fa !important;
+  color: #172554 !important;
+}
+
+.parsun-informative app-text-badge span[class*='bg-surface-900'] {
+  background: #1e40af !important;
+  color: #ffffff !important;
+}
+.my-app-dark.parsun-informative app-text-badge span[class*='bg-surface-900'] {
+  background: #60a5fa !important;
+  color: #172554 !important;
+}
+
+.parsun-informative app-text-badge span[class*='bg-blue-100'] {
+  background: color-mix(in srgb, #1e40af 12%, transparent) !important;
+  color: #1e40af !important;
+}
+.my-app-dark.parsun-informative app-text-badge span[class*='bg-blue-100'] {
+  background: color-mix(in srgb, #60a5fa 18%, transparent) !important;
+  color: #93c5fd !important;
+}
+
+.parsun-informative app-back-button .p-button.p-button-outlined {
+  color: #1e40af;
+  border-color: #1e40af;
+  background: transparent;
+}
+.parsun-informative app-back-button .p-button.p-button-outlined:hover {
+  background: color-mix(in srgb, #1e40af 10%, transparent);
+}
+.parsun-informative app-back-button .p-button:not(.p-button-outlined):not(.p-button-text) {
+  background: #1e40af;
+  border-color: #1e40af;
+  color: #ffffff;
+}
+.my-app-dark.parsun-informative app-back-button .p-button.p-button-outlined {
+  color: #93c5fd;
+  border-color: #60a5fa;
+}
+.my-app-dark.parsun-informative app-back-button .p-button.p-button-outlined:hover {
+  background: color-mix(in srgb, #60a5fa 16%, transparent);
+}
+.my-app-dark.parsun-informative app-back-button .p-button:not(.p-button-outlined):not(.p-button-text) {
+  background: #60a5fa;
+  border-color: #60a5fa;
+  color: #172554;
+}
+
+app-user-avatar .parsun-user-avatar {
+  background: var(--p-surface-900);
+  color: var(--p-surface-0);
+}
+.my-app-dark app-user-avatar .parsun-user-avatar {
+  background: var(--p-surface-0);
+  color: var(--p-surface-900);
+}
+.parsun-informative app-user-avatar .parsun-user-avatar {
+  background: #1e40af;
+  color: #ffffff;
+}
+.my-app-dark.parsun-informative app-user-avatar .parsun-user-avatar {
+  background: #60a5fa;
+  color: #172554;
+}
+
+.parsun-informative :is(app-receivables-page, app-payables-page, app-cash-register-page, app-cash-register-history-page) {
+  --parsun-accent: #1e40af;
+  --parsun-accent-soft: color-mix(in srgb, #1e40af 8%, var(--parsun-panel));
+  --parsun-accent-line: color-mix(in srgb, #1e40af 32%, var(--parsun-line));
+}
+.my-app-dark.parsun-informative :is(app-receivables-page, app-payables-page, app-cash-register-page, app-cash-register-history-page) {
+  --parsun-accent: #93c5fd;
+  --parsun-accent-soft: color-mix(in srgb, #60a5fa 12%, var(--parsun-panel));
+  --parsun-accent-line: color-mix(in srgb, #60a5fa 32%, var(--parsun-line));
+}
+
+.parsun-informative .dashboard-metric {
+  background: color-mix(in srgb, #1e40af 8%, var(--parsun-panel));
+  border-color: color-mix(in srgb, #1e40af 24%, var(--parsun-line));
+}
+.parsun-informative .dashboard-metric-icon {
+  background: color-mix(in srgb, #1e40af 14%, var(--parsun-panel));
+}
+.parsun-informative .dashboard-metric-icon i,
+.parsun-informative .dashboard-widget h3 {
+  color: #1e40af;
+}
+.my-app-dark.parsun-informative .dashboard-metric {
+  background: color-mix(in srgb, #60a5fa 12%, var(--parsun-panel));
+  border-color: color-mix(in srgb, #60a5fa 28%, var(--parsun-line));
+}
+.my-app-dark.parsun-informative .dashboard-metric-icon {
+  background: color-mix(in srgb, #60a5fa 18%, var(--parsun-panel));
+}
+.my-app-dark.parsun-informative .dashboard-metric-icon i,
+.my-app-dark.parsun-informative .dashboard-widget h3 {
+  color: #93c5fd;
+}
+
+.notification-brand-bar {
+  display: none;
+  height: 4px;
+  background: linear-gradient(90deg, #1e40af 0%, #2563eb 55%, #b91c2c 100%);
+}
+.parsun-informative .notification-brand-bar {
+  display: block;
+}
+.parsun-informative .notification-badge {
+  background: #b91c2c;
+}
+.parsun-informative .notification-bell-icon {
+  color: #1e40af;
+}
+.parsun-informative .notification-mark-read {
+  border-color: color-mix(in srgb, #1e40af 40%, transparent);
+  color: #1e40af;
+}
+.parsun-informative .notification-mark-read:hover {
+  background: color-mix(in srgb, #1e40af 10%, transparent);
+}
+.parsun-informative .notification-action {
+  background: linear-gradient(120deg, #1e40af 0%, #b91c2c 100%);
+  color: #ffffff;
+}
+.parsun-informative .notification-action:hover {
+  opacity: 0.9;
+}
+.my-app-dark.parsun-informative .notification-bell-icon {
+  color: #93c5fd;
+}
+.my-app-dark.parsun-informative .notification-mark-read {
+  border-color: color-mix(in srgb, #60a5fa 45%, transparent);
+  color: #93c5fd;
+}
+.my-app-dark.parsun-informative .notification-mark-read:hover {
+  background: color-mix(in srgb, #60a5fa 16%, transparent);
+}
+
+.pending-tabs-brand-bar {
+  display: none;
+  height: 4px;
+  background: linear-gradient(90deg, #1e40af 0%, #2563eb 55%, #b91c2c 100%);
+}
+.parsun-informative .pending-tabs-brand-bar {
+  display: block;
+}
+.parsun-informative .pending-tabs-badge {
+  background: #b91c2c;
+}
+.parsun-informative .pending-tabs-icon,
+.parsun-informative .pending-tabs-title {
+  color: #1e40af !important;
+}
+.parsun-informative .pending-tab-item:hover {
+  background: color-mix(in srgb, #1e40af 8%, var(--parsun-panel));
+}
+.my-app-dark.parsun-informative .pending-tabs-icon,
+.my-app-dark.parsun-informative .pending-tabs-title {
+  color: #93c5fd !important;
+}
+.my-app-dark.parsun-informative .pending-tab-item:hover {
+  background: color-mix(in srgb, #60a5fa 12%, var(--parsun-panel));
+}
+
+.parsun-informative .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider {
+  background: #1e40af;
+  border-color: #1e40af;
+}
+.parsun-informative .p-toggleswitch:not(.p-toggleswitch-checked) .p-toggleswitch-slider {
+  background: var(--p-surface-300);
+  border-color: var(--p-surface-300);
+}
+.parsun-informative .p-toggleswitch .p-toggleswitch-handle {
+  background: #ffffff;
+}
+.my-app-dark.parsun-informative .p-toggleswitch.p-toggleswitch-checked .p-toggleswitch-slider {
+  background: #60a5fa;
+  border-color: #60a5fa;
+}
+.my-app-dark.parsun-informative .p-toggleswitch:not(.p-toggleswitch-checked) .p-toggleswitch-slider {
+  background: var(--p-surface-700);
+  border-color: var(--p-surface-700);
+}
+
+.parsun-informative app-status-badge span[class*='bg-surface-900'] {
+  background: #1e40af !important;
+  color: #ffffff !important;
+}
+.parsun-informative app-status-badge span[class*='bg-surface-300'] {
+  background: color-mix(in srgb, #1e40af 10%, transparent) !important;
+  color: #1e40af !important;
+}
+.my-app-dark.parsun-informative app-status-badge span[class*='bg-surface-900'] {
+  background: #60a5fa !important;
+  color: #172554 !important;
+}
+.my-app-dark.parsun-informative app-status-badge span[class*='bg-surface-300'] {
+  background: color-mix(in srgb, #60a5fa 18%, transparent) !important;
+  color: #93c5fd !important;
+}
+
+.parsun-informative button[class*='bg-surface-900'] {
+  background: #1e40af !important;
+  color: #ffffff !important;
+}
+.parsun-informative button[class*='bg-surface-900']:hover {
+  background: #1e3a8a !important;
+}
+.my-app-dark.parsun-informative button[class*='bg-surface-900'] {
+  background: #60a5fa !important;
+  color: #172554 !important;
+}
+.my-app-dark.parsun-informative button[class*='bg-surface-900']:hover {
+  background: #93c5fd !important;
+}
+
+.parsun-informative .parsun-brand-name,
+.parsun-informative .parsun-page-kicker,
+.parsun-informative .login-company-name {
+  color: #1e40af !important;
+}
+.my-app-dark.parsun-informative .parsun-brand-name,
+.my-app-dark.parsun-informative .parsun-page-kicker {
+  color: #93c5fd !important;
+}
+.parsun-informative app-back-button .p-button.p-button-outlined {
+  background: color-mix(in srgb, #1e40af 7%, transparent);
+}
+.my-app-dark.parsun-informative app-back-button .p-button.p-button-outlined {
+  background: color-mix(in srgb, #60a5fa 12%, transparent);
 }

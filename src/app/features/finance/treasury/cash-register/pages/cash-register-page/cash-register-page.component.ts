@@ -5,6 +5,7 @@ import { TranslationService } from '@core/i18n/translation.service';
 import { LocalizedDatePipe, LocalizedCurrencyPipe } from '@core/i18n/localized-format.pipe';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { ThemeService } from '@core/theme/components/theme-toggle/theme.service';
+import { UserPreferencesService } from '@core/preferences/user-preferences.service';
 import { PermissionDirective } from '@features/platform/auth/authorization/directives/permission.directive';
 import {
   Component,
@@ -54,6 +55,19 @@ const CHART_COLORS = {
   monoDark: ['#f5f5f5', '#d4d4d4', '#a3a3a3', '#737373', '#404040'],
 } as const;
 
+const BRAND_CHART_COLORS = {
+  lightSeries: '#1e40af',
+  darkSeries: '#93c5fd',
+  lightMuted: '#93c5fd',
+  darkMuted: '#bfdbfe',
+  lightExpense: '#b91c2c',
+  darkExpense: '#fca5a5',
+  lightFill: 'rgba(30, 64, 175, 0.16)',
+  darkFill: 'rgba(147, 197, 253, 0.2)',
+  monoLight: ['#1e40af', '#2563eb', '#1d4ed8', '#3b82f6', '#60a5fa'],
+  monoDark: ['#93c5fd', '#bfdbfe', '#60a5fa', '#7dd3fc', '#dbeafe'],
+} as const;
+
 interface MovementTypeTotal {
   type: string;
   total: number;
@@ -98,6 +112,7 @@ export class CashRegisterPageComponent implements OnInit {
   private readonly translations = inject(TranslationService);
   private readonly language = inject(LanguageService);
   private readonly theme = inject(ThemeService);
+  private readonly preferences = inject(UserPreferencesService);
 
   readonly activeClosure = this.service.activeClosure;
   readonly loading = this.service.loading;
@@ -169,8 +184,16 @@ export class CashRegisterPageComponent implements OnInit {
     this.theme.isDarkMode() ? CHART_COLORS.darkGrid : CHART_COLORS.lightGrid,
   );
 
+  private isInformative(): boolean {
+    return this.preferences.colorMode() === 'informative';
+  }
+
   private monoColors(): readonly string[] {
-    return this.theme.isDarkMode() ? CHART_COLORS.monoDark : CHART_COLORS.monoLight;
+    const isDark = this.theme.isDarkMode();
+    if (this.isInformative()) {
+      return isDark ? BRAND_CHART_COLORS.monoDark : BRAND_CHART_COLORS.monoLight;
+    }
+    return isDark ? CHART_COLORS.monoDark : CHART_COLORS.monoLight;
   }
 
   readonly flowChartData = computed<ChartData<'bar'>>(() => {
@@ -193,12 +216,19 @@ export class CashRegisterPageComponent implements OnInit {
                 Number(closure.expectedBalance),
               ]
             : [],
-          backgroundColor: [
-            isDark ? CHART_COLORS.darkMuted : CHART_COLORS.lightMuted,
-            isDark ? CHART_COLORS.darkSeries : CHART_COLORS.lightSeries,
-            isDark ? '#737373' : '#a3a3a3',
-            isDark ? CHART_COLORS.darkSeries : CHART_COLORS.lightSeries,
-          ],
+          backgroundColor: this.isInformative()
+            ? [
+                isDark ? BRAND_CHART_COLORS.darkMuted : BRAND_CHART_COLORS.lightMuted,
+                isDark ? BRAND_CHART_COLORS.darkSeries : BRAND_CHART_COLORS.lightSeries,
+                isDark ? BRAND_CHART_COLORS.darkExpense : BRAND_CHART_COLORS.lightExpense,
+                isDark ? BRAND_CHART_COLORS.darkSeries : BRAND_CHART_COLORS.lightSeries,
+              ]
+            : [
+                isDark ? CHART_COLORS.darkMuted : CHART_COLORS.lightMuted,
+                isDark ? CHART_COLORS.darkSeries : CHART_COLORS.lightSeries,
+                isDark ? '#737373' : '#a3a3a3',
+                isDark ? CHART_COLORS.darkSeries : CHART_COLORS.lightSeries,
+              ],
           borderRadius: 8,
           maxBarThickness: 64,
         },
@@ -292,7 +322,14 @@ export class CashRegisterPageComponent implements OnInit {
     const closure = this.closure();
     if (!closure) return { labels: [], datasets: [] };
     const isDark = this.theme.isDarkMode();
-    const color = isDark ? CHART_COLORS.darkSeries : CHART_COLORS.lightSeries;
+    const brand = this.isInformative();
+    const color = brand
+      ? isDark
+        ? BRAND_CHART_COLORS.darkSeries
+        : BRAND_CHART_COLORS.lightSeries
+      : isDark
+        ? CHART_COLORS.darkSeries
+        : CHART_COLORS.lightSeries;
     const order = [...this.movements()]
       .filter((movement) => cashMovementAffectsCash(movement.type))
       .sort((a, b) => a.occurredAt.localeCompare(b.occurredAt));
@@ -310,7 +347,13 @@ export class CashRegisterPageComponent implements OnInit {
         {
           data: values,
           borderColor: color,
-          backgroundColor: isDark ? CHART_COLORS.darkFill : CHART_COLORS.lightFill,
+          backgroundColor: brand
+            ? isDark
+              ? BRAND_CHART_COLORS.darkFill
+              : BRAND_CHART_COLORS.lightFill
+            : isDark
+              ? CHART_COLORS.darkFill
+              : CHART_COLORS.lightFill,
           fill: true,
           tension: 0.35,
           pointRadius: 3,
