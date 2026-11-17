@@ -22,6 +22,15 @@ import { ROLE_PERMISSIONS } from '@features/platform/auth/role/permissions';
 import { DEPARTMENT_PERMISSIONS } from '@features/platform/auth/department/permissions';
 import { COMPANY_PERMISSIONS } from '@features/platform/company/permissions';
 import { AUDIT_PERMISSIONS } from '@features/platform/audit/permissions';
+import {
+  PORTAL_DASHBOARD_PERMISSIONS,
+  PORTAL_INVOICE_PERMISSIONS,
+  PORTAL_ORDER_PERMISSIONS,
+  PORTAL_PAYMENT_PERMISSIONS,
+  PORTAL_PRODUCT_PERMISSIONS,
+  PORTAL_PROFILE_PERMISSIONS,
+  PORTAL_QUOTE_PERMISSIONS,
+} from '@features/platform/portal/permissions';
 
 export const PERMISSION_CATALOG = [
   {
@@ -127,6 +136,44 @@ export const PERMISSION_CATALOG = [
       {
         sectionKey: null,
         modules: [{ moduleKey: 'navigation.labels.dashboard', permissions: DASHBOARD_PERMISSIONS }],
+      },
+    ],
+  },
+  {
+    areaKey: 'navigation.labels.portal',
+    sections: [
+      {
+        sectionKey: null,
+        modules: [
+          {
+            moduleKey: 'navigation.labels.portalDashboard',
+            permissions: PORTAL_DASHBOARD_PERMISSIONS,
+          },
+          {
+            moduleKey: 'navigation.labels.portalProducts',
+            permissions: PORTAL_PRODUCT_PERMISSIONS,
+          },
+          {
+            moduleKey: 'navigation.labels.portalQuotes',
+            permissions: PORTAL_QUOTE_PERMISSIONS,
+          },
+          {
+            moduleKey: 'navigation.labels.portalOrders',
+            permissions: PORTAL_ORDER_PERMISSIONS,
+          },
+          {
+            moduleKey: 'navigation.labels.portalInvoices',
+            permissions: PORTAL_INVOICE_PERMISSIONS,
+          },
+          {
+            moduleKey: 'navigation.labels.portalPayments',
+            permissions: PORTAL_PAYMENT_PERMISSIONS,
+          },
+          {
+            moduleKey: 'navigation.labels.portalProfile',
+            permissions: PORTAL_PROFILE_PERMISSIONS,
+          },
+        ],
       },
     ],
   },

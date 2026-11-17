@@ -46,102 +46,46 @@ interface NotificationArea {
   sections: NotificationSection[];
 }
 
-const BUSINESS_MODULE_BY_CATALOG_KEY: Readonly<Record<string, string[]>> = {
-  'navigation.labels.quotes': ['SALES_QUOTES'],
-  'navigation.labels.orders': ['SALES_ORDERS'],
-  'navigation.labels.purchases': ['PURCHASES', 'PURCHASE'],
-  'navigation.labels.products': ['CATALOG_PRODUCTS', 'PRODUCT'],
-  'navigation.labels.categories': ['CATALOG_CATEGORIES', 'CATEGORY'],
-  'navigation.labels.priceTypes': ['CATALOG_PRICES', 'PRICE_TYPE'],
-  'navigation.labels.warehouses': ['INVENTORY_WAREHOUSES', 'WAREHOUSE'],
-  'platform.auth.domains.sales_invoices_invoices': [
-    'SALES_INVOICES_INVOICES',
-    'FINANCE_BILLING_INVOICES',
-    'FINANCE_INVOICES',
-    'INVOICE',
-  ],
-  'platform.auth.domains.sales_invoices_returns': [
-    'SALES_INVOICES_RETURNS',
-    'FINANCE_BILLING_RETURNS',
-    'FINANCE_RETURNS',
-    'RETURN',
-  ],
-  'platform.auth.domains.sales_invoices_credit_notes': [
-    'SALES_INVOICES_CREDIT_NOTES',
-    'FINANCE_BILLING_CREDIT_NOTES',
-    'FINANCE_CREDIT_NOTES',
-    'CREDIT_NOTE',
-  ],
-  'platform.auth.domains.sales_invoices_debit_notes': [
-    'SALES_INVOICES_DEBIT_NOTES',
-    'FINANCE_BILLING_DEBIT_NOTES',
-    'FINANCE_DEBIT_NOTES',
-    'DEBIT_NOTE',
-  ],
-  'navigation.labels.cashRegister': [
-    'FINANCE_TREASURY_CASH_REGISTER',
-    'FINANCE_CASH_REGISTER',
-    'CASH_REGISTER',
-  ],
-  'navigation.labels.expenses': ['FINANCE_TREASURY_EXPENSES', 'EXPENSE'],
-  'navigation.labels.accountsReceivable': [
-    'FINANCE_TREASURY_RECEIVABLES',
-    'FINANCE_RECEIVABLES',
-    'RECEIVABLE',
-  ],
-  'navigation.labels.accountsPayable': ['FINANCE_TREASURY_PAYABLES', 'FINANCE_PAYABLES', 'PAYABLE'],
-  'navigation.labels.paymentMethods': [
-    'FINANCE_TREASURY_PAYMENT_METHODS',
-    'FINANCE_PAYMENT_METHODS',
-    'PAYMENT_METHOD',
-  ],
-  'navigation.labels.customers': ['CONTACTS_CUSTOMERS', 'CUSTOMER'],
-  'navigation.labels.suppliers': ['CONTACTS_SUPPLIERS', 'SUPPLIER'],
-  'navigation.labels.dashboard': ['DASHBOARD'],
-  'navigation.labels.users': ['USERS', 'USER'],
-  'navigation.labels.roles': ['ROLES', 'ROLE'],
-  'navigation.labels.departments': ['DEPARTMENTS', 'DEPARTMENT'],
-  'navigation.labels.company': ['COMPANY'],
-  'navigation.labels.auditTrail': ['AUDIT_TRAIL', 'AUDIT'],
+const BUSINESS_MODULE_BY_CATALOG_KEY: Readonly<Record<string, string>> = {
+  'navigation.labels.quotes': 'SALES_QUOTES',
+  'navigation.labels.orders': 'SALES_ORDERS',
+  'navigation.labels.purchases': 'PURCHASES',
+  'navigation.labels.products': 'CATALOG_PRODUCTS',
+  'navigation.labels.categories': 'CATALOG_CATEGORIES',
+  'navigation.labels.priceTypes': 'CATALOG_PRICES',
+  'navigation.labels.warehouses': 'INVENTORY_WAREHOUSES',
+  'platform.auth.domains.sales_invoices_invoices': 'SALES_INVOICES_INVOICES',
+  'platform.auth.domains.sales_invoices_returns': 'SALES_INVOICES_RETURNS',
+  'platform.auth.domains.sales_invoices_credit_notes': 'SALES_INVOICES_CREDIT_NOTES',
+  'platform.auth.domains.sales_invoices_debit_notes': 'SALES_INVOICES_DEBIT_NOTES',
+  'navigation.labels.cashRegister': 'FINANCE_TREASURY_CASH_REGISTER',
+  'navigation.labels.expenses': 'FINANCE_TREASURY_EXPENSES',
+  'navigation.labels.accountsReceivable': 'FINANCE_TREASURY_RECEIVABLES',
+  'navigation.labels.accountsPayable': 'FINANCE_TREASURY_PAYABLES',
+  'navigation.labels.paymentMethods': 'FINANCE_TREASURY_PAYMENT_METHODS',
+  'navigation.labels.customers': 'CONTACTS_CUSTOMERS',
+  'navigation.labels.suppliers': 'CONTACTS_SUPPLIERS',
+  'navigation.labels.dashboard': 'DASHBOARD',
+  'navigation.labels.portalDashboard': 'PORTAL_DASHBOARD',
+  'navigation.labels.portalProducts': 'PORTAL_PRODUCTS',
+  'navigation.labels.portalQuotes': 'PORTAL_QUOTES',
+  'navigation.labels.portalOrders': 'PORTAL_ORDERS',
+  'navigation.labels.portalInvoices': 'PORTAL_INVOICES',
+  'navigation.labels.portalPayments': 'PORTAL_PAYMENTS',
+  'navigation.labels.portalProfile': 'PORTAL_PROFILE',
+  'navigation.labels.users': 'USERS',
+  'navigation.labels.roles': 'ROLES',
+  'navigation.labels.departments': 'DEPARTMENTS',
+  'navigation.labels.company': 'COMPANY',
+  'navigation.labels.auditTrail': 'AUDIT_TRAIL',
 };
 
 const ALIASES: Readonly<Record<string, string>> = Object.fromEntries(
-  Object.entries(BUSINESS_MODULE_BY_CATALOG_KEY).flatMap(([catalogKey, businessModules]) =>
-    businessModules.map((businessModule) => [businessModule, catalogKey]),
-  ),
+  Object.entries(BUSINESS_MODULE_BY_CATALOG_KEY).map(([catalogKey, businessModule]) => [
+    businessModule,
+    catalogKey,
+  ]),
 );
-
-const LABEL_KEYS: Readonly<Record<string, string>> = {
-  'finance billing credit notes': 'navigation.labels.creditNotes',
-  'finance billing debit notes': 'navigation.labels.debitNotes',
-  'finance billing invoices': 'navigation.labels.invoices',
-  'finance billing returns': 'navigation.labels.returns',
-  'finance treasury cash register': 'navigation.labels.cashRegister',
-  'finance treasury payment methods': 'navigation.labels.paymentMethods',
-  'finance treasury receivables': 'navigation.labels.accountsReceivable',
-  'finance treasury expenses': 'navigation.labels.expenses',
-  'finance treasury payables': 'navigation.labels.accountsPayable',
-  'audit trail': 'navigation.labels.auditTrail',
-  categories: 'navigation.labels.categories',
-  'price types': 'navigation.labels.priceTypes',
-  products: 'navigation.labels.products',
-  company: 'navigation.labels.company',
-  customers: 'navigation.labels.customers',
-  suppliers: 'navigation.labels.suppliers',
-  departments: 'navigation.labels.departments',
-  purchases: 'navigation.labels.purchases',
-  roles: 'navigation.labels.roles',
-  orders: 'navigation.labels.orders',
-  quotes: 'navigation.labels.quotes',
-  invoices: 'navigation.labels.invoices',
-  returns: 'navigation.labels.returns',
-  'credit notes': 'navigation.labels.creditNotes',
-  'debit notes': 'navigation.labels.debitNotes',
-  'cash register': 'navigation.labels.cashRegister',
-  receivables: 'navigation.labels.accountsReceivable',
-  warehouses: 'navigation.labels.warehouses',
-  users: 'navigation.labels.users',
-};
 
 @Component({
   selector: 'app-notification-preferences-card',
@@ -289,14 +233,14 @@ export class NotificationPreferencesCardComponent {
     modules: readonly GroupedModule[],
   ): GroupedModule[] {
     const byModule = new Map(modules.map((module) => [module.module, module]));
-    return section.modules.flatMap((catalogModule) =>
-      (BUSINESS_MODULE_BY_CATALOG_KEY[catalogModule.moduleKey] ?? [])
-        .map((module) => byModule.get(module))
-        .filter((module): module is GroupedModule => module !== undefined),
-    );
+    return section.modules.flatMap((catalogModule) => {
+      const module = BUSINESS_MODULE_BY_CATALOG_KEY[catalogModule.moduleKey];
+      const preference = module ? byModule.get(module) : undefined;
+      return preference ? [preference] : [];
+    });
   }
 
   private moduleLabelKey(module: NotificationModulePreference): string {
-    return ALIASES[module.module] ?? LABEL_KEYS[module.labelKey.toLowerCase()] ?? module.labelKey;
+    return ALIASES[module.module] ?? module.labelKey;
   }
 }
