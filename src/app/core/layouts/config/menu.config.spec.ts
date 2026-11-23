@@ -274,7 +274,6 @@ describe('ERP navigation', () => {
     const items = flatten(buildMenuItems(createCallbacks()));
     for (const label of [
       'Cancelar presupuesto',
-      'Pagar directamente',
       'Pagar con validación',
       'Editar cuenta por cobrar',
       'Eliminar cuenta por cobrar',

@@ -15,13 +15,15 @@
   }
 </button>
 
-<p-popover #tabsMenu [style]="{ width: 'min(400px, calc(100vw - 2rem))' }" [appendTo]="'body'">
+<p-popover #tabsMenu appendTo="self" [style]="{ width: 'min(400px, calc(100vw - 2rem))' }">
   <div class="flex flex-col">
     <div class="pending-tabs-brand-bar"></div>
     <div
       class="flex items-center justify-between p-4 border-b border-surface-200 dark:border-surface-700"
     >
-      <h3 class="pending-tabs-title text-lg font-semibold text-surface-900 dark:text-surface-100 m-0">
+      <h3
+        class="pending-tabs-title text-lg font-semibold text-surface-900 dark:text-surface-100 m-0"
+      >
         {{ 'core.pendingtabs.pendingTabs' | translate }}
       </h3>
       @if (tabs().length > 0) {

@@ -1,6 +1,17 @@
 import { BusinessModule } from '@features/platform/auth/user/models/enums/business-module.enum';
 import { Injectable, inject, signal, computed } from '@angular/core';
-import { Observable, Subject, tap, catchError, finalize, of } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  tap,
+  catchError,
+  finalize,
+  of,
+  concat,
+  switchMap,
+  throwError,
+  toArray,
+} from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { AuthService } from '@features/platform/auth/services/application/auth-application.service';
 import {
@@ -280,6 +291,83 @@ export class ReceivablesApplicationService {
       catchError(() => of(null)),
       finalize(() => this.loading.set(false)),
     );
+  }
+
+  createValidationPayment(
+    customerId: string,
+    request: PayInvoiceRequest,
+  ): Observable<CreatedPaymentResponse[] | null> {
+    this.loading.set(true);
+    this.error.set(null);
+
+    return this.api.getCustomerInvoices(customerId, { page: 0, size: 100 }).pipe(
+      switchMap((response) => {
+        const plans = this.planValidationPayments(response.content ?? [], request.amount ?? 0);
+        if (plans.length === 0) {
+          return throwError(() => new Error(RECEIVABLES_ERROR_MESSAGES.CREATE_PAYMENT_FAILED));
+        }
+        return concat(
+          ...plans.map((plan) =>
+            this.api.createPayment({
+              customerId,
+              targetInvoiceId: plan.invoiceId,
+              status: 'PENDING',
+              amount: plan.amount,
+              paymentMethodId: request.paymentMethodId,
+              ...(request.referenceNumber ? { referenceNumber: request.referenceNumber } : {}),
+              paymentDate: request.paymentDate,
+            }),
+          ),
+        ).pipe(toArray());
+      }),
+      tap({
+        next: () => {
+          this.messageService.add({
+            severity: 'success',
+            summary: 'Éxito',
+            detail: RECEIVABLES_SUCCESS_MESSAGES.PAYMENT_REGISTERED_FOR_VALIDATION,
+            life: 4000,
+          });
+          this.pendingPaymentsChange.next();
+          this.customerDebtChange.next();
+        },
+        error: () => {
+          this.error.set(RECEIVABLES_ERROR_MESSAGES.CREATE_PAYMENT_FAILED);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: RECEIVABLES_ERROR_MESSAGES.CREATE_PAYMENT_FAILED,
+            life: 5000,
+          });
+        },
+      }),
+      catchError(() => of(null)),
+      finalize(() => this.loading.set(false)),
+    );
+  }
+
+  private planValidationPayments(
+    invoices: CustomerInvoiceDebt[],
+    amount: number,
+  ): { invoiceId: string; amount: number }[] {
+    const ordered = [...invoices]
+      .filter((invoice) => invoice.realBalance > 0)
+      .sort((a, b) => (a.dueDate ?? a.invoiceDate).localeCompare(b.dueDate ?? b.invoiceDate));
+
+    const plans: { invoiceId: string; amount: number }[] = [];
+    let remaining = amount;
+
+    for (const invoice of ordered) {
+      if (remaining <= 0) break;
+      const allocated = Math.min(remaining, invoice.realBalance);
+      plans.push({
+        invoiceId: invoice.invoiceId,
+        amount: Number(allocated.toFixed(2)),
+      });
+      remaining -= allocated;
+    }
+
+    return plans;
   }
 
   loadPendingPayments(
