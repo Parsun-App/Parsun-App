@@ -15,7 +15,12 @@
   }
 </button>
 
-<p-popover #panel appendTo="self" [style]="{ width: 'min(380px, calc(100vw - 2rem))' }">
+<p-popover
+  #panel
+  appendTo="self"
+  [style]="{ width: 'min(380px, calc(100vw - 2rem))' }"
+  (onShow)="onPanelShow()"
+>
   <div class="flex flex-col">
     <div class="notification-brand-bar"></div>
     <div

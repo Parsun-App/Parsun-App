@@ -15,7 +15,12 @@
   }
 </button>
 
-<p-popover #tabsMenu appendTo="self" [style]="{ width: 'min(400px, calc(100vw - 2rem))' }">
+<p-popover
+  #tabsMenu
+  appendTo="self"
+  [style]="{ width: 'min(400px, calc(100vw - 2rem))' }"
+  (onShow)="onMenuShow()"
+>
   <div class="flex flex-col">
     <div class="pending-tabs-brand-bar"></div>
     <div
