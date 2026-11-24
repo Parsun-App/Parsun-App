@@ -50,19 +50,22 @@ export class FormActionsComponent implements AfterViewInit {
   cancelLabel = input<string>('Cancelar');
   loading = input<boolean>(false);
   disabled = input<boolean>(false);
+  trackChanges = input<boolean>(true);
   tooltipMessage = input<string>('');
 
   readonly isEditRoute = computed(() =>
     this.currentUrl().split('?')[0].split('#')[0].endsWith('/edit'),
   );
-  readonly noChanges = computed(() => this.isEditRoute() && !this.hasChanges());
+  readonly noChanges = computed(
+    () => this.trackChanges() && this.isEditRoute() && !this.hasChanges(),
+  );
   readonly submitDisabled = computed(() => this.disabled() || this.noChanges());
   readonly resolvedTooltip = computed(() => {
     if (!this.submitDisabled()) return '';
     if (this.tooltipMessage()) return this.tooltipMessage();
     const keys = this.invalidFieldKeys();
     if (keys.length > 0) return requiredFieldsMessage(this.translations, keys);
-    if (this.noChanges()) return '';
+    if (this.noChanges()) return this.translations.t('shared.noChangesToSave');
     return this.translations.t('shared.completeRequiredFields');
   });
 

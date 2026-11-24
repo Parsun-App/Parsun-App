@@ -22,6 +22,7 @@ import { ROLE_PERMISSIONS } from '@features/platform/auth/role/permissions';
 import { DEPARTMENT_PERMISSIONS } from '@features/platform/auth/department/permissions';
 import { COMPANY_PERMISSIONS } from '@features/platform/company/permissions';
 import { AUDIT_PERMISSIONS } from '@features/platform/audit/permissions';
+import { SYSTEM_PERMISSIONS } from '@features/platform/auth/permissions/system.permissions';
 import {
   PORTAL_DASHBOARD_PERMISSIONS,
   PORTAL_INVOICE_PERMISSIONS,
@@ -188,6 +189,7 @@ export const PERMISSION_CATALOG = [
           { moduleKey: 'navigation.labels.departments', permissions: DEPARTMENT_PERMISSIONS },
           { moduleKey: 'navigation.labels.company', permissions: COMPANY_PERMISSIONS },
           { moduleKey: 'navigation.labels.auditTrail', permissions: AUDIT_PERMISSIONS },
+          { moduleKey: 'platform.auth.domains.system', permissions: SYSTEM_PERMISSIONS },
         ],
       },
     ],

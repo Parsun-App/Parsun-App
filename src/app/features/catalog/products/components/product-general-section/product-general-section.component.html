@@ -83,7 +83,11 @@
           {{ 'catalog.products.makesThisProductAvailableForUseInTheSystem' | translate }}
         </p>
       </div>
-      <p-toggleswitch [formControl]="asFormControl('active')" name="active" />
+      <p-toggleswitch
+        [formControl]="asFormControl('active')"
+        name="active"
+        [disabled]="!canToggleActive()"
+      />
     </div>
   }
 </app-tab-content>

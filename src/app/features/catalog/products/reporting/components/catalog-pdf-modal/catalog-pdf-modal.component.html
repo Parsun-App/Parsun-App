@@ -69,13 +69,24 @@
   }
 
   <ng-container reportFooter>
-    <p-button
-      [appPermissionModule]="'CATALOG_PRODUCTS'"
-      [appPermission]="'EXPORT'"
-      [label]="'inventory.warehouses.viewPdf' | translate"
-      icon="pi pi-file-pdf"
-      (onClick)="generatePdf()"
-      severity="primary"
-    />
+    <div class="flex justify-end gap-2">
+      <p-button
+        [appPermissionModule]="'CATALOG_PRODUCTS'"
+        [appPermission]="'EXPORT'"
+        [label]="'finance.treasury.cashregister.excel' | translate"
+        icon="pi pi-file-excel"
+        severity="success"
+        styleClass="p-button-outlined"
+        (onClick)="generateExcel()"
+      />
+      <p-button
+        [appPermissionModule]="'CATALOG_PRODUCTS'"
+        [appPermission]="'EXPORT'"
+        [label]="'inventory.warehouses.viewPdf' | translate"
+        icon="pi pi-file-pdf"
+        (onClick)="generatePdf()"
+        severity="primary"
+      />
+    </div>
   </ng-container>
 </app-report-pdf-modal>

@@ -356,7 +356,7 @@
                             }}
                           </p>
                         </div>
-                        <p-toggleswitch formControlName="active" />
+                        <p-toggleswitch formControlName="active" [disabled]="!canToggleActive()" />
                       </div>
                     }
                     <div
@@ -407,6 +407,7 @@
               [cancelLabel]="'shared.cancel' | translate"
               [loading]="busy()"
               [disabled]="form.invalid"
+              [trackChanges]="false"
               (cancel)="onBack()"
             />
           </app-panel-card>

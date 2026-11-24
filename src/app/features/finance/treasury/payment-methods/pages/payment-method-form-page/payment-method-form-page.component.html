@@ -67,7 +67,7 @@
                 }}
               </p>
             </div>
-            <p-toggleswitch formControlName="isActive" />
+            <p-toggleswitch formControlName="isActive" [disabled]="!canToggleActive()" />
           </div>
         }
       </div>

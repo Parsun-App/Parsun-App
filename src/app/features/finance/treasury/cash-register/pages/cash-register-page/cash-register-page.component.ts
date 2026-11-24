@@ -201,30 +201,24 @@ export class CashRegisterPageComponent implements OnInit {
     const isDark = this.theme.isDarkMode();
     return {
       labels: [
-        this.translations.t('finance.treasury.cashregister.openingBalance'),
         this.translations.t('finance.treasury.cashregister.moneyIn'),
         this.translations.t('finance.treasury.cashregister.moneyOut'),
-        this.translations.t('finance.treasury.cashregister.expectedBalance'),
       ],
       datasets: [
         {
           data: closure
             ? [
-                Number(closure.openingBalance),
                 Number(closure.totalIncome),
                 Number(closure.totalExpense),
-                Number(closure.expectedBalance),
               ]
             : [],
           backgroundColor: this.isInformative()
             ? [
-                isDark ? BRAND_CHART_COLORS.darkMuted : BRAND_CHART_COLORS.lightMuted,
                 isDark ? BRAND_CHART_COLORS.darkSeries : BRAND_CHART_COLORS.lightSeries,
                 isDark ? BRAND_CHART_COLORS.darkExpense : BRAND_CHART_COLORS.lightExpense,
                 isDark ? BRAND_CHART_COLORS.darkSeries : BRAND_CHART_COLORS.lightSeries,
               ]
             : [
-                isDark ? CHART_COLORS.darkMuted : CHART_COLORS.lightMuted,
                 isDark ? CHART_COLORS.darkSeries : CHART_COLORS.lightSeries,
                 isDark ? '#737373' : '#a3a3a3',
                 isDark ? CHART_COLORS.darkSeries : CHART_COLORS.lightSeries,
@@ -333,9 +327,9 @@ export class CashRegisterPageComponent implements OnInit {
     const order = [...this.movements()]
       .filter((movement) => cashMovementAffectsCash(movement.type))
       .sort((a, b) => a.occurredAt.localeCompare(b.occurredAt));
-    let running = Number(closure.openingBalance);
-    const labels = [this.translations.t('finance.treasury.cashregister.openingBalance')];
-    const values = [running];
+    let running = 0;
+    const labels: string[] = [];
+    const values: number[] = [];
     for (const movement of order) {
       running += (movement.direction === 'IN' ? 1 : -1) * Number(movement.amount);
       labels.push(this.formatTime(movement.occurredAt));

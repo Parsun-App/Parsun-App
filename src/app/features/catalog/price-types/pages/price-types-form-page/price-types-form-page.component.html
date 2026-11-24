@@ -42,7 +42,7 @@
                 {{ 'catalog.pricetypes.makesThisPriceTypeAvailableInTheSystem' | translate }}
               </p>
             </div>
-            <p-toggleswitch formControlName="active" />
+            <p-toggleswitch formControlName="active" [disabled]="!canToggleActive()" />
           </div>
         }
       </div>

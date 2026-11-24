@@ -256,6 +256,28 @@ describe('LoginPageComponent', () => {
       await new Promise((resolve) => setTimeout(resolve, 100));
       expect(routerMock.navigate).not.toHaveBeenCalled();
     });
+
+    it('should render the login error inline in black', () => {
+      authServiceMock.error.set('Error interno del servidor. Por favor, intenta más tarde.');
+      authServiceMock.login.mockReturnValue(throwError(() => ({ status: 500 })));
+
+      component.form.controls.email.setValue('test@example.com');
+      component.form.controls.password.setValue('wrongpassword');
+
+      component.onSubmit();
+      fixture.detectChanges();
+
+      expect(component.loginError()?.summary).toBe('Error de autenticación');
+      expect(component.loginError()?.detail).toBe(
+        'Error interno del servidor. Por favor, intenta más tarde.',
+      );
+      const alert = fixture.nativeElement.querySelector('[role="alert"]') as HTMLElement | null;
+      expect(alert).toBeTruthy();
+      expect(alert?.textContent).toContain('Error de autenticación');
+      expect(alert?.textContent).toContain('Error interno del servidor');
+      expect(alert?.querySelector('.text-black')).toBeTruthy();
+      expect(messageServiceMock.add).not.toHaveBeenCalled();
+    });
   });
 
   describe('error messages', () => {

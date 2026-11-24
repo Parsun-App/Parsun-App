@@ -13,6 +13,7 @@ import {
   FormActionsComponent,
 } from '@core/forms/components';
 import { PriceTypeApplicationService } from '@features/catalog/price-types/services/application/price-type-application.service';
+import { AuthorizationService } from '@features/platform/auth/authorization/services/authorization.service';
 import { BaseFormComponent, FormConfig } from '@core/forms/base/base-form.component';
 
 interface PriceTypeFormData {
@@ -42,6 +43,9 @@ export class PriceTypesFormPageComponent extends BaseFormComponent<PriceTypeForm
   private readonly translations = inject(TranslationService);
   private service = inject(PriceTypeApplicationService);
   private messageService = inject(MessageService);
+  private readonly authorization = inject(AuthorizationService);
+
+  readonly canToggleActive = this.authorization.canToggleActive;
 
   loading = this.service.isLoading;
 

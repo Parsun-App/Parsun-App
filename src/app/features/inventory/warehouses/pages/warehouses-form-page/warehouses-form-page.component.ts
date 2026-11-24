@@ -23,6 +23,7 @@ import {
 } from '@core/forms/components';
 import { TextInputComponent, SelectInputComponent } from '@core/forms/components/inputs';
 import { WarehouseApplicationService } from '@features/inventory/warehouses/services/application/warehouse-application.service';
+import { AuthorizationService } from '@features/platform/auth/authorization/services/authorization.service';
 import { BaseFormComponent, FormConfig } from '@core/forms/base/base-form.component';
 import {
   VENEZUELA_STATES,
@@ -67,6 +68,9 @@ export class WarehousesFormPageComponent
   private readonly translations = inject(TranslationService);
   private service = inject(WarehouseApplicationService);
   private messageService = inject(MessageService);
+  private readonly authorization = inject(AuthorizationService);
+
+  readonly canToggleActive = this.authorization.canToggleActive;
 
   loading = this.service.loading;
 

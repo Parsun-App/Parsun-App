@@ -20,12 +20,12 @@ describe('CashRegisterApiService', () => {
 
   afterEach(() => http.verify());
 
-  it('opens a session with its opening balance', () => {
-    service.open({ openedByName: 'Operator', openingBalance: 125 }).subscribe();
+  it('opens a session without exposing an opening balance', () => {
+    service.open('Operator').subscribe();
 
     const request = http.expectOne(`${baseUrl}/open`);
     expect(request.request.method).toBe('POST');
-    expect(request.request.body).toEqual({ openedByName: 'Operator', openingBalance: 125 });
+    expect(request.request.body).toEqual({ openedByName: 'Operator', openingBalance: 0 });
     request.flush({});
   });
 

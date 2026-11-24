@@ -16,6 +16,7 @@ import {
 import { PaymentMethodApplicationService } from '@features/finance/treasury/payment-methods/services/application/payment-method-application.service';
 import { PaymentMethodUpdate } from '@features/finance/treasury/payment-methods/models/interfaces/payment-method.interface';
 import { BaseFormComponent, FormConfig } from '@core/forms/base/base-form.component';
+import { AuthorizationService } from '@features/platform/auth/authorization/services/authorization.service';
 
 interface PaymentMethodFormData {
   name: string;
@@ -46,6 +47,9 @@ export class PaymentMethodFormPageComponent extends BaseFormComponent<PaymentMet
   private readonly translations = inject(TranslationService);
   private service = inject(PaymentMethodApplicationService);
   private messageService = inject(MessageService);
+  private readonly authorization = inject(AuthorizationService);
+
+  readonly canToggleActive = this.authorization.canToggleActive;
 
   loading = this.service.loading;
 

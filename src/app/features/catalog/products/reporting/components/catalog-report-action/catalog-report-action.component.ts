@@ -1,12 +1,14 @@
 import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core';
 import { finalize } from 'rxjs';
 import { CatalogPdfApiService } from '@features/catalog/products/reporting/services/api/catalog-pdf-api.service';
+import { CatalogExcelApiService } from '@features/catalog/products/reporting/services/api/catalog-excel-api.service';
 import { CommercialCatalogPdfApiService } from '@features/catalog/products/reporting/services/api/commercial-catalog-pdf-api.service';
 import { CatalogPdfModalComponent } from '@features/catalog/products/reporting/components/catalog-pdf-modal/catalog-pdf-modal.component';
 import { CommercialCatalogPdfModalComponent } from '@features/catalog/products/reporting/components/commercial-catalog-pdf-modal/commercial-catalog-pdf-modal.component';
 import { CatalogPdfFilters } from '@features/catalog/products/reporting/models/interfaces/catalog-pdf-filters.interface';
 import { CommercialCatalogPdfFilters } from '@features/catalog/products/reporting/models/interfaces/commercial-catalog-pdf-filters.interface';
 import { PdfBlobViewerService } from '@shared/services/pdf-blob-viewer.service';
+import { FileDownloadHelper } from '@shared/utils/file-download.helper';
 import { ReportActionService } from '@shared/services/report-action.service';
 
 @Component({
@@ -19,6 +21,7 @@ import { ReportActionService } from '@shared/services/report-action.service';
 export class CatalogReportActionComponent {
   readonly reportKey = input.required<string>();
   private readonly catalogApi = inject(CatalogPdfApiService);
+  private readonly catalogExcelApi = inject(CatalogExcelApiService);
   private readonly commercialApi = inject(CommercialCatalogPdfApiService);
   private readonly reports = inject(ReportActionService);
   private readonly viewer = inject(PdfBlobViewerService);
@@ -29,6 +32,12 @@ export class CatalogReportActionComponent {
       .downloadPdf(filters)
       .pipe(finalize(() => this.viewer.loading.set(false)))
       .subscribe({ next: (blob) => this.viewer.open(blob, 'Reporte de Productos') });
+  }
+
+  catalogExcel(filters: CatalogPdfFilters): void {
+    this.catalogExcelApi.downloadExcel(filters).subscribe({
+      next: (blob) => FileDownloadHelper.downloadFromBlob(blob, 'reporte-productos.xlsx'),
+    });
   }
 
   commercial(filters: CommercialCatalogPdfFilters): void {

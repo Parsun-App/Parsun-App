@@ -22,6 +22,7 @@ import { RolePermission } from '@features/platform/auth/role/permissions';
 import { DepartmentPermission } from '@features/platform/auth/department/permissions';
 import { CompanyPermission } from '@features/platform/company/permissions';
 import { AuditPermission } from '@features/platform/audit/permissions';
+import { SystemPermission } from '@features/platform/auth/permissions/system.permissions';
 import {
   PortalDashboardPermission,
   PortalInvoicePermission,
@@ -57,6 +58,7 @@ export type AppPermission =
   | DepartmentPermission
   | CompanyPermission
   | AuditPermission
+  | SystemPermission
   | PortalDashboardPermission
   | PortalProductPermission
   | PortalQuotePermission

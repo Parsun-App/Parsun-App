@@ -9,7 +9,6 @@ import {
 } from '@features/finance/treasury/cash-register/reporting/models/interfaces';
 import {
   CashRegisterResponse,
-  OpenRegisterRequest,
   CloseRegisterRequest,
   CashRegisterHistoryView,
   CashRegisterReportFormat,
@@ -23,8 +22,11 @@ export class CashRegisterApiService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/cash-register`;
 
-  open(request: OpenRegisterRequest): Observable<CashRegisterResponse> {
-    return this.http.post<CashRegisterResponse>(`${this.baseUrl}/open`, request);
+  open(openedByName: string): Observable<CashRegisterResponse> {
+    return this.http.post<CashRegisterResponse>(`${this.baseUrl}/open`, {
+      openedByName,
+      openingBalance: 0,
+    });
   }
 
   getActive(): Observable<CashRegisterResponse> {

@@ -45,18 +45,16 @@ describe('CashRegisterOpenDialogComponent', () => {
 
     expect(component.openForm.getRawValue()).toEqual({
       openedByName: 'Cajero',
-      openingBalance: 0,
     });
   });
 
   it('opens the register through the application service and closes the dialog', () => {
     fixture.componentRef.setInput('visible', true);
     fixture.detectChanges();
-    component.openForm.patchValue({ openingBalance: 150 });
 
     component.submit();
 
-    expect(service.openRegister).toHaveBeenCalledWith('Cajero', 150);
+    expect(service.openRegister).toHaveBeenCalledWith('Cajero');
     expect(component.visible()).toBe(false);
   });
 
@@ -91,10 +89,8 @@ function createClosure(): CashRegisterResponse {
     balance: 100,
     revenueSummary: [],
     expenseSummary: [],
-    openingBalance: 100,
     totalIncome: 0,
     totalExpense: 0,
-    expectedBalance: 100,
     declaredBalance: null,
     difference: null,
     movements: [],

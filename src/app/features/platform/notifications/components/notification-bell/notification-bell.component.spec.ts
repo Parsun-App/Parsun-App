@@ -115,6 +115,16 @@ describe('NotificationBellComponent', () => {
     );
   });
 
+  it('formats notification amounts with the app currency format', () => {
+    expect(component.formatMessage('operator registró un pago por 15.000000000')).toBe(
+      'operator registró un pago por 15,00$',
+    );
+    expect(component.formatMessage('operator registró un pago por 1500.500000000')).toBe(
+      'operator registró un pago por 1.500,50$',
+    );
+    expect(component.formatMessage('Pago sobre INV-2026-0001')).toBe('Pago sobre INV-2026-0001');
+  });
+
   it('should mark a notification as read without navigating', () => {
     component.unreadCount.set(1);
     component.notifications.set([notification]);

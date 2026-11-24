@@ -96,14 +96,11 @@ export class CashRegisterApplicationService {
     this.selectedClosure.set(null);
   }
 
-  openRegister(
-    openedByName: string,
-    openingBalance: number,
-  ): Observable<CashRegisterResponse | null> {
+  openRegister(openedByName: string): Observable<CashRegisterResponse | null> {
     this.loading.set(true);
     this.error.set(null);
 
-    return this.api.open({ openedByName, openingBalance }).pipe(
+    return this.api.open(openedByName).pipe(
       tap({
         next: (closure) => {
           this.activeClosure.set(closure);

@@ -48,6 +48,7 @@ export class CatalogPdfModalComponent {
   readonly visible = input(false);
   readonly visibleChange = output<boolean>();
   readonly onGeneratePdf = output<CatalogPdfFilters>();
+  readonly onGenerateExcel = output<CatalogPdfFilters>();
 
   readonly search = signal('');
   readonly categoryId = signal<string | null>(null);
@@ -96,11 +97,19 @@ export class CatalogPdfModalComponent {
   }
 
   generatePdf(): void {
-    this.onGeneratePdf.emit({
+    this.onGeneratePdf.emit(this.buildFilters());
+  }
+
+  generateExcel(): void {
+    this.onGenerateExcel.emit(this.buildFilters());
+  }
+
+  private buildFilters(): CatalogPdfFilters {
+    return {
       search: this.search() || undefined,
       categoryId: this.categoryId() ?? undefined,
       warehouseId: this.warehouseId() ?? undefined,
       withStock: this.withStock() ?? undefined,
-    });
+    };
   }
 }

@@ -75,7 +75,7 @@
           {{ 'partners.suppliers.indicatesWhetherTheSupplierIsActiveInTheSystem' | translate }}
         </p>
       </div>
-      <p-toggleswitch formControlName="active" />
+      <p-toggleswitch formControlName="active" [disabled]="!canToggleActive()" />
     </div>
   }
 

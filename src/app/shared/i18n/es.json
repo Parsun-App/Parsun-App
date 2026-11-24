@@ -145,6 +145,7 @@
   "shared.notes.creditNote": "Nota de Crédito",
   "shared.notes.debitNote": "Nota de Débito",
   "shared.completeRequiredFields": "Complete los campos requeridos",
+  "shared.noChangesToSave": "No hay cambios para guardar",
   "shared.requiredFields": "Campos requeridos: {{fields}}",
   "shared.fields.name": "Nombre",
   "shared.fields.category": "Categoría",

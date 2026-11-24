@@ -54,14 +54,34 @@ describe('ReceivablesPdfApiService', () => {
       req.flush(mockBlob);
     });
 
+    it('should GET with date range filters', () => {
+      service.getAccountsReceivablePdf({ dateFrom: '2025-01-01', dateTo: '2025-12-31' }).subscribe();
+
+      const req = httpMock.expectOne(
+        (r) => r.url === '/api/reports/finance/accounts-receivable/pdf' && r.method === 'GET',
+      );
+      expect(req.request.params.get('dateFrom')).toBe('2025-01-01');
+      expect(req.request.params.get('dateTo')).toBe('2025-12-31');
+      req.flush(mockBlob);
+    });
+
     it('should GET with all filters combined', () => {
-      service.getAccountsReceivablePdf({ customerId: 'c1', overdueOnly: true }).subscribe();
+      service
+        .getAccountsReceivablePdf({
+          customerId: 'c1',
+          overdueOnly: true,
+          dateFrom: '2025-01-01',
+          dateTo: '2025-12-31',
+        })
+        .subscribe();
 
       const req = httpMock.expectOne(
         (r) => r.url === '/api/reports/finance/accounts-receivable/pdf' && r.method === 'GET',
       );
       expect(req.request.params.get('customerId')).toBe('c1');
       expect(req.request.params.get('overdueOnly')).toBe('true');
+      expect(req.request.params.get('dateFrom')).toBe('2025-01-01');
+      expect(req.request.params.get('dateTo')).toBe('2025-12-31');
       req.flush(mockBlob);
     });
   });

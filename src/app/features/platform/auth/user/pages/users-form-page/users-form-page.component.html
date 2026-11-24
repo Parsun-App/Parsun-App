@@ -154,7 +154,7 @@
                       }}
                     </p>
                   </div>
-                  <p-toggleswitch formControlName="active" />
+                  <p-toggleswitch formControlName="active" [disabled]="!canToggleActive()" />
                 </div>
               }
             </app-tab-content>

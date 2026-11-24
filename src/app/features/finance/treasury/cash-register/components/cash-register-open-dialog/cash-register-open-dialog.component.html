@@ -22,20 +22,6 @@
           [placeholder]="'finance.treasury.cashregister.cashierName' | translate"
         />
       </div>
-      <div class="flex flex-col gap-1">
-        <label for="openingBalance" class="text-xs font-medium text-surface-500">{{
-          'finance.treasury.cashregister.openingBalance' | translate
-        }}</label>
-        <p-inputnumber
-          [locale]="locale()"
-          inputId="openingBalance"
-          formControlName="openingBalance"
-          mode="currency"
-          currency="USD"
-          [min]="0"
-          styleClass="w-full"
-        />
-      </div>
     </div>
   </form>
   <ng-template pTemplate="footer">

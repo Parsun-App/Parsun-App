@@ -35,6 +35,19 @@ describe('Current role authorization', () => {
     for (const module of Object.values(BusinessModule))
       expect(authorization.can(module)).toBe(false);
   });
+  it('grants the global active-status toggle only when the role has it', () => {
+    auth.currentAccess.set({
+      ...access,
+      permissions: ['SYSTEM_TOGGLE_ACTIVE'] as never,
+    });
+    expect(authorization.canToggleActive()).toBe(true);
+
+    auth.currentAccess.set({
+      ...access,
+      permissions: ['CATALOG_PRODUCTS_EDIT'] as never,
+    });
+    expect(authorization.canToggleActive()).toBe(false);
+  });
   it('supports independent permissions per module', () => {
     auth.currentAccess.set({
       ...access,

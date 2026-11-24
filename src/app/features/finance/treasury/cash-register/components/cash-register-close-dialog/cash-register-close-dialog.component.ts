@@ -6,7 +6,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
-  computed,
   effect,
   inject,
   model,
@@ -50,7 +49,6 @@ export class CashRegisterCloseDialogComponent {
   private readonly destroyRef = inject(DestroyRef);
 
   readonly closure = this.service.activeClosure;
-  readonly expectedBalance = computed(() => this.closure()?.expectedBalance ?? 0);
   readonly isSubmitting = signal(false);
 
   readonly closeForm = this.formBuilder.group({
@@ -64,7 +62,7 @@ export class CashRegisterCloseDialogComponent {
       if (!this.visible()) return;
       this.closeForm.reset({
         closedByName: this.service.currentUserName(),
-        declaredBalance: this.expectedBalance(),
+        declaredBalance: 0,
         closingNotes: '',
       });
     });

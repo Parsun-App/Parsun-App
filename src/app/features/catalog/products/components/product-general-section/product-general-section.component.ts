@@ -25,6 +25,7 @@ import { TabContentComponent } from '@core/forms/components/cards';
 import { CategoryApplicationService } from '@features/catalog/categories/services/application/category-application.service';
 import { FormMode } from '@core/forms/enums/form-mode.enum';
 import { ProductPricesSectionComponent } from '@features/catalog/products/components/product-prices-section/product-prices-section.component';
+import { AuthorizationService } from '@features/platform/auth/authorization/services/authorization.service';
 
 @Component({
   selector: 'app-product-general-section',
@@ -50,6 +51,8 @@ import { ProductPricesSectionComponent } from '@features/catalog/products/compon
 })
 export class ProductGeneralSectionComponent implements OnInit {
   private readonly categoryService = inject(CategoryApplicationService);
+
+  readonly canToggleActive = inject(AuthorizationService).canToggleActive;
 
   readonly form = input.required<FormGroup>();
   readonly mode = input.required<FormMode>();
