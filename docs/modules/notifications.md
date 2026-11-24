@@ -26,8 +26,8 @@ src/app/features/platform/notifications/
 
 ## Integration
 
-- `NotificationBellComponent` is rendered by `MainLayoutComponent`; there is no `/notifications` page or route.
-- The bell connects to the STOMP topic `/topic/notifications/user/{userId}` on startup.
+- `NotificationBellComponent` is rendered by `MainLayoutComponent` only when preferences are enabled and at least one module is enabled; there is no `/notifications` page or route.
+- The bell connects to the STOMP topic `/topic/notifications/user/{userId}` only while it is visible.
 - Opening the panel loads the unread list lazily on first use.
 - Clicking a notification resolves the destination from `referenceType`/`referenceId` and routes to the owning module.
 

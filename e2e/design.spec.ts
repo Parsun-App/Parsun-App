@@ -89,7 +89,7 @@ async function prepare(
     else if (path.endsWith('/dashboard/top-products') || path.endsWith('/dashboard/top-customers'))
       body = populated
         ? [
-            { id: 'top-1', name: 'Cashly Design', total: 4800 },
+            { id: 'top-1', name: 'Parsun Design', total: 4800 },
             { id: 'top-2', name: 'Workspace', total: 2600 },
           ]
         : [];
@@ -154,7 +154,7 @@ for (const theme of ['light', 'dark'] as const) {
       await page.goto('/platform/auth/login');
       await page.getByRole('heading', { name: 'Bienvenido de nuevo' }).waitFor();
       await page.waitForFunction(() => {
-        const logo = document.querySelector<HTMLImageElement>('img[alt="Logo Cashly"]');
+        const logo = document.querySelector<HTMLImageElement>('img[alt="Logo Parsun"]');
         return !!logo && logo.naturalWidth > 0 && logo.getBoundingClientRect().width > 0;
       });
       await waitForImages(page);
@@ -204,11 +204,11 @@ test('mobile menu navigates to customers and closes the drawer', async ({ page }
   await page.goto('/analytics/dashboard');
   await page.getByRole('button', { name: 'Menú', exact: true }).click();
   await page
-    .locator('.cashly-navigation-drawer')
+    .locator('.parsun-navigation-drawer')
     .getByText('Contactos', { exact: true })
     .filter({ visible: true })
     .click();
-  await page.locator('.cashly-navigation-drawer').getByText('Clientes', { exact: true }).click();
+  await page.locator('.parsun-navigation-drawer').getByText('Clientes', { exact: true }).click();
   await expect(page).toHaveURL(/\/partners\/customers$/);
 });
 
@@ -218,11 +218,11 @@ test('mobile menu closes after choosing a destination', async ({ page }) => {
   await page.goto('/analytics/dashboard');
   await page.getByRole('button', { name: 'Menú', exact: true }).click();
   await page
-    .locator('.cashly-navigation-drawer')
+    .locator('.parsun-navigation-drawer')
     .getByRole('button', { name: 'Análisis', exact: true })
     .click();
-  await page.locator('.cashly-navigation-drawer').getByText('Dashboard', { exact: true }).click();
-  await expect(page.locator('.cashly-navigation-drawer')).not.toBeVisible();
+  await page.locator('.parsun-navigation-drawer').getByText('Dashboard', { exact: true }).click();
+  await expect(page.locator('.parsun-navigation-drawer')).not.toBeVisible();
 });
 
 test('login presents the rejected credentials in an accessible notification', async ({ page }) => {
@@ -273,12 +273,12 @@ test('dark theme persists after reloading the dashboard', async ({ page }) => {
   await expect(page.locator('html')).toHaveClass(/my-app-dark/);
 });
 
-test('login loads the Cashly logo with a visible image area', async ({ page }) => {
+test('login loads the Parsun logo with a visible image area', async ({ page }) => {
   await prepare(page, 'light', false);
   await page.goto('/platform/auth/login');
   await expect
     .poll(() =>
-      page.getByRole('img', { name: 'Logo Cashly' }).evaluate((image) => {
+      page.getByRole('img', { name: 'Logo Parsun' }).evaluate((image) => {
         const logo = image as HTMLImageElement;
         return logo.naturalWidth > 0 && logo.getBoundingClientRect().width > 0;
       }),
@@ -304,7 +304,7 @@ for (const theme of ['light', 'dark'] as const) {
               id: 'customer-design',
               code: 1001,
               alias: 'Design',
-              legalName: 'Cashly Design S.A.',
+              legalName: 'Parsun Design S.A.',
               rif: 'J-12345678-9',
               type: 'BUSINESS',
               active: true,
@@ -315,7 +315,7 @@ for (const theme of ['light', 'dark'] as const) {
       }),
     );
     await page.goto('/partners/customers');
-    await page.getByText('Cashly Design S.A.').first().waitFor();
+    await page.getByText('Parsun Design S.A.').first().waitFor();
     await waitForImages(page);
     await page.screenshot({ path: `output/design/customers-desktop-${theme}.png`, fullPage: true });
     await expect
@@ -342,7 +342,7 @@ for (const theme of ['light', 'dark'] as const) {
     await prepare(page, theme);
     await page.goto('/analytics/dashboard');
     await waitForImages(page);
-    const icon = page.locator('.cashly-brand img');
+    const icon = page.locator('.parsun-brand img');
     const imageState = await icon.evaluate((image) => {
       const logo = image as HTMLImageElement;
       return {
@@ -356,7 +356,7 @@ for (const theme of ['light', 'dark'] as const) {
       body: JSON.stringify(imageState),
       contentType: 'application/json',
     });
-    await page.locator('.cashly-brand').screenshot({ path: `output/design/icon-${theme}.png` });
+    await page.locator('.parsun-brand').screenshot({ path: `output/design/icon-${theme}.png` });
     await expect(icon).toHaveCSS('filter', theme === 'dark' ? 'invert(1)' : 'none');
   });
 }

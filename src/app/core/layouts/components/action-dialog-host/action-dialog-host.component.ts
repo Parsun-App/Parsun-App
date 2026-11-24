@@ -12,7 +12,7 @@ import { ActionDialogService } from '@shared/services/action-dialog.service';
 export class ActionDialogHostComponent {
   readonly dialogs = inject(ActionDialogService);
 
-  inputs(recordId: string): Record<string, unknown> {
-    return { recordId };
+  inputs(recordId: string, resource: string): Record<string, unknown> {
+    return { recordId, resource };
   }
 }

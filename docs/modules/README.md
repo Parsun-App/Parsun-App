@@ -1,6 +1,6 @@
-# Cashly Frontend Modules
+# Parsun Frontend Modules
 
-This directory documents the frontend features of the Cashly application. Features are grouped by business area under `src/app/features/<area>/<feature>/`.
+This directory documents the frontend features of the Parsun application. Features are grouped by business area under `src/app/features/<area>/<feature>/`.
 
 ---
 
@@ -15,6 +15,7 @@ This directory documents the frontend features of the Cashly application. Featur
 | Platform    | Departments          | `/platform/departments/*`             | `features/platform/auth/department`            | [users.md](./users.md)                     |
 | Platform    | Company              | `/platform/company`                   | `features/platform/company`                    | [company.md](./company.md)                 |
 | Platform    | Notifications        | Shell (notification bell)             | `features/platform/notifications`              | [notifications.md](./notifications.md)     |
+| Platform    | Portal Web           | Permissions only (customer portal)    | `features/platform/portal`                     | [authorization.md](./authorization.md)     |
 | Analytics   | Dashboard            | `/analytics/dashboard`                | `features/analytics/dashboard`                 | [dashboard.md](./dashboard.md)             |
 | Analytics   | Reports              | Dialogs from the main menu            | `features/*/*/reporting`                       | [reports.md](./reports.md)                 |
 | Partners    | Customers            | `/partners/customers/*`               | `features/partners/customers`                  | [customers.md](./customers.md)             |
@@ -42,16 +43,16 @@ All entries except Payables (planned) are implemented. The old `/customers`, `/p
 
 ## Business Areas
 
-| Area               | Features                                                                    |
-| ------------------ | --------------------------------------------------------------------------- |
-| `analytics`        | dashboard, reporting composition                                            |
-| `catalog`          | products, categories, price-types                                           |
-| `finance/treasury` | cash-register, payment-methods, receivables, payables (planned), reporting  |
-| `inventory`        | warehouses                                                                  |
-| `partners`         | customers, suppliers                                                        |
-| `platform`         | auth (login, user, role, department, authorization), company, notifications |
-| `procurement`      | purchases                                                                   |
-| `sales`            | quotes, orders, invoices, returns, credit-notes, debit-notes                |
+| Area               | Features                                                                            |
+| ------------------ | ----------------------------------------------------------------------------------- |
+| `analytics`        | dashboard, reporting composition                                                    |
+| `catalog`          | products, categories, price-types                                                   |
+| `finance/treasury` | cash-register, payment-methods, receivables, payables (planned), reporting          |
+| `inventory`        | warehouses                                                                          |
+| `partners`         | customers, suppliers                                                                |
+| `platform`         | auth (login, user, role, department, authorization), company, notifications, portal |
+| `procurement`      | purchases                                                                           |
+| `sales`            | quotes, orders, invoices, returns, credit-notes, debit-notes                        |
 
 HTTP API URLs, permission identifiers, and lazy-loading contracts are independent of the folder layout. See [ERP business areas](../architecture/ERP-BUSINESS-AREAS.md) for the regrouping record.
 

@@ -12,6 +12,7 @@ import { WarehouseApplicationService } from '@features/inventory/warehouses/serv
     [visible]="visible"
     (visibleChange)="onVisibleChange($event)"
     (onGeneratePdf)="onGeneratePdf($event)"
+    (onGenerateExcel)="onGenerateExcel($event)"
   ></app-catalog-pdf-modal>`,
   imports: [CatalogPdfModalComponent],
 })
@@ -19,6 +20,7 @@ class HostComponent {
   visible = false;
   onVisibleChange = vi.fn();
   onGeneratePdf = vi.fn();
+  onGenerateExcel = vi.fn();
 }
 
 function createMockCategoryService() {
@@ -119,6 +121,22 @@ describe('CatalogPdfModalComponent', () => {
       categoryId: 'cat-1',
       warehouseId: 'wh-1',
       withStock: true,
+    });
+  });
+
+  it('should emit onGenerateExcel with filter values on generateExcel', () => {
+    component.search.set('test product');
+    component.categoryId.set('cat-1');
+    component.warehouseId.set('wh-1');
+    component.withStock.set(false);
+
+    component.generateExcel();
+
+    expect(hostComponent.onGenerateExcel).toHaveBeenCalledWith({
+      search: 'test product',
+      categoryId: 'cat-1',
+      warehouseId: 'wh-1',
+      withStock: false,
     });
   });
 

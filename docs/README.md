@@ -1,4 +1,4 @@
-# Cashly Documentation
+# Parsun Documentation
 
 Index of the frontend documentation. Start with the architecture and module index, then open the guide for the area you are working on.
 
@@ -72,6 +72,7 @@ Index of the frontend documentation. Start with the architecture and module inde
 ## Change records
 
 - [Role permission editor](changes/role-permission-editor.md)
+- [Portal Web permissions and permission cleanup](changes/portal-permissions.md)
 - [Effective role enforcement](changes/effective-role-enforcement.md)
 
 ## Project sources

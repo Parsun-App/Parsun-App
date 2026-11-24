@@ -236,7 +236,7 @@ describe('MainLayoutComponent', () => {
       const reports = collect(menu).filter(
         (item) =>
           [
-            'Reporte de Productos PDF',
+            'Reporte de Productos',
             'Catálogo Comercial PDF',
             'Stock',
             'Movimientos',
@@ -394,10 +394,10 @@ describe('MainLayoutComponent', () => {
         () => component['convertToMobileMenuItem'](item),
       ]) {
         const result = convert();
-        expect(result.styleClass).toBe('cashly-module-sales');
+        expect(result.styleClass).toBe('parsun-module-sales');
         expect(result.items?.map((child) => child.styleClass)).toEqual([
-          'cashly-module-sales',
-          'cashly-module-sales',
+          'parsun-module-sales',
+          'parsun-module-sales',
         ]);
       }
     });
@@ -424,7 +424,7 @@ describe('MainLayoutComponent', () => {
 
   describe('logoSrc', () => {
     it('should use the display-sized logo asset', () => {
-      expect(component.logoSrc).toBe('/cashly-logo.svg');
+      expect(component.logoSrc).toBe('/parsun-logo.png');
     });
   });
 
@@ -503,15 +503,11 @@ describe('MainLayoutComponent', () => {
   });
 
   describe('lifecycle hooks', () => {
-    it('should subscribe to scroll events on init', () => {
-      expect(component['scrollSubscription']).toBeDefined();
-    });
-
-    it('should unsubscribe from scroll events on destroy', () => {
+    it('should unsubscribe from router events on destroy', () => {
       const unsubscribeSpy = vi.fn();
-      component['scrollSubscription'] = {
+      component['routerSubscription'] = {
         unsubscribe: unsubscribeSpy,
-      } as unknown as (typeof component)['scrollSubscription'];
+      } as unknown as (typeof component)['routerSubscription'];
 
       component.ngOnDestroy();
 
@@ -519,7 +515,7 @@ describe('MainLayoutComponent', () => {
     });
 
     it('should handle destroy when no subscription exists', () => {
-      component['scrollSubscription'] = undefined;
+      component['routerSubscription'] = undefined;
 
       expect(() => component.ngOnDestroy()).not.toThrow();
     });

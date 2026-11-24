@@ -35,7 +35,7 @@ import {
 } from '@features/platform/auth/models/interfaces/auth-response.interface';
 import { BusinessModule } from '@features/platform/auth/user/models/enums/business-module.enum';
 
-const ACCESS_CACHE_KEY = 'cashly:access-cache';
+const ACCESS_CACHE_KEY = 'parsun:access-cache';
 const ACCESS_CACHE_TTL = 5 * 60 * 1000;
 
 @Injectable({ providedIn: 'root' })

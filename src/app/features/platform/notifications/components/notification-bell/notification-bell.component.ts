@@ -8,7 +8,7 @@ import {
   OnDestroy,
   ChangeDetectionStrategy,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { Popover, PopoverModule } from 'primeng/popover';
 import { TooltipModule } from 'primeng/tooltip';
@@ -21,6 +21,7 @@ import { NotificationWebSocketService } from '@features/platform/notifications/s
 import { NotificationDestinationResolver } from '@features/platform/notifications/services/navigation/notification-destination.resolver';
 import { NotificationPreferencesService } from '@features/platform/notifications/services/state/notification-preferences.service';
 import { LanguageService } from '@core/i18n/language.service';
+import { alignPopoverToFixedTrigger } from '@shared/utils/popover-position.helper';
 
 @Component({
   selector: 'app-notification-bell',
@@ -78,6 +79,10 @@ export class NotificationBellComponent implements OnDestroy {
     }
   }
 
+  onPanelShow(): void {
+    alignPopoverToFixedTrigger(this.panel);
+  }
+
   loadNotifications(): void {
     this.loading.set(true);
     this.api.list(true).subscribe({
@@ -131,6 +136,15 @@ export class NotificationBellComponent implements OnDestroy {
       NotificationBellComponent.ACTION_LABELS[notification.referenceType ?? ''] ??
       'platform.notifications.actions.view'
     );
+  }
+
+  formatMessage(message: string): string {
+    if (!message) return message;
+    const decimal = new DecimalPipe(this.language.locale());
+    return message.replace(/\b\d+\.\d{3,}\b/g, (raw) => {
+      const formatted = decimal.transform(Number(raw), '1.2-2');
+      return formatted === null ? raw : `${formatted}$`;
+    });
   }
 
   onNotificationCardClick(): void {}

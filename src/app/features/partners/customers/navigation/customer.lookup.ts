@@ -53,6 +53,7 @@ export const CUSTOMER_LOOKUP: LookupDefinition = {
         size: query.size,
         type: textLookupFilter(query.filters['type']),
         active: booleanLookupFilter(query.filters['active']),
+        portalAccess: booleanLookupFilter(query.filters['portalAccess']),
         state: textLookupFilter(query.filters['state']),
         municipality: textLookupFilter(query.filters['municipality']),
       })
@@ -81,6 +82,16 @@ export const CUSTOMER_LOOKUP: LookupDefinition = {
         lookupOption('navigation.options.inactive', 'false'),
       ],
       defaultValue: 'true',
+    },
+    {
+      key: 'portalAccess',
+      label: 'navigation.filters.portalAccess',
+      options: [
+        lookupOption('navigation.options.all', ''),
+        lookupOption('navigation.options.portalEnabled', 'true'),
+        lookupOption('navigation.options.portalDisabled', 'false'),
+      ],
+      defaultValue: '',
     },
     {
       key: 'state',

@@ -23,6 +23,7 @@ class HostComponent {
     creditDays: [{ value: 0, disabled: true }],
     creditLimit: [{ value: 0, disabled: true }],
     active: [true],
+    portalAccess: [false],
     notes: [''],
   });
 }
@@ -71,5 +72,11 @@ describe('CustomerGeneralSectionComponent', () => {
     host.form.get('paymentType')?.setValue(PaymentType.CREDIT);
     expect(host.form.get('creditDays')?.enabled).toBe(true);
     expect(host.form.get('creditLimit')?.enabled).toBe(true);
+  });
+
+  it('should bind portal access toggle to the form control', () => {
+    expect(host.form.get('portalAccess')?.value).toBe(false);
+    host.form.get('portalAccess')?.setValue(true);
+    expect(host.form.get('portalAccess')?.value).toBe(true);
   });
 });

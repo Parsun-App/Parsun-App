@@ -18,7 +18,7 @@ export class PanelCardComponent {
 
   readonly panelClass = computed(() =>
     [
-      'cashly-panel',
+      'parsun-panel',
       this.overflowHidden() ? 'overflow-hidden' : '',
       this.padding(),
       this.extraClass(),

@@ -35,6 +35,7 @@ export interface CustomerDetails {
   creditLimit: number;
   paymentType?: CustomerPaymentType;
   active: boolean;
+  portalAccess: boolean;
   createdAt: string;
   emails: CustomerEmail[];
   phones: CustomerPhone[];

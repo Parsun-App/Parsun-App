@@ -1,6 +1,6 @@
 # API Reference
 
-Consolidated index of the HTTP endpoints consumed by the Cashly frontend. Per-module request/response models and examples live in each [module document](modules/README.md).
+Consolidated index of the HTTP endpoints consumed by the Parsun frontend. Per-module request/response models and examples live in each [module document](modules/README.md).
 
 ## Conventions
 

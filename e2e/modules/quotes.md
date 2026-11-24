@@ -25,7 +25,7 @@
 
 - **Severity**: CRITICAL
 - **URL**: `/quotes`
-- **Prerequisites**: Logged in with MODULE_SALES (admin@cashly.com)
+- **Prerequisites**: Logged in with MODULE_SALES (admin@parsun.com)
 - **Steps**:
   1. Navigate to `/quotes`
   2. Wait for page to load
@@ -318,7 +318,7 @@
 #### QTE-040 — OPERATOR can manage quotes
 
 - **Severity**: HIGH
-- **Prerequisites**: operator@cashly.com
+- **Prerequisites**: operator@parsun.com
 - **Expected**: Can create, edit, convert DRAFT quotes. Same permissions as ADMIN for quotes.
 
 ---

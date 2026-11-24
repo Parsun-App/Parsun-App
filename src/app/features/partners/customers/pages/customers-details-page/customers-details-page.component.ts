@@ -25,6 +25,7 @@ import { CustomerDetails } from '@features/partners/customers/models/interfaces/
 import { CustomerWarehouseAccessItem } from '@features/partners/customers/models/interfaces/customer-warehouse-access.interface';
 import { getCustomerTypeLabel } from '@features/partners/customers/models/enums/customer-type.enum';
 import { PriceTypeApplicationService } from '@features/catalog/price-types/services/application/price-type-application.service';
+import { ChangePortalPasswordDialogComponent } from '@features/partners/customers/components/change-portal-password-dialog/change-portal-password-dialog.component';
 
 import { PanelCardComponent } from '@shared/components/ui/panel-card/panel-card.component';
 import { BackButtonComponent } from '@shared/components/ui/back-button/back-button.component';
@@ -48,6 +49,7 @@ import { BackButtonComponent } from '@shared/components/ui/back-button/back-butt
     PageHeaderComponent,
     StatusBadgeComponent,
     TextBadgeComponent,
+    ChangePortalPasswordDialogComponent,
   ],
   templateUrl: './customers-details-page.component.html',
 })
@@ -64,6 +66,7 @@ export class CustomersDetailsPageComponent implements OnInit {
 
   customer = signal<CustomerDetails | null>(null);
   loading = signal(false);
+  showPasswordDialog = signal(false);
 
   warehouseAccess = signal<CustomerWarehouseAccessItem[]>([]);
   warehouseAccessLoading = signal(false);
@@ -130,6 +133,10 @@ export class CustomersDetailsPageComponent implements OnInit {
     if (id) {
       this.router.navigate(['/partners/customers', id, 'edit']);
     }
+  }
+
+  openPasswordDialog(): void {
+    this.showPasswordDialog.set(true);
   }
 
   onDelete(): void {

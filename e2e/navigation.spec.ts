@@ -123,7 +123,7 @@ async function openDesktop(page: Page, labels: readonly string[]): Promise<void>
 
 async function openMobile(page: Page, labels: readonly string[]): Promise<void> {
   await page.getByRole('button', { name: 'Menú', exact: true }).click();
-  const drawer = page.locator('.cashly-navigation-drawer');
+  const drawer = page.locator('.parsun-navigation-drawer');
   for (const [index, label] of labels.entries()) {
     const item =
       index === 0
@@ -373,9 +373,9 @@ test('given mobile navigation when opening treasury then nested destinations sta
   await page.goto('/analytics/dashboard');
   await openMobile(page, ['Finanzas', 'Tesorería']);
   const history = page
-    .locator('.cashly-navigation-drawer')
+    .locator('.parsun-navigation-drawer')
     .getByText('Historial de caja', { exact: true });
-  await page.locator('.cashly-navigation-drawer').evaluate(async (drawer) => {
+  await page.locator('.parsun-navigation-drawer').evaluate(async (drawer) => {
     await Promise.all(
       drawer
         .getAnimations({ subtree: true })
@@ -455,7 +455,7 @@ test('mobile drawer exposes the same eight ERP roots', async ({ page }) => {
   await authenticate(page);
   await page.goto('/analytics/dashboard');
   await page.getByRole('button', { name: 'Menú', exact: true }).click();
-  const drawer = page.locator('.cashly-navigation-drawer');
+  const drawer = page.locator('.parsun-navigation-drawer');
   for (const label of rootLabels) {
     const area = drawer.getByRole('button', { name: label, exact: true });
     await area.scrollIntoViewIfNeeded();

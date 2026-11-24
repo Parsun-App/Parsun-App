@@ -9,22 +9,6 @@
 >
   <form [formGroup]="closeForm">
     <div class="flex flex-col gap-4">
-      <div
-        class="flex gap-4 p-4 bg-surface-50 dark:bg-surface-800/50 rounded-lg border border-surface-200 dark:border-surface-700"
-      >
-        <div class="flex-1">
-          <p class="text-xs text-surface-500 uppercase font-medium mb-1">
-            {{ 'finance.treasury.cashregister.expectedBalance' | translate }}
-          </p>
-          <p
-            class="text-lg font-bold"
-            [class.text-green-600]="expectedBalance() >= 0"
-            [class.text-red-600]="expectedBalance() < 0"
-          >
-            {{ expectedBalance() | localizedCurrency: 'USD' : 'symbol' : '1.2-2' }}
-          </p>
-        </div>
-      </div>
       <div>
         <label for="declaredBalance" class="text-xs font-medium text-surface-500 block mb-1"
           >{{ 'finance.treasury.cashregister.countedBalance' | translate }}

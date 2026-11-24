@@ -1,5 +1,5 @@
 import { TranslatePipe } from '@core/i18n/translate.pipe';
-import { Component, input, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, input, OnInit, ChangeDetectionStrategy, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TextareaModule } from 'primeng/textarea';
@@ -14,6 +14,7 @@ import {
   PaymentType,
   PAYMENT_TYPES,
 } from '@features/partners/customers/models/enums/payment-type.enum';
+import { AuthorizationService } from '@features/platform/auth/authorization/services/authorization.service';
 
 interface SelectOption {
   label: string;
@@ -43,6 +44,8 @@ export class CustomerGeneralSectionComponent implements OnInit {
 
   customerTypes = [...CUSTOMER_TYPES];
   paymentTypes = [...PAYMENT_TYPES];
+
+  readonly canToggleActive = inject(AuthorizationService).canToggleActive;
 
   ngOnInit(): void {
     this.onPaymentTypeChange(this.paymentTypeControl().value);

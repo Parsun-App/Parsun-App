@@ -254,7 +254,9 @@
           class="block text-sm font-semibold text-surface-900 dark:text-surface-0"
         >
           {{ 'finance.treasury.receivables.reference' | translate }}
-          <span class="text-red-500">*</span>
+          @if (mode() !== 'validation') {
+            <span class="text-red-500">*</span>
+          }
         </label>
         <input
           id="reference"

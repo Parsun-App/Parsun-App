@@ -196,7 +196,9 @@ export class CategoriesListPageComponent implements OnInit {
       viewAction(() => this.onView(category)),
       editAction(() => this.onEdit(category)),
     ];
-    actions.push(deleteAction(() => this.onDelete(category)));
+    if (category.deletable) {
+      actions.push(deleteAction(() => this.onDelete(category)));
+    }
     actions.push(
       auditHistoryAction({
         entityType: 'CATEGORY',

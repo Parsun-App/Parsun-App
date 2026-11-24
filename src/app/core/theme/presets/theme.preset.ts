@@ -1,7 +1,7 @@
 import { definePreset } from '@primeuix/themes';
 import Aura from '@primeuix/themes/aura';
 
-export const CashlyPreset = definePreset(Aura, {
+export const ParsunPreset = definePreset(Aura, {
   primitive: {
     borderRadius: { xs: '6px', sm: '10px', md: '16px', lg: '24px', xl: '32px' },
   },

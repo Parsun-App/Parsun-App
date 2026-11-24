@@ -13,8 +13,10 @@ import {
   Component,
   OnInit,
   computed,
+  effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 
 import { ActivatedRoute, Router } from '@angular/router';
@@ -31,6 +33,7 @@ import { EmptyStateComponent } from '@shared/components/ui/empty-state/empty-sta
 import { LoadingSpinnerComponent } from '@shared/components/ui/loading-spinner/loading-spinner.component';
 import { PageHeaderComponent } from '@shared/components/ui/page-header/page-header.component';
 import { TextBadgeComponent } from '@shared/components/ui/text-badge/text-badge.component';
+import { StatusBadgeComponent } from '@shared/components/ui/status-badge/status-badge.component';
 import { OrderApplicationService } from '@features/sales/orders/services/application/order-application.service';
 import {
   OrderStatus,
@@ -44,6 +47,7 @@ import { ConfirmOrderDialogComponent } from '@features/sales/orders/components/c
 import { CancelOrderDialogComponent } from '@features/sales/orders/components/cancel-order-dialog/cancel-order-dialog.component';
 import { ConvertToInvoiceDialogComponent } from '@features/sales/orders/components/convert-to-invoice-dialog/convert-to-invoice-dialog.component';
 import { DeleteDialogService } from '@shared/services/delete-dialog.service';
+import { ActionDialogService } from '@shared/services/action-dialog.service';
 import { PdfViewerService } from '@core/pdf-viewer';
 import { ConvertToInvoiceRequest } from '@features/sales/orders/services/api/order-api.service';
 import { OrderList } from '@features/sales/orders/models/interfaces/order-list.interface';
@@ -70,6 +74,7 @@ import { OrderList } from '@features/sales/orders/models/interfaces/order-list.i
     LoadingSpinnerComponent,
     PageHeaderComponent,
     TextBadgeComponent,
+    StatusBadgeComponent,
     ConfirmOrderDialogComponent,
     CancelOrderDialogComponent,
     ConvertToInvoiceDialogComponent,
@@ -83,10 +88,34 @@ export class OrderDetailPageComponent implements OnInit {
   private readonly orderService = inject(OrderApplicationService);
   private readonly messageService = inject(MessageService);
   private readonly deletion = inject(DeleteDialogService);
+  private readonly actionDialogs = inject(ActionDialogService);
   private readonly pdfViewerService = inject(PdfViewerService);
+
+  constructor() {
+    effect(() => {
+      const completion = this.actionDialogs.completion();
+      if (completion?.resource !== 'orders') return;
+      untracked(() => this.orderService.loadById(completion.recordId).subscribe());
+    });
+  }
 
   readonly order = this.orderService.currentOrder;
   readonly loading = this.orderService.loading;
+
+  readonly stockAssigned = computed(() => {
+    const order = this.order();
+    return (
+      !!order &&
+      order.items.length > 0 &&
+      order.items.every((item) => {
+        const total = item.warehouseAllocations.reduce(
+          (sum, allocation) => sum + allocation.allocated,
+          0,
+        );
+        return item.warehouseAllocations.length > 0 && Math.abs(total - item.quantity) < 0.000001;
+      })
+    );
+  });
 
   readonly OrderStatus = OrderStatus;
   readonly confirmDialogVisible = signal(false);
@@ -226,6 +255,12 @@ export class OrderDetailPageComponent implements OnInit {
 
   onBack(): void {
     this.navigationHistory.back(['/sales/orders']);
+  }
+
+  onAssignStock(): void {
+    const id = this.order()?.id;
+    if (!id) return;
+    this.actionDialogs.open('orders', 'Asignar stock', id);
   }
 
   onEdit(): void {

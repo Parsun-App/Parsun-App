@@ -60,7 +60,7 @@ describe('SecurityPageComponent', () => {
     component.enable();
     expect(api.enable).not.toHaveBeenCalled();
     api.enable.mockReturnValue(of({ recoveryCodes: ['one-time-code'] }));
-    component.setup.set({ secret: 'secret', otpauthUri: 'otpauth://totp/Cashly', expiresIn: 600 });
+    component.setup.set({ secret: 'secret', otpauthUri: 'otpauth://totp/Parsun', expiresIn: 600 });
     component.codeForm.setValue({ code: '123456' });
     component.enable();
     expect(component.recoveryCodes()).toEqual(['one-time-code']);
@@ -117,7 +117,7 @@ describe('SecurityPageComponent', () => {
 
   it('does not restore a QR after setup is cancelled', async () => {
     api.setup.mockReturnValue(
-      of({ secret: 'secret', otpauthUri: 'otpauth://totp/Cashly', expiresIn: 600 }),
+      of({ secret: 'secret', otpauthUri: 'otpauth://totp/Parsun', expiresIn: 600 }),
     );
     component.passwordForm.setValue({ password: 'password' });
     component.startSetup();

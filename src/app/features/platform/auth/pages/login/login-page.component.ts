@@ -39,7 +39,7 @@ export class LoginPageComponent {
   private messageService = inject(MessageService);
   protected authService = inject(AuthService);
 
-  logoSrc = computed(() => '/cashly-logo.svg');
+  logoSrc = computed(() => '/parsun-logo.png');
 
   form = this.fb.group({
     email: ['', AuthValidators.email],
@@ -47,6 +47,7 @@ export class LoginPageComponent {
   });
 
   readonly challengeToken = signal<string | null>(null);
+  readonly loginError = signal<{ summary: string; detail: string } | null>(null);
   readonly codeForm = this.fb.nonNullable.group({
     code: ['', [Validators.required, Validators.maxLength(64)]],
   });
@@ -67,6 +68,7 @@ export class LoginPageComponent {
 
   restartLogin(): void {
     this.challengeToken.set(null);
+    this.loginError.set(null);
     this.codeForm.reset();
     this.authService.error.set(null);
   }
@@ -74,6 +76,8 @@ export class LoginPageComponent {
   onSubmit(): void {
     if (this.form.valid && !this.authService.loading()) {
       const { email, password } = this.form.getRawValue();
+
+      this.loginError.set(null);
 
       this.authService
         .login({
@@ -91,11 +95,9 @@ export class LoginPageComponent {
             this.router.navigate([redirectPath]);
           },
           error: () => {
-            this.messageService.add({
-              severity: 'error',
+            this.loginError.set({
               summary: AUTH_SESSION_MESSAGES.loginError.summary,
               detail: this.authService.error() ?? AUTH_SESSION_MESSAGES.loginError.detail,
-              life: 5000,
             });
           },
         });

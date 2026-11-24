@@ -1,0 +1,139 @@
+<p-dialog
+  [visible]="true"
+  [modal]="true"
+  [closable]="true"
+  appendTo="body"
+  [style]="{ width: '44rem', maxHeight: '92vh' }"
+  [breakpoints]="{ '640px': '96vw' }"
+  (onHide)="close()"
+>
+  <ng-template pTemplate="header">
+    <app-dialog-header
+      icon="pi pi-warehouse"
+      title="sales.stockAssignment.title"
+      subtitle="sales.stockAssignment.subtitle"
+    />
+  </ng-template>
+
+  <div class="flex flex-col gap-4 pt-1">
+    @if (documentNumber()) {
+      <div class="flex items-center justify-between gap-3 text-sm">
+        <span class="font-semibold text-surface-900 dark:text-surface-0">
+          {{ documentNumber() }}
+        </span>
+        <span class="text-surface-500 dark:text-surface-400">
+          {{ 'sales.stockAssignment.instruction' | translate }}
+        </span>
+      </div>
+    }
+
+    @if (loading()) {
+      <div class="py-10 flex justify-center">
+        <i class="pi pi-spin pi-spinner text-3xl text-primary"></i>
+      </div>
+    } @else if (error()) {
+      <div
+        class="rounded-lg border border-red-200 bg-red-50 px-4 py-4 text-sm text-red-700 dark:border-red-900 dark:bg-red-950/40 dark:text-red-300"
+      >
+        {{ error() | translate }}
+      </div>
+    } @else {
+      <div class="flex max-h-[60vh] flex-col gap-3 overflow-y-auto pr-1">
+        @for (line of lines(); track line.productId; let li = $index) {
+          <div
+            class="rounded-xl border border-surface-200 bg-surface-50 p-4 dark:border-surface-700 dark:bg-surface-900"
+          >
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="min-w-0">
+                <p class="truncate text-sm font-semibold text-surface-900 dark:text-surface-0">
+                  {{ line.productCode }} — {{ line.productName }}
+                </p>
+                <p class="text-xs text-surface-500 dark:text-surface-400">
+                  {{ 'sales.stockAssignment.requested' | translate }}:
+                  <strong>{{ line.quantity | localizedNumber: '1.0-3' }}</strong>
+                  · {{ 'sales.stockAssignment.assigned' | translate }}:
+                  <strong>{{ lineStates()[li].total | localizedNumber: '1.0-3' }}</strong>
+                </p>
+              </div>
+            </div>
+
+            @if (line.entries.length === 0) {
+              <p class="mt-3 text-sm text-red-600 dark:text-red-400">
+                {{ 'sales.stockAssignment.noStock' | translate }}
+              </p>
+            } @else {
+              <div class="mt-3 flex flex-col gap-2">
+                @for (entry of line.entries; track entry.warehouseId; let ei = $index) {
+                  <div
+                    class="flex items-center justify-between gap-4 rounded-lg border border-surface-200 bg-white px-3 py-2 dark:border-surface-700 dark:bg-surface-950"
+                  >
+                    <div class="min-w-0">
+                      <p
+                        class="truncate text-sm font-medium text-surface-800 dark:text-surface-200"
+                      >
+                        {{ entry.warehouseName }}
+                      </p>
+                      <p class="text-xs text-surface-500 dark:text-surface-400">
+                        {{ 'sales.stockAssignment.available' | translate }}:
+                        {{ entry.available | localizedNumber: '1.0-3' }}
+                        @if (entry.reserved > 0) {
+                          <span class="ml-1 text-amber-600 dark:text-amber-400">
+                            · {{ 'sales.orders.reserved' | translate }}:
+                            {{ entry.reserved | localizedNumber: '1.0-3' }}
+                          </span>
+                        }
+                      </p>
+                    </div>
+                    <p-inputNumber
+                      [ngModel]="entry.allocated"
+                      (ngModelChange)="updateAllocation(li, ei, $event)"
+                      [min]="0"
+                      [max]="entry.available"
+                      [maxFractionDigits]="3"
+                      [showButtons]="true"
+                      buttonLayout="horizontal"
+                      incrementButtonIcon="pi pi-plus"
+                      decrementButtonIcon="pi pi-minus"
+                      inputStyleClass="w-24 text-right text-sm font-mono"
+                    />
+                  </div>
+                }
+              </div>
+            }
+
+            @if (!lineStates()[li].matches) {
+              <p class="mt-3 text-xs text-red-600 dark:text-red-400">
+                {{ 'sales.stockAssignment.quantityMismatch' | translate }}
+              </p>
+            }
+            @if (lineStates()[li].overStock) {
+              <p class="mt-3 text-xs text-red-600 dark:text-red-400">
+                {{ 'sales.stockAssignment.overStock' | translate }}
+              </p>
+            }
+          </div>
+        }
+      </div>
+    }
+  </div>
+
+  <ng-template pTemplate="footer">
+    <div class="flex justify-end gap-2">
+      <p-button
+        type="button"
+        [label]="'shared.cancel' | translate"
+        severity="secondary"
+        [text]="true"
+        (onClick)="close()"
+      />
+      <p-button
+        type="button"
+        [label]="'shared.save' | translate"
+        icon="pi pi-check"
+        [loading]="saving()"
+        [disabled]="loading() || !!error() || !isValid() || saving()"
+        (onClick)="save()"
+      />
+    </div>
+  </ng-template>
+</p-dialog>

@@ -160,7 +160,7 @@ describe('OrderListPageComponent', () => {
     expect(component.searchTerm()).toBe('');
     expect(component.first()).toBe(0);
     expect(component.rows()).toBe(10);
-    expect(component.filterStatus()).toBe('DRAFT');
+    expect(component.filterStatus()).toBe('DRAFTS');
     expect(component.orderBy()).toBe('createdAt');
     expect(component.orderDir()).toBe('desc');
   });
@@ -191,8 +191,8 @@ describe('OrderListPageComponent', () => {
       expect(component.hasFilteredResults()).toBe(true);
     });
 
-    it('should not count the default DRAFT status as an active filter', () => {
-      component.filterStatus.set('DRAFT');
+    it('should not count the default DRAFTS status as an active filter', () => {
+      component.filterStatus.set('DRAFTS');
       expect(component.activeFilterCount()).toBe(0);
     });
 
@@ -265,7 +265,7 @@ describe('OrderListPageComponent', () => {
       fixture.detectChanges();
       component.filterStatus.set('CONFIRMED');
       component.clearFilters();
-      expect(component.filterStatus()).toBe('DRAFT');
+      expect(component.filterStatus()).toBe('DRAFTS');
       expect(component.first()).toBe(0);
     });
 
@@ -278,14 +278,14 @@ describe('OrderListPageComponent', () => {
     it('should not reload if same status', () => {
       fixture.detectChanges();
       const callCount = (mockService.loadAll as ReturnType<typeof vi.fn>).mock.calls.length;
-      component.onStatusFilterChange('DRAFT');
+      component.onStatusFilterChange('DRAFTS');
       expect((mockService.loadAll as ReturnType<typeof vi.fn>).mock.calls.length).toBe(callCount);
     });
 
-    it('should normalize null status to DRAFT', () => {
+    it('should normalize null status to ALL', () => {
       fixture.detectChanges();
       component.onStatusFilterChange(null);
-      expect(component.filterStatus()).toBe('DRAFT');
+      expect(component.filterStatus()).toBe('DRAFTS');
     });
   });
 
@@ -377,11 +377,11 @@ describe('OrderListPageComponent', () => {
   });
 
   describe('status options', () => {
-    it('should have status options including "Todos"', () => {
+    it('should have status options including drafts', () => {
       fixture.detectChanges();
       expect(component.statusOptions.length).toBeGreaterThan(0);
-      expect(component.statusOptions[0].label).toBe('Borrador');
-      expect(component.statusOptions[0].value).toBe('DRAFT');
+      expect(component.statusOptions[0].label).toBe('Borradores');
+      expect(component.statusOptions[0].value).toBe('DRAFTS');
     });
   });
 });

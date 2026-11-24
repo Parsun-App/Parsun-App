@@ -5,7 +5,7 @@ import { currentAccessFixture, allAccessModules } from './access.fixture';
 const image = readFileSync('e2e/fixtures/branding.png');
 const originalCompany = {
   id: 'installation',
-  legalName: 'Cashly',
+  legalName: 'Parsun',
   tradeName: null,
   taxId: null,
   email: null,
@@ -93,12 +93,12 @@ test('company information and uploaded logo update the navbar without reload loo
   await page.getByLabel('NIF / CIF', { exact: true }).fill('B12345678');
   await page.locator('input[type=file]').first().setInputFiles('e2e/fixtures/branding.png');
   await page.getByRole('button', { name: /Guardar cambios/ }).click();
-  await expect(page.locator('.cashly-brand img')).toHaveAttribute('src', /^blob:/);
-  await expect(page.locator('.cashly-brand')).toHaveAttribute('aria-label', 'Mi Empresa');
+  await expect(page.locator('.parsun-brand img')).toHaveAttribute('src', /^blob:/);
+  await expect(page.locator('.parsun-brand')).toHaveAttribute('aria-label', 'Mi Empresa');
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({ path: 'output/playwright/company/settings-desktop.png' });
   await page.reload();
-  await expect(page.locator('.cashly-brand img')).toHaveAttribute('src', /^blob:/);
+  await expect(page.locator('.parsun-brand img')).toHaveAttribute('src', /^blob:/);
   expect(logoReads).toBeLessThanOrEqual(6);
 });
 
@@ -106,8 +106,8 @@ test('mobile settings retain the shared panel and original logo fallback', async
   await page.setViewportSize({ width: 390, height: 844 });
   await setup(page);
   await page.goto('/platform/company/edit');
-  await expect(page.locator('.cashly-brand img')).toHaveAttribute('src', '/cashly-icon.svg');
-  await expect(page.locator('app-form-card .cashly-panel')).toBeVisible();
+  await expect(page.locator('.parsun-brand img')).toHaveAttribute('src', '/parsun-logo.png');
+  await expect(page.locator('app-form-card .parsun-panel')).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.screenshot({ path: 'output/playwright/company/settings-mobile.png', fullPage: true });
 });
@@ -156,7 +156,7 @@ test('country selection searches world countries, shows flags and preserves exis
   await expect.poll(() => savedCountry).toBe('Venezuela');
 });
 
-test('removing the company logo restores the current Cashly icon', async ({ page }) => {
+test('removing the company logo restores the current Parsun icon', async ({ page }) => {
   await setup(page);
   let company = { ...originalCompany, logoPath: 'company/old.png' as string | null };
   await page.route('**/api/company', (route) => route.fulfill({ json: company }));
@@ -167,10 +167,10 @@ test('removing the company logo restores the current Cashly icon', async ({ page
     return route.fulfill({ json: company });
   });
   await page.goto('/platform/company/edit');
-  await expect(page.locator('.cashly-brand img')).toHaveAttribute('src', /^blob:/);
+  await expect(page.locator('.parsun-brand img')).toHaveAttribute('src', /^blob:/);
   await page.getByRole('button', { name: 'Eliminar imagen', exact: true }).click();
   await page.getByRole('button', { name: /Guardar cambios/ }).click();
-  await expect(page.locator('.cashly-brand img')).toHaveAttribute('src', '/cashly-icon.svg');
+  await expect(page.locator('.parsun-brand img')).toHaveAttribute('src', '/parsun-logo.png');
 });
 
 test('country flags and search fit the mobile form', async ({ page }) => {
@@ -316,7 +316,7 @@ test('PDF document logo can be uploaded, previewed and removed independently of 
   await page.getByRole('button', { name: /Guardar cambios/ }).click();
   await expect.poll(() => company.pdfLogoPath).toBeNull();
   expect(company.logoPath).toBe('company/navbar.png');
-  await expect(page.locator('.cashly-brand img')).toHaveAttribute('src', /^blob:/);
+  await expect(page.locator('.parsun-brand img')).toHaveAttribute('src', /^blob:/);
 });
 
 test('PDF preview uses pending uploads before saving and closing releases its object URL', async ({
@@ -416,13 +416,11 @@ test('company accepts a PNG larger than 5 MB and sends a smaller image with pres
     return btoa(binary);
   });
   const pdfLogo = page.locator('app-file-input').filter({ hasText: 'Logotipo de documentos PDF' });
-  await pdfLogo
-    .locator('input[type=file]')
-    .setInputFiles({
-      name: 'large-logo.png',
-      mimeType: 'image/png',
-      buffer: Buffer.from(large, 'base64'),
-    });
+  await pdfLogo.locator('input[type=file]').setInputFiles({
+    name: 'large-logo.png',
+    mimeType: 'image/png',
+    buffer: Buffer.from(large, 'base64'),
+  });
   const preview = pdfLogo.getByAltText('Vista previa');
   await expect(preview).toBeVisible();
   await expect

@@ -362,16 +362,7 @@ export class ReceivablesPageComponent implements OnInit, OnDestroy {
         });
     } else if (this.paymentFormMode() === 'validation') {
       this.service
-        .createPayment({
-          customerId: customer.customerId,
-          status: 'PENDING',
-          amount: event.request.amount ?? 0,
-          paymentMethodId: event.request.paymentMethodId,
-          ...(event.request.referenceNumber
-            ? { referenceNumber: event.request.referenceNumber }
-            : {}),
-          paymentDate: event.request.paymentDate,
-        })
+        .createValidationPayment(customer.customerId, event.request)
         .pipe(
           finalize(() => this.paymentSubmitting.set(false)),
           takeUntil(this.destroy$),

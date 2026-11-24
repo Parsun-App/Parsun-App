@@ -1,5 +1,5 @@
 import { TranslatePipe } from '@core/i18n/translate.pipe';
-import { Component, OnInit, input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, input, ChangeDetectionStrategy, inject } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl } from '@angular/forms';
 import { ToggleSwitchModule } from 'primeng/toggleswitch';
 import { TextareaModule } from 'primeng/textarea';
@@ -11,6 +11,7 @@ import {
 } from '@core/forms/components';
 import { SUPPLIER_TYPES } from '@features/partners/suppliers/models/enums/supplier-type.enum';
 import { PAYMENT_TYPES } from '@features/partners/customers/models/enums/payment-type.enum';
+import { AuthorizationService } from '@features/platform/auth/authorization/services/authorization.service';
 
 @Component({
   selector: 'app-supplier-general-section',
@@ -34,6 +35,8 @@ export class SupplierGeneralSectionComponent implements OnInit {
 
   supplierTypes = [...SUPPLIER_TYPES];
   paymentTypes = [...PAYMENT_TYPES];
+
+  readonly canToggleActive = inject(AuthorizationService).canToggleActive;
 
   ngOnInit(): void {
     this.onPaymentTypeChange(this.paymentTypeControl().value);

@@ -134,18 +134,7 @@ export class ReceivablesActionDialogHostComponent {
       return;
     }
     if (mode === 'validation') {
-      this.sendPayment(
-        this.service.createPayment({
-          customerId: this.customerId(),
-          status: 'PENDING',
-          amount: event.request.amount ?? 0,
-          paymentMethodId: event.request.paymentMethodId,
-          ...(event.request.referenceNumber
-            ? { referenceNumber: event.request.referenceNumber }
-            : {}),
-          paymentDate: event.request.paymentDate,
-        }),
-      );
+      this.sendPayment(this.service.createValidationPayment(this.customerId(), event.request));
       return;
     }
     this.sendPayment(

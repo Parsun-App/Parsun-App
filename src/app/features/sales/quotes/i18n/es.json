@@ -64,5 +64,6 @@
   "sales.quotes.quotesReport": "Reporte de Presupuestos",
   "sales.quotes.createQuoteAction": "Crear Presupuesto",
   "sales.quotes.saveQuote": "Guardar Presupuesto",
-  "sales.quotes.editQuoteWithNumber": "Editar Presupuesto ${number}"
+  "sales.quotes.editQuoteWithNumber": "Editar Presupuesto ${number}",
+  "sales.quotes.customerDraftStockNotice": "Este presupuesto fue creado desde el portal del cliente. Asigna el stock por almacén en cada línea antes de convertirlo."
 }

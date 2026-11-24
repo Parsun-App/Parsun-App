@@ -3,6 +3,7 @@ import { TranslatePipe } from '@core/i18n/translate.pipe';
 import { Language } from '@core/i18n/language';
 import { UserPreferencesService } from '@core/preferences/user-preferences.service';
 import { AuthService } from '@features/platform/auth/services/application/auth-application.service';
+import { AuthorizationService } from '@features/platform/auth/authorization/services/authorization.service';
 import { BusinessModule } from '@features/platform/auth/user/models/enums/business-module.enum';
 import { computed } from '@angular/core';
 import { UserPhotoService } from '@features/platform/auth/services/api/user-photo.service';
@@ -80,6 +81,8 @@ export class UsersFormPageComponent extends BaseFormComponent<UserFormData> {
   private readonly photos = inject(UserPhotoService);
   private readonly auth = inject(AuthService);
   private readonly preferences = inject(UserPreferencesService);
+  private readonly authorization = inject(AuthorizationService);
+  readonly canToggleActive = this.authorization.canToggleActive;
   readonly languages = computed(() => [
     { label: 'shared.language.spanish', value: 'es' },
     { label: 'shared.language.english', value: 'en' },

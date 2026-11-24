@@ -2,7 +2,7 @@
   <div class="max-w-[1800px] mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
     <app-page-header
       [hero]="true"
-      kicker="finance.billing.creditnotes.cashlyManagement"
+      kicker="finance.billing.creditnotes.parsunManagement"
       title="finance.treasury.receivables.accountsReceivable"
       subtitle="finance.treasury.receivables.manageCustomerDebtAndPendingCollections"
     />
@@ -419,6 +419,7 @@
   [visible]="paymentFormVisible()"
   [mode]="paymentFormMode()"
   [invoice]="paymentInvoice()"
+  [customerId]="selectedCustomer()?.customerId ?? ''"
   [customerName]="paymentCustomerName()"
   [totalDebt]="paymentTotalDebt()"
   [customerBalance]="service.currentCustomer()?.customerBalance ?? 0"

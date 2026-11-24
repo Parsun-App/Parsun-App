@@ -272,7 +272,9 @@ export class ProductsListPageComponent implements OnInit {
       viewAction(() => this.onView(product)),
       editAction(() => this.onEdit(product)),
     ];
-    actions.push(deleteAction(() => this.onDelete(product)));
+    if (product.deletable) {
+      actions.push(deleteAction(() => this.onDelete(product)));
+    }
     actions.push(
       auditHistoryAction({
         entityType: 'PRODUCT',

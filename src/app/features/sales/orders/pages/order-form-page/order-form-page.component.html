@@ -9,6 +9,14 @@
         : ('sales.orders.completeTheOrderInformation' | translate)
     "
   />
+  @if (isCustomerDraft()) {
+    <div
+      class="mb-4 flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-200"
+    >
+      <i class="pi pi-info-circle mt-0.5"></i>
+      <span>{{ 'sales.orders.customerDraftStockNotice' | translate }}</span>
+    </div>
+  }
   <form [formGroup]="form" (ngSubmit)="submit()">
     <app-panel-card>
       <div class="p-4 md:p-6">

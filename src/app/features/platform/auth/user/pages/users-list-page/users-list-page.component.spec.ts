@@ -27,7 +27,7 @@ describe('UsersListPageComponent', () => {
     roleId: 'role-1',
     departmentId: 'department-1',
     id: '1',
-    email: 'test@cashly.com',
+    email: 'test@parsun.com',
     userName: 'Test User',
     role: UserType.OPERATOR,
     active: true,

@@ -22,6 +22,16 @@ import { RolePermission } from '@features/platform/auth/role/permissions';
 import { DepartmentPermission } from '@features/platform/auth/department/permissions';
 import { CompanyPermission } from '@features/platform/company/permissions';
 import { AuditPermission } from '@features/platform/audit/permissions';
+import { SystemPermission } from '@features/platform/auth/permissions/system.permissions';
+import {
+  PortalDashboardPermission,
+  PortalInvoicePermission,
+  PortalOrderPermission,
+  PortalPaymentPermission,
+  PortalProductPermission,
+  PortalProfilePermission,
+  PortalQuotePermission,
+} from '@features/platform/portal/permissions';
 
 export type AppPermission =
   | QuotePermission
@@ -47,4 +57,12 @@ export type AppPermission =
   | RolePermission
   | DepartmentPermission
   | CompanyPermission
-  | AuditPermission;
+  | AuditPermission
+  | SystemPermission
+  | PortalDashboardPermission
+  | PortalProductPermission
+  | PortalQuotePermission
+  | PortalOrderPermission
+  | PortalInvoicePermission
+  | PortalPaymentPermission
+  | PortalProfilePermission;

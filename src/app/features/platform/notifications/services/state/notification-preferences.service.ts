@@ -185,11 +185,11 @@ export class NotificationPreferencesService {
     if (!this.userId) return;
     try {
       localStorage.setItem(
-        `cashly:notification-preferences:v1:${this.userId}`,
+        `parsun:notification-preferences:v1:${this.userId}`,
         JSON.stringify(value),
       );
       localStorage.setItem(
-        `cashly:notification-preferences:v1:${this.userId}:at`,
+        `parsun:notification-preferences:v1:${this.userId}:at`,
         String(Date.now()),
       );
     } catch {}
@@ -198,7 +198,7 @@ export class NotificationPreferencesService {
   private readCache(userId: string): NotificationPreferences | null {
     try {
       const value: unknown = JSON.parse(
-        localStorage.getItem(`cashly:notification-preferences:v1:${userId}`) ?? 'null',
+        localStorage.getItem(`parsun:notification-preferences:v1:${userId}`) ?? 'null',
       );
       return validPreferences(value) ? value : null;
     } catch {
@@ -209,7 +209,7 @@ export class NotificationPreferencesService {
   private cacheIsFresh(userId: string): boolean {
     try {
       const savedAt = Number(
-        localStorage.getItem(`cashly:notification-preferences:v1:${userId}:at`),
+        localStorage.getItem(`parsun:notification-preferences:v1:${userId}:at`),
       );
       return savedAt > 0 && Date.now() - savedAt < NOTIFICATION_CACHE_TTL;
     } catch {

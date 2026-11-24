@@ -10,7 +10,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { PendingTabsService } from '@core/pending-tabs/pending-tabs.service';
 import { PendingTab } from '@core/pending-tabs/models';
 import { MODULE_LABELS } from '@core/pending-tabs/constants';
-import { fromEvent, interval, Subscription } from 'rxjs';
+import { alignPopoverToFixedTrigger } from '@shared/utils/popover-position.helper';
+import { interval, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-pending-tabs-dropdown',
@@ -60,14 +61,6 @@ export class PendingTabsDropdownComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.subscriptions.add(
-      fromEvent(window, 'scroll').subscribe(() => {
-        if (this.tabsMenu?.overlayVisible) {
-          this.tabsMenu.hide();
-        }
-      }),
-    );
-
     this.subscriptions.add(interval(30000).subscribe(() => this.now.set(Date.now())));
   }
 
@@ -78,6 +71,10 @@ export class PendingTabsDropdownComponent implements OnInit, OnDestroy {
   toggleTabsMenu(event: Event): void {
     this.now.set(Date.now());
     this.tabsMenu.toggle(event);
+  }
+
+  onMenuShow(): void {
+    alignPopoverToFixedTrigger(this.tabsMenu);
   }
 
   goToTab(tab: PendingTab): void {

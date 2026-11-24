@@ -16,10 +16,8 @@ export interface CashRegisterResponse {
   balance: number;
   revenueSummary: RevenueSummaryItem[];
   expenseSummary: ExpenseSummaryItem[];
-  openingBalance: number;
   totalIncome: number;
   totalExpense: number;
-  expectedBalance: number;
   declaredBalance: number | null;
   difference: number | null;
   movements: CashMovementResponse[];
@@ -78,11 +76,6 @@ export interface CloseRegisterRequest {
   closedByName: string;
   declaredBalance: number;
   closingNotes: string;
-}
-
-export interface OpenRegisterRequest {
-  openedByName: string;
-  openingBalance: number;
 }
 
 export type CashRegisterHistoryView = 'SIMPLE' | 'DETAILED';

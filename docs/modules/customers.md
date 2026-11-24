@@ -38,6 +38,7 @@ src/app/features/partners/customers/
 - Phone validation (Venezuelan phone format)
 - Billing address designation
 - Active/Inactive status management
+- Customer portal access with password reset
 
 ---
 
@@ -83,6 +84,15 @@ src/app/features/partners/customers/
 
 **Purpose**: Display complete customer information in read-only mode.
 
+### Customer Portal Access
+
+Customers can be granted access to the customer-facing portal. The access toggle is available in the create and edit form, and the list exposes a portal filter plus a portal status badge.
+
+- Initial portal password is the customer RIF.
+- `Cambiar contraseña` in the list and details actions updates the portal password.
+- Password rules: 8–100 characters with uppercase, lowercase, digit and special character.
+- API: `PUT /api/customers/:id/portal-password`.
+
 ### Balance Page
 
 **Route**: `/partners/customers/:id/balance`
@@ -127,6 +137,7 @@ export interface CustomerList {
   rif: string; // Tax ID (RIF)
   type: CustomerType; // Customer classification
   active: boolean; // Active status
+  portalAccess: boolean; // Customer portal access
 }
 ```
 

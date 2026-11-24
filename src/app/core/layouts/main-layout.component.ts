@@ -46,7 +46,7 @@ import { UserType } from '@features/platform/auth/models/interfaces/user.interfa
 import { PendingTabsDropdownComponent } from '@core/pending-tabs/components';
 import { NotificationBellComponent } from '@features/platform/notifications/components/notification-bell/notification-bell.component';
 import { NotificationPreferencesService } from '@features/platform/notifications/services/state/notification-preferences.service';
-import { fromEvent, Subscription, filter } from 'rxjs';
+import { Subscription, filter } from 'rxjs';
 import { ActionDialogHostComponent } from '@core/layouts/components/action-dialog-host/action-dialog-host.component';
 import { GlobalDialogHostComponent } from '@core/layouts/components/global-dialog-host/global-dialog-host.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -54,6 +54,7 @@ import { DeleteDialogComponent } from '@shared/components/delete-dialog/delete-d
 import { CancelDialogComponent } from '@shared/components/cancel-dialog/cancel-dialog.component';
 import { AuditTrailDialogHostComponent } from '@core/layouts/components/audit-trail-dialog-host/audit-trail-dialog-host.component';
 import { AuditTrailDialogService } from '@shared/services/audit-trail-dialog.service';
+import { alignPopoverToFixedTrigger } from '@shared/utils/popover-position.helper';
 export type ContentMaxWidth =
   | 'sm'
   | 'md'
@@ -122,20 +123,19 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   private readonly supplierPicker = inject(SupplierPickerActionService);
   private readonly auditTrailDialog = inject(AuditTrailDialogService);
   readonly activeModule = signal(moduleGroupFromUrl(this.router.url));
-  private scrollSubscription?: Subscription;
   private routerSubscription?: Subscription;
 
   maxWidth = input<ContentMaxWidth>('7xl');
 
   currentUser = this.authService.currentUser;
 
-  logoSrc = '/cashly-logo.svg';
+  logoSrc = '/parsun-logo.png';
   readonly companyService = inject(CompanyService);
   readonly companyName = computed(
     () =>
       this.companyService.company()?.tradeName ||
       this.companyService.company()?.legalName ||
-      'Cashly',
+      'Parsun',
   );
   private readonly brandingUserId = computed(() => this.currentUser()?.id);
   constructor() {
@@ -187,11 +187,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     if (this.authService.isAuthenticated())
       this.authService.ensureAccess().subscribe({ error: () => undefined });
     this.checkScreenSize();
-    this.scrollSubscription = fromEvent(window, 'scroll').subscribe(() => {
-      if (this.userMenu?.overlayVisible) {
-        this.userMenu.hide();
-      }
-    });
 
     this.routerSubscription = this.router.events
       .pipe(filter((event) => event instanceof NavigationStart))
@@ -202,7 +197,6 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.scrollSubscription?.unsubscribe();
     this.routerSubscription?.unsubscribe();
   }
 
@@ -286,7 +280,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     group: ModuleGroup = this.menuGroup(item),
   ): PrimeMenuItem {
     const primeItem: PrimeMenuItem = {
-      styleClass: `cashly-module-${group}`,
+      styleClass: `parsun-module-${group}`,
       label: this.translations.t(item.label),
       icon: item.icon,
       routerLink: item.routerLink,
@@ -307,6 +301,10 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     if (this.userMenu) {
       this.userMenu.toggle(event);
     }
+  }
+
+  onUserMenuShow(): void {
+    alignPopoverToFixedTrigger(this.userMenu);
   }
 
   goToDashboard(): void {
@@ -355,7 +353,7 @@ export class MainLayoutComponent implements OnInit, OnDestroy {
     group: ModuleGroup = this.menuGroup(item),
   ): PrimeMenuItem {
     const primeItem: PrimeMenuItem = {
-      styleClass: `cashly-module-${group}`,
+      styleClass: `parsun-module-${group}`,
       label: this.translations.t(item.label),
       icon: item.icon,
       visible: item.visible ?? true,

@@ -102,27 +102,17 @@
             >
               {{ 'finance.billing.invoices.status' | translate }}
             </th>
-            <th
-              class="w-32 px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wide text-surface-0 dark:text-surface-900"
-            >
-              {{ 'finance.treasury.cashregister.opening' | translate }}
-            </th>
-            <th
-              class="w-32 px-4 py-2.5 text-right text-xs font-semibold uppercase tracking-wide text-surface-0 dark:text-surface-900"
-            >
-              {{ 'finance.treasury.cashregister.expected' | translate }}
-            </th>
           </tr>
         </thead>
         <tbody>
           @if (loading()) {
             @for (i of [1, 2, 3, 4, 5]; track i) {
-              <tr app-table-row-skeleton [columns]="5"></tr>
+              <tr app-table-row-skeleton [columns]="3"></tr>
             }
           } @else if (filteredSessions().length === 0) {
             <tr>
               <td
-                colspan="5"
+                colspan="3"
                 class="px-4 py-10 text-center text-sm text-surface-400 dark:text-surface-500"
               >
                 <i class="pi pi-search mb-2 block text-2xl"></i>
@@ -167,12 +157,6 @@
                     [label]="getStatusLabel(register.status) | translate"
                     [severity]="getStatusSeverity(register.status)"
                   />
-                </td>
-                <td class="px-4 py-3 text-right font-medium text-surface-900 dark:text-surface-0">
-                  {{ register.openingBalance | localizedCurrency: 'USD' : 'symbol' : '1.2-2' }}
-                </td>
-                <td class="px-4 py-3 text-right font-medium text-surface-900 dark:text-surface-0">
-                  {{ register.expectedBalance | localizedCurrency: 'USD' : 'symbol' : '1.2-2' }}
                 </td>
               </tr>
             }
@@ -228,9 +212,6 @@
                 } @else {
                   {{ register.openedByName }}
                 }
-              </span>
-              <span class="text-xs font-medium text-surface-600 dark:text-surface-300">
-                {{ register.expectedBalance | localizedCurrency: 'USD' : 'symbol' : '1.2-2' }}
               </span>
             </div>
           </div>

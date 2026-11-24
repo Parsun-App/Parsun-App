@@ -56,10 +56,8 @@ function createRegister(overrides: Partial<CashRegisterResponse> = {}): CashRegi
     balance: 100,
     revenueSummary: [],
     expenseSummary: [],
-    openingBalance: 100,
     totalIncome: 50,
     totalExpense: 0,
-    expectedBalance: 150,
     declaredBalance: null,
     difference: null,
     movements: [

@@ -199,6 +199,7 @@ export class DepartmentsPageComponent {
   private readonly messages = inject(MessageService);
   private readonly confirmation = inject(ConfirmationService);
   readonly authorization = inject(AuthorizationService);
+  readonly canToggleActive = this.authorization.canToggleActive;
   readonly module = BusinessModule.DEPARTMENTS;
   readonly items = signal<Department[]>([]);
   readonly editing = signal<Partial<Department> | null>(null);

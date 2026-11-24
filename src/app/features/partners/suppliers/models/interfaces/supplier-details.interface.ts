@@ -33,6 +33,7 @@ export interface SupplierDetails {
   creditDays: number;
   creditLimit: number;
   active: boolean;
+  deletable?: boolean;
   createdAt: string;
   emails: SupplierEmail[];
   phones: SupplierPhone[];

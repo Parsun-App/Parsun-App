@@ -160,7 +160,7 @@ test('enrollment confirms authenticator before showing recovery codes and ending
     route.fulfill({
       json: {
         secret: 'JBSWY3DPEHPK3PXP',
-        otpauthUri: 'otpauth://totp/Cashly:mfa%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=Cashly',
+        otpauthUri: 'otpauth://totp/Parsun:mfa%40example.com?secret=JBSWY3DPEHPK3PXP&issuer=Parsun',
         expiresIn: 600,
       },
     }),
@@ -172,7 +172,7 @@ test('enrollment confirms authenticator before showing recovery codes and ending
   await page.getByLabel('Confirma tu contraseña actual').fill('ValidPassword1!');
   await page.getByRole('button', { name: 'Configurar autenticador', exact: true }).click();
   await expect(
-    page.getByRole('img', { name: 'QR para configurar el autenticador de Cashly' }),
+    page.getByRole('img', { name: 'QR para configurar el autenticador de Parsun' }),
   ).toBeVisible();
   await page.screenshot({ path: 'output/playwright/mfa/setup-desktop.png', fullPage: true });
   await page.getByLabel('Código de seis dígitos').fill('123456');
@@ -224,7 +224,7 @@ test('login entry motion preserves the form and transitions into MFA on mobile',
   await loginChallenge(page);
   const form = page.locator('form').filter({ has: page.getByLabel('Código de verificación o recuperación') });
   await expect(form).toBeVisible();
-  await expect.poll(() => form.evaluate(element => getComputedStyle(element).animationName)).toBe('cashly-login-enter');
+  await expect.poll(() => form.evaluate(element => getComputedStyle(element).animationName)).toBe('parsun-login-enter');
   await expect(page.getByLabel('Código de verificación o recuperación')).toBeEditable();
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   await page.getByRole('button', { name: 'Volver al inicio de sesión' }).click();

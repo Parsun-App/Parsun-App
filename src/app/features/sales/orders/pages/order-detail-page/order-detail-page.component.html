@@ -10,6 +10,15 @@
           [subtitle]="'sales.orders.completeOrderInformation' | translate"
         />
 
+        @if (currentOrder.status === OrderStatus.CUSTOMER_DRAFT) {
+          <div
+            class="flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 px-4 py-3 text-sm text-blue-800 dark:border-blue-900 dark:bg-blue-950/40 dark:text-blue-200"
+          >
+            <i class="pi pi-info-circle mt-0.5"></i>
+            <span>{{ 'sales.orders.customerDraftStockNotice' | translate }}</span>
+          </div>
+        }
+
         <app-panel-card>
           <app-details-card-header
             [title]="('finance.billing.invoices.order2' | translate) + currentOrder.orderNumber"
@@ -36,7 +45,20 @@
                   (onClick)="actionsMenu.hide(); onDownloadPdf()"
                   styleClass="w-full justify-start text-left text-sm"
                 />
-                @if (currentOrder.status === OrderStatus.DRAFT) {
+                @if (
+                  currentOrder.status === OrderStatus.DRAFT ||
+                  currentOrder.status === OrderStatus.CUSTOMER_DRAFT
+                ) {
+                  @if (currentOrder.status === OrderStatus.CUSTOMER_DRAFT) {
+                    <p-button
+                      [appPermission]="'UPDATE'"
+                      [label]="'Asignar stock'"
+                      icon="pi pi-warehouse"
+                      [link]="true"
+                      (onClick)="actionsMenu.hide(); onAssignStock()"
+                      styleClass="w-full justify-start text-left text-sm"
+                    />
+                  }
                   <p-button
                     [appPermission]="'UPDATE'"
                     [label]="'finance.billing.invoices.edit' | translate"
@@ -47,6 +69,9 @@
                   />
                   <p-button
                     [appPermission]="'CONFIRM'"
+                    [disabled]="
+                      currentOrder.status === OrderStatus.CUSTOMER_DRAFT && !stockAssigned()
+                    "
                     [label]="'sales.orders.confirmOrder' | translate"
                     icon="pi pi-check"
                     [link]="true"
@@ -103,6 +128,18 @@
                   [variant]="getStatusVariant(currentOrder.status)"
                 />
               </app-details-info-field>
+              @if (currentOrder.status === OrderStatus.CUSTOMER_DRAFT) {
+                <app-details-info-field
+                  [label]="'sales.stockAssignment.statusLabel' | translate"
+                  type="badge"
+                >
+                  <app-status-badge
+                    [active]="stockAssigned()"
+                    activeLabel="Asignado"
+                    inactiveLabel="Pendiente"
+                  />
+                </app-details-info-field>
+              }
               <app-details-info-field
                 [label]="'shared.customer' | translate"
                 [value]="currentOrder.customerAlias"
@@ -186,7 +223,7 @@
               </div>
             </div>
             <div class="hidden md:block overflow-x-auto">
-              <p-table [value]="currentOrder.items" styleClass="p-datatable-sm cashly-detail-lines">
+              <p-table [value]="currentOrder.items" styleClass="p-datatable-sm parsun-detail-lines">
                 <ng-template pTemplate="header">
                   <tr>
                     <th>{{ 'finance.billing.returns.product' | translate }}</th>

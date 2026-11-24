@@ -28,7 +28,7 @@ ENV PATH="/root/.bun/bin:${PATH}"
 
 RUN bun add -g serve
 
-COPY --from=builder /app/dist/cashly-app/browser ./dist
+COPY --from=builder /app/dist/parsun-app/browser ./dist
 
 EXPOSE 8080
 

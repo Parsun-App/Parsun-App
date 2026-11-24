@@ -233,7 +233,9 @@ export class WarehousesListPageComponent implements OnInit {
       viewAction(() => this.onView(warehouse)),
       editAction(() => this.onEdit(warehouse)),
     ];
-    actions.push(deleteAction(() => this.onDelete(warehouse)));
+    if (warehouse.deletable) {
+      actions.push(deleteAction(() => this.onDelete(warehouse)));
+    }
     actions.push(
       auditHistoryAction({
         entityType: 'WAREHOUSE',

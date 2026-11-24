@@ -22,14 +22,18 @@ describe('QuoteStatus', () => {
     expect(QuoteStatus.CANCELLED).toBe('CANCELLED');
   });
 
-  it('should have 4 values', () => {
-    expect(Object.keys(QuoteStatus).filter((k) => isNaN(Number(k)))).toHaveLength(4);
+  it('should have 5 values', () => {
+    expect(Object.keys(QuoteStatus).filter((k) => isNaN(Number(k)))).toHaveLength(5);
   });
 });
 
 describe('QUOTE_STATUS_LABELS', () => {
   it('should have label for DRAFT', () => {
     expect(QUOTE_STATUS_LABELS[QuoteStatus.DRAFT]).toBe('Borrador');
+  });
+
+  it('should have label for CUSTOMER_DRAFT', () => {
+    expect(QUOTE_STATUS_LABELS[QuoteStatus.CUSTOMER_DRAFT]).toBe('Borrador de Cliente');
   });
 
   it('should have label for CONVERTED_TO_ORDER', () => {

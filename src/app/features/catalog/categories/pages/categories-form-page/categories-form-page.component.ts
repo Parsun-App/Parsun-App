@@ -14,6 +14,7 @@ import {
   FormActionsComponent,
 } from '@core/forms/components';
 import { CategoryApplicationService } from '@features/catalog/categories/services/application/category-application.service';
+import { AuthorizationService } from '@features/platform/auth/authorization/services/authorization.service';
 import { BaseFormComponent, FormConfig } from '@core/forms/base/base-form.component';
 
 interface CategoryFormData {
@@ -45,6 +46,9 @@ export class CategoriesFormPageComponent extends BaseFormComponent<CategoryFormD
   private readonly translations = inject(TranslationService);
   private service = inject(CategoryApplicationService);
   private messageService = inject(MessageService);
+  private readonly authorization = inject(AuthorizationService);
+
+  readonly canToggleActive = this.authorization.canToggleActive;
 
   loading = this.service.loading;
 

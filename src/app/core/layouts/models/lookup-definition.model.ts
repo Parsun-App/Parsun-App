@@ -22,6 +22,7 @@ export interface LookupFilterSources {
   categories: readonly LookupFilterOption[];
   registers: readonly LookupFilterOption[];
   roles: readonly LookupFilterOption[];
+  actionLabel?: string;
 }
 
 export interface LookupQuery {

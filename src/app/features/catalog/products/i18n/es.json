@@ -63,6 +63,7 @@
   "catalog.products.requiredQuantity": "Cantidad Requerida",
   "catalog.products.service": "Servicio",
   "catalog.products.productCatalog": "Catálogo de Productos",
+  "catalog.products.productsReport": "Reporte de Productos",
   "catalog.products.search": "Búsqueda",
   "catalog.products.activeOnly": "Solo activos",
   "catalog.products.inactiveOnly": "Solo inactivos",

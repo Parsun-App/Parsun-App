@@ -25,7 +25,7 @@
 
 - **Severity**: CRITICAL
 - **URL**: `/returns`
-- **Prerequisites**: Logged in with MODULE_SALES (admin@cashly.com)
+- **Prerequisites**: Logged in with MODULE_SALES (admin@parsun.com)
 - **Steps**:
   1. Navigate to `/returns`
   2. Wait for page to load
@@ -232,5 +232,5 @@
 #### RET-028 — OPERATOR can create returns
 
 - **Severity**: HIGH
-- **Prerequisites**: operator@cashly.com
+- **Prerequisites**: operator@parsun.com
 - **Expected**: Can create and view returns.

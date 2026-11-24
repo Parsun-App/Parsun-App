@@ -49,8 +49,35 @@ describe('DeleteDialogService', () => {
     );
   });
 
+  it('shows the friendly conflict message when deletion is blocked by connections', () => {
+    const handler = {
+      resource: 'customers',
+      execute: vi.fn(() =>
+        throwError(() => ({
+          status: 409,
+          error: {
+            error: 'El cliente tiene registros asociados',
+            message: 'Customer customer-1 has associated records and cannot be deleted',
+          },
+        })),
+      ),
+    };
+    const { service } = create([handler]);
+    service.open('customers', 'customer-1', 'Acme');
+    service.confirm();
+    expect(messages.add).toHaveBeenCalledWith(
+      expect.objectContaining({
+        severity: 'error',
+        detail: 'El cliente tiene registros asociados',
+      }),
+    );
+  });
+
   it('keeps the request open when deletion fails', () => {
-    const handler = { resource: 'customers', execute: vi.fn(() => throwError(() => new Error('fail'))) };
+    const handler = {
+      resource: 'customers',
+      execute: vi.fn(() => throwError(() => new Error('fail'))),
+    };
     const { service } = create([handler]);
     service.open('customers', 'customer-1', 'Acme');
     service.confirm();

@@ -24,6 +24,7 @@ import { EmptyStateComponent } from '@shared/components/ui/empty-state/empty-sta
 import { LoadingSpinnerComponent } from '@shared/components/ui/loading-spinner/loading-spinner.component';
 import { PageHeaderComponent } from '@shared/components/ui/page-header/page-header.component';
 import { TextBadgeComponent } from '@shared/components/ui/text-badge/text-badge.component';
+import { StatusBadgeComponent } from '@shared/components/ui/status-badge/status-badge.component';
 import { QuoteApplicationService } from '@features/sales/quotes/services/application/quote-application.service';
 import {
   QuoteStatus,
@@ -36,11 +37,12 @@ import { CodeBadgeComponent } from '@shared/components/ui/code-badge/code-badge.
 import { ConvertToOrderDialogComponent } from '@features/sales/quotes/components/convert-to-order-dialog/convert-to-order-dialog.component';
 import { ConvertToInvoiceDialogComponent } from '@features/sales/quotes/components/convert-to-invoice-dialog/convert-to-invoice-dialog.component';
 import { DeleteDialogService } from '@shared/services/delete-dialog.service';
+import { ActionDialogService } from '@shared/services/action-dialog.service';
 import { CancelDialogService } from '@shared/services/cancel-dialog.service';
 import { PdfViewerService } from '@core/pdf-viewer';
 import { ConvertToInvoiceRequest } from '@features/sales/quotes/services/api/quote-api.service';
 import { QuoteList } from '@features/sales/quotes/models/interfaces/quote-list.interface';
-import { computed, signal } from '@angular/core';
+import { computed, effect, signal, untracked } from '@angular/core';
 @Component({
   selector: 'app-quote-detail-page',
   standalone: true,
@@ -64,6 +66,7 @@ import { computed, signal } from '@angular/core';
     LoadingSpinnerComponent,
     PageHeaderComponent,
     TextBadgeComponent,
+    StatusBadgeComponent,
     ConvertToOrderDialogComponent,
     ConvertToInvoiceDialogComponent,
   ],
@@ -76,11 +79,35 @@ export class QuoteDetailPageComponent implements OnInit {
   private readonly quoteService = inject(QuoteApplicationService);
   private readonly messageService = inject(MessageService);
   private readonly deletion = inject(DeleteDialogService);
+  private readonly actionDialogs = inject(ActionDialogService);
   private readonly cancellation = inject(CancelDialogService);
   private readonly pdfViewerService = inject(PdfViewerService);
 
+  constructor() {
+    effect(() => {
+      const completion = this.actionDialogs.completion();
+      if (completion?.resource !== 'quotes') return;
+      untracked(() => this.quoteService.loadById(completion.recordId).subscribe());
+    });
+  }
+
   readonly quote = this.quoteService.currentQuote;
   readonly loading = this.quoteService.loading;
+
+  readonly stockAssigned = computed(() => {
+    const quote = this.quote();
+    return (
+      !!quote &&
+      quote.lines.length > 0 &&
+      quote.lines.every((line) => {
+        const total = line.allocations.reduce(
+          (sum, allocation) => sum + allocation.allocatedQuantity,
+          0,
+        );
+        return line.allocations.length > 0 && Math.abs(total - line.quantity) < 0.000001;
+      })
+    );
+  });
 
   readonly QuoteStatus = QuoteStatus;
   readonly orderDialogVisible = signal(false);
@@ -198,6 +225,12 @@ export class QuoteDetailPageComponent implements OnInit {
 
   onBack(): void {
     this.navigationHistory.back(['/sales/quotes']);
+  }
+
+  onAssignStock(): void {
+    const id = this.quote()?.id;
+    if (!id) return;
+    this.actionDialogs.open('quotes', 'Asignar stock', id);
   }
 
   onEdit(): void {

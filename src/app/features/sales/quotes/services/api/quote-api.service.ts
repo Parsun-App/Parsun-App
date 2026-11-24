@@ -65,6 +65,7 @@ interface QuoteListApiResponse {
   createdBy: string | null;
   createdByName: string | null;
   createdAt: string;
+  stockAssigned: boolean;
 }
 
 interface QuoteDetailApiResponse {
@@ -155,6 +156,7 @@ export class QuoteApiService {
       createdBy: r.createdBy ?? null,
       createdByName: r.createdByName ?? null,
       createdAt: r.createdAt,
+      stockAssigned: r.stockAssigned ?? false,
     };
   }
 

@@ -1,6 +1,6 @@
-# Cashly App
+# Parsun App
 
-Cashly App is the private Angular single-page application for internal business operations. It provides the back-office interface for managing customers, catalog data, inventory, sales, billing, payments, purchasing, cash registers, reports, and user access. The repository exists to implement the operational UI and consume the contracts exposed by `cashly-api`.
+Parsun App is the private Angular single-page application for internal business operations. It provides the back-office interface for managing customers, catalog data, inventory, sales, billing, payments, purchasing, cash registers, reports, and user access. The repository exists to implement the operational UI and consume the contracts exposed by `parsun-api`.
 
 ## Scope and modules
 

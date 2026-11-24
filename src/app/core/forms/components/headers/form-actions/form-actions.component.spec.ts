@@ -13,12 +13,13 @@ import { EMPTY } from 'rxjs';
   imports: [ReactiveFormsModule, FormActionsComponent],
   template: `
     <form [formGroup]="form">
-      <app-form-actions [disabled]="false" />
+      <app-form-actions [disabled]="false" [trackChanges]="trackChanges" />
     </form>
   `,
 })
 class FormActionsHostComponent {
   readonly form = new FormGroup({ name: new FormControl('') });
+  trackChanges = true;
 }
 
 const routerMock = { url: '/test', events: EMPTY };
@@ -152,6 +153,18 @@ describe('FormActionsComponent', () => {
 
     hostFixture.componentInstance.form.markAsDirty();
     hostFixture.componentInstance.form.get('name')?.setValue('edited');
+    expect(actions.submitDisabled()).toBe(false);
+  });
+
+  it('should keep submit enabled on edit routes when change tracking is disabled', () => {
+    routerMock.url = '/test/edit';
+    const hostFixture = TestBed.createComponent(FormActionsHostComponent);
+    hostFixture.componentInstance.trackChanges = false;
+    hostFixture.detectChanges();
+
+    const actions = hostFixture.debugElement.query(By.directive(FormActionsComponent))
+      .componentInstance as FormActionsComponent;
+
     expect(actions.submitDisabled()).toBe(false);
   });
 

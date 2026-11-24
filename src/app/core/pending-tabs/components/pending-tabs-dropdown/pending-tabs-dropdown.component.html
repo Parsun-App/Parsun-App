@@ -5,22 +5,30 @@
   [pTooltip]="'core.pendingtabs.pendingTabs' | translate"
   tooltipPosition="bottom"
 >
-  <i class="pi pi-file-edit text-xl text-surface-700 dark:text-surface-300"></i>
+  <i class="pending-tabs-icon pi pi-file-edit text-xl text-surface-700 dark:text-surface-300"></i>
   @if (pendingTabsCount() > 0) {
     <span
-      class="absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full"
+      class="pending-tabs-badge absolute -top-1 -right-1 flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-red-500 rounded-full"
     >
       {{ pendingTabsCount() }}
     </span>
   }
 </button>
 
-<p-popover #tabsMenu [style]="{ width: '400px' }" [appendTo]="'body'">
+<p-popover
+  #tabsMenu
+  appendTo="self"
+  [style]="{ width: 'min(400px, calc(100vw - 2rem))' }"
+  (onShow)="onMenuShow()"
+>
   <div class="flex flex-col">
+    <div class="pending-tabs-brand-bar"></div>
     <div
       class="flex items-center justify-between p-4 border-b border-surface-200 dark:border-surface-700"
     >
-      <h3 class="text-lg font-semibold text-surface-900 dark:text-surface-100 m-0">
+      <h3
+        class="pending-tabs-title text-lg font-semibold text-surface-900 dark:text-surface-100 m-0"
+      >
         {{ 'core.pendingtabs.pendingTabs' | translate }}
       </h3>
       @if (tabs().length > 0) {
@@ -47,7 +55,7 @@
       <div class="flex flex-col max-h-96 overflow-y-auto">
         @for (tab of tabsWithTime(); track tab.id) {
           <div
-            class="flex items-center gap-3 p-4 border-b border-surface-100 dark:border-surface-800 hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors"
+            class="pending-tab-item flex items-center gap-3 p-4 border-b border-surface-100 dark:border-surface-800 hover:bg-surface-50 dark:hover:bg-surface-800 transition-colors"
           >
             <div
               (click)="goToTab(tab)"

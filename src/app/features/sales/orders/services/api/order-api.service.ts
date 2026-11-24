@@ -62,6 +62,7 @@ interface OrderListApiResponse {
   lineCount: number;
   invoiceId: string | null;
   createdAt: string;
+  stockAssigned: boolean;
 }
 
 interface OrderDetailApiResponse {
@@ -146,6 +147,7 @@ export class OrderApiService {
       status: r.status as OrderStatus,
       totalAmount: r.subtotal,
       createdAt: r.createdAt,
+      stockAssigned: r.stockAssigned ?? false,
     };
   }
 

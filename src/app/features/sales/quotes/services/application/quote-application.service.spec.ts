@@ -41,20 +41,18 @@ describe('QuoteApplicationService', () => {
 
   beforeEach(() => {
     mockApi = {
-      getAll: vi
-        .fn()
-        .mockReturnValue(
-          of({
-            content: mockList,
-            totalElements: mockList.length,
-            totalPages: 1,
-            size: 10,
-            number: 0,
-            first: true,
-            last: true,
-            empty: false,
-          }),
-        ),
+      getAll: vi.fn().mockReturnValue(
+        of({
+          content: mockList,
+          totalElements: mockList.length,
+          totalPages: 1,
+          size: 10,
+          number: 0,
+          first: true,
+          last: true,
+          empty: false,
+        }),
+      ),
       getById: vi.fn().mockReturnValue(of(mockQuote)),
       create: vi.fn().mockReturnValue(of(mockQuote)),
       update: vi.fn().mockReturnValue(of(mockQuote)),

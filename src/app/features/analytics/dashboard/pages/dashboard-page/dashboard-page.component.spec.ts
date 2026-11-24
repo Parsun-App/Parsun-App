@@ -151,7 +151,7 @@ describe('Dashboard chart theme', () => {
     const component = createComponent();
     component.ngOnInit();
     colorMode.set('informative');
-    expect(component.salesChartData().datasets[0].backgroundColor).toBe('#1d4ed8');
+    expect(component.salesChartData().datasets[0].backgroundColor).toBe('#1e40af');
     const products = component.productsChartData().datasets[0];
     expect(new Set(products.backgroundColor as string[]).size).toBe(2);
     expect(products.data).toEqual([100, 200]);

@@ -47,10 +47,9 @@ describe('CashRegisterCloseDialogComponent', () => {
 
     expect(component.closeForm.getRawValue()).toEqual({
       closedByName: 'Cajero',
-      declaredBalance: 250,
+      declaredBalance: 0,
       closingNotes: '',
     });
-    expect(component.expectedBalance()).toBe(250);
   });
 
   it('closes the register through the application service and closes the dialog', () => {
@@ -62,7 +61,7 @@ describe('CashRegisterCloseDialogComponent', () => {
 
     expect(service.closeRegister).toHaveBeenCalledWith('cash-1', {
       closedByName: 'Cajero',
-      declaredBalance: 250,
+      declaredBalance: 0,
       closingNotes: 'Sin novedades',
     });
     expect(component.visible()).toBe(false);
@@ -99,10 +98,8 @@ function createClosure(): CashRegisterResponse {
     balance: 250,
     revenueSummary: [],
     expenseSummary: [],
-    openingBalance: 250,
     totalIncome: 0,
     totalExpense: 0,
-    expectedBalance: 250,
     declaredBalance: null,
     difference: null,
     movements: [],

@@ -29,9 +29,8 @@ import { DatePickerModule } from 'primeng/datepicker';
 import { SelectModule } from 'primeng/select';
 import { InputTextModule } from 'primeng/inputtext';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { forkJoin, of } from 'rxjs';
+import { of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { ReceivablesApplicationService } from '@features/finance/treasury/receivables/services/application/receivables-application.service';
 import { PaymentMethodApiService } from '@features/finance/treasury/payment-methods/services/api/payment-method-api.service';
 import { CustomerInvoiceDebt } from '@features/finance/treasury/receivables/models/interfaces/customer-invoice-debt.interface';
 import { PayInvoiceRequest } from '@features/finance/treasury/receivables/models/interfaces/payment-request.interface';
@@ -86,11 +85,11 @@ export class PaymentFormDialogComponent implements OnInit {
 
   private fb = inject(FormBuilder);
   private paymentMethodApi = inject(PaymentMethodApiService);
-  protected receivablesService = inject(ReceivablesApplicationService);
 
   readonly visible = input.required<boolean>();
   readonly mode = input.required<PaymentFormMode>();
   readonly invoice = input<CustomerInvoiceDebt | null>(null);
+  readonly customerId = input<string>('');
   readonly customerName = input<string>('');
   readonly totalDebt = input<number>(0);
   readonly customerBalance = input<number>(0);
@@ -189,9 +188,14 @@ export class PaymentFormDialogComponent implements OnInit {
       untracked(() => this.loadPaymentMethods());
       if (this.form) {
         const currentMode = this.mode();
+        const referenceCtrl = this.form.get('referenceNumber');
+        referenceCtrl?.setValidators(
+          currentMode === 'validation'
+            ? [Validators.maxLength(100)]
+            : [Validators.required, Validators.maxLength(100)],
+        );
+        referenceCtrl?.updateValueAndValidity({ emitEvent: false });
         const inv = this.invoice();
-        const balance = this.customerBalance();
-        const total = currentMode === 'single' ? inv?.balance || 0 : this.totalDebt();
         const defaultAmount =
           currentMode === 'single'
             ? inv?.balance || 0
@@ -306,7 +310,9 @@ export class PaymentFormDialogComponent implements OnInit {
         request.amount = this.useBalance() ? totalBeforeBalance : formValue.amount;
       }
 
-      this.submit.emit({ request });
+      this.submit.emit({
+        request,
+      });
     }
   }
 
@@ -340,7 +346,12 @@ export class PaymentFormDialogComponent implements OnInit {
       amount: [defaultAmount, [Validators.required, Validators.min(0.01)]],
       paymentDate: [today, [Validators.required]],
       paymentMethodId: ['', Validators.required],
-      referenceNumber: ['', [Validators.required, Validators.maxLength(100)]],
+      referenceNumber: [
+        '',
+        this.mode() === 'validation'
+          ? [Validators.maxLength(100)]
+          : [Validators.required, Validators.maxLength(100)],
+      ],
     });
 
     if (this.mode() === 'all') {

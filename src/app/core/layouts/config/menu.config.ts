@@ -50,11 +50,9 @@ function groupInvoiceDocuments(items: MenuItem[]): MenuItem[] {
       icon: 'pi pi-file',
       allowedRoles: documents[0].allowedRoles,
       children: documents.map((document) => ({
+        ...document,
         label: document.label,
         icon: document.icon,
-        routerLink: menuRoute(document),
-        allowedRoles: document.allowedRoles,
-        requiredModule: document.requiredModule,
       })),
     };
     remaining.splice(Math.min(Math.max(invoicesIndex, 0), remaining.length), 0, folder);
@@ -97,7 +95,7 @@ export function buildMenuItems(callbacks: MenuCallbacks): MenuItem[] {
           'Reporte de Presupuestos PDF': 'REPORT_QUOTES',
           'Reporte de Pedidos PDF': 'REPORT_ORDERS',
           'Reporte de Compras PDF': 'REPORT_PURCHASES',
-          'Reporte de Productos PDF': 'REPORT_PRODUCTS',
+          'Reporte de Productos': 'REPORT_PRODUCTS',
           'Catálogo Comercial PDF': 'REPORT_COMMERCIAL_CATALOG',
           Stock: 'REPORT_STOCK',
           Movimientos: 'REPORT_MOVEMENTS',
@@ -193,7 +191,7 @@ export function buildMenuItems(callbacks: MenuCallbacks): MenuItem[] {
           withReports(
             page('Productos', 'pi pi-box', '/catalog/products', BusinessModule.CATALOG_PRODUCTS),
             report(
-              'Reporte de Productos PDF',
+              'Reporte de Productos',
               'pi pi-table',
               callbacks.openCatalogModal,
               BusinessModule.CATALOG_PRODUCTS,

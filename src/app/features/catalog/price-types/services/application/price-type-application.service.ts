@@ -60,7 +60,7 @@ export class PriceTypeApplicationService {
             id: type.id,
             name: type.name,
             active: type.active,
-            deletable: true,
+            deletable: type.deletable ?? true,
           };
           this.priceTypes.update((current) => [...current, listItem]);
         },
@@ -81,7 +81,7 @@ export class PriceTypeApplicationService {
             id: type.id,
             name: type.name,
             active: type.active,
-            deletable: true,
+            deletable: type.deletable ?? true,
           };
           this.priceTypes.update((current) => current.map((t) => (t.id === id ? listItem : t)));
           if (this.selectedPriceType()?.id === id) {

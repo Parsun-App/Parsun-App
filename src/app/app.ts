@@ -17,7 +17,7 @@ import { NotificationPreferencesService } from '@features/platform/notifications
       [life]="5000"
       [baseZIndex]="10000"
       [preventOpenDuplicates]="true"
-      styleClass="cashly-toast"
+      styleClass="parsun-toast"
     ></p-toast>
     <router-outlet></router-outlet>
     <app-pdf-viewer-dialog />

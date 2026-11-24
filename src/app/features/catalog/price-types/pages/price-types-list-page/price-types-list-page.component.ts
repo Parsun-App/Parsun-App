@@ -156,7 +156,9 @@ export class PriceTypesListPageComponent implements OnInit {
       viewAction(() => this.onView(priceType)),
       editAction(() => this.onEdit(priceType)),
     ];
-    actions.push(deleteAction(() => this.onDelete(priceType)));
+    if (priceType.deletable) {
+      actions.push(deleteAction(() => this.onDelete(priceType)));
+    }
     actions.push(
       auditHistoryAction({
         entityType: 'PRICE_TYPE',

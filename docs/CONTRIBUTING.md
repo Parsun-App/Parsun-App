@@ -1,14 +1,14 @@
 # Contributing
 
-Guidelines for working on the Cashly frontend.
+Guidelines for working on the Parsun frontend.
 
 ---
 
 ## Setup
 
 ```bash
-git clone git@gitlab.com:personal-proyect-gabriel/cashly/cashly-app.git
-cd cashly-app
+git clone git@gitlab.com:personal-proyect-gabriel/parsun/parsun-app.git
+cd parsun-app
 bun install
 bun start
 ```
@@ -55,7 +55,7 @@ Fix formatting with `bun run format`.
 ### Styling
 
 - PrimeNG for components and Tailwind for layout/spacing.
-- Use the Cashly design system: neutral base with semantic colors only for success, error, warning, and info.
+- Use the Parsun design system: neutral base with semantic colors only for success, error, warning, and info.
 - Do not hardcode user-facing text.
 
 ### Internationalization

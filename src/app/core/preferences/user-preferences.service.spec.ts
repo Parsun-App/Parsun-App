@@ -149,13 +149,13 @@ describe('account preferences', () => {
 
   it('ignores corrupt and unsupported per-user caches', () => {
     load();
-    localStorage.setItem('cashly:preferences:v2:bob', '{invalid');
+    localStorage.setItem('parsun:preferences:v2:bob', '{invalid');
     user.set({ id: 'bob' });
     TestBed.flushEffects();
     expect(service.themeMode()).toBe('system');
     http.expectOne('/api/auth/preferences').flush(defaults);
     localStorage.setItem(
-      'cashly:preferences:v2:carol',
+      'parsun:preferences:v2:carol',
       JSON.stringify({ ...defaults, shortcutsEnabled: 'true' }),
     );
     user.set({ id: 'carol' });

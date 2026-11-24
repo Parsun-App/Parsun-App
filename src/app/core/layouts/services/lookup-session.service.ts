@@ -39,17 +39,19 @@ export class LookupSessionService {
     const total = signal(0);
     const first = signal(0);
     const rows = signal(10);
-    const filterValues = signal(this.defaultsFor(definition));
+    const filterValues = signal(this.defaultsFor(definition, label));
     const filterSources: {
       values: Record<string, string>;
       categories: LookupFilterOption[];
       registers: LookupFilterOption[];
       roles: LookupFilterOption[];
+      actionLabel?: string;
     } = {
       values: filterValues(),
       categories: [],
       registers: [],
       roles: [],
+      actionLabel: label,
     };
     const filters = () =>
       definition.filters({ ...filterSources, values: filterValues() }).map((filter) => ({
@@ -132,13 +134,14 @@ export class LookupSessionService {
     load();
   }
 
-  private defaultsFor(definition: LookupDefinition): Record<string, string> {
+  private defaultsFor(definition: LookupDefinition, label: string): Record<string, string> {
     const defaults: Record<string, string> = {};
     for (const filter of definition.filters({
       values: {},
       categories: [],
       registers: [],
       roles: [],
+      actionLabel: label,
     })) {
       defaults[filter.key] = filter.defaultValue;
     }

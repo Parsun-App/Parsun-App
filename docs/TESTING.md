@@ -1,6 +1,6 @@
 # Testing Guide
 
-This guide covers the test strategy for the Cashly frontend.
+This guide covers the test strategy for the Parsun frontend.
 
 ## Stack
 
@@ -53,7 +53,7 @@ bun run vitest --run --grep "OrderStatus"
 ### Docker
 
 ```bash
-docker compose --profile test run --rm cashly-app-test
+docker compose --profile test run --rm parsun-app-test
 ```
 
 ## Test placement

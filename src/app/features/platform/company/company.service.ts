@@ -4,7 +4,7 @@ import { Observable, of, tap } from 'rxjs';
 import { finalize, shareReplay } from 'rxjs/operators';
 import { environment } from '@env/environment';
 
-const COMPANY_CACHE_KEY = 'cashly:company-cache';
+const COMPANY_CACHE_KEY = 'parsun:company-cache';
 const COMPANY_CACHE_TTL = 5 * 60 * 1000;
 export interface Company {
   id: string;

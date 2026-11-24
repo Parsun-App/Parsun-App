@@ -19,6 +19,7 @@ export interface ProductDetails {
   purchasePrice?: number;
   description?: string;
   active: boolean;
+  deletable?: boolean;
   stockTotal?: number;
   components: ProductComponentItem[];
   productPrices: ProductPriceItem[];

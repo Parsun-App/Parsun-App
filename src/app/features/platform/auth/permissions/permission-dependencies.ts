@@ -6,7 +6,7 @@ export type PermissionGrant = (code: AppPermission) => boolean;
 const alwaysGrant: PermissionGrant = () => true;
 
 export function isRootPermission(code: AppPermission): boolean {
-  return code.endsWith('_VIEW_LIST') || code === 'DASHBOARD_VIEW' || code === 'COMPANY_VIEW';
+  return code.endsWith('_VIEW_LIST') || code.endsWith('_VIEW') || code === 'COMPANY_VIEW';
 }
 
 export function rootPermission(module: CatalogModule): AppPermission | undefined {

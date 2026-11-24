@@ -1,6 +1,6 @@
 # Back-office End-to-End Testing Proposal by Module
 
-This proposal defines the Playwright end-to-end testing program for Cashly. It converts the existing module test-plan drafts into one executable coverage model, verifies complete operational workflows against the real API, and identifies the data, route, and authorization prerequisites required to test every implemented function reliably.
+This proposal defines the Playwright end-to-end testing program for Parsun. It converts the existing module test-plan drafts into one executable coverage model, verifies complete operational workflows against the real API, and identifies the data, route, and authorization prerequisites required to test every implemented function reliably.
 
 ## Outcome
 
@@ -31,7 +31,7 @@ The live acceptance suite must use the real API for business behavior. Playwrigh
 
 ### Required services
 
-- Cashly API on `http://localhost:8080` with MySQL, Flyway schema, storage, and deterministic test seed.
+- Parsun API on `http://localhost:8080` with MySQL, Flyway schema, storage, and deterministic test seed.
 - Back-office app on `http://localhost:4200`.
 - A disposable database or resettable tenant for every test run.
 - Playwright Chromium installed in the CI image.
@@ -87,7 +87,7 @@ Each module below must have at least one route smoke test, one successful workfl
 
 ### Modules requiring route or contract confirmation
 
-The documentation lists Collections, Payables, Merchants, and Notifications, but the current `cashly-app/src/app/app.routes.ts` does not expose routes for those feature folders. The proposal treats them as API/contract verification first and UI E2E only after one of these conditions is met:
+The documentation lists Collections, Payables, Merchants, and Notifications, but the current `parsun-app/src/app/app.routes.ts` does not expose routes for those feature folders. The proposal treats them as API/contract verification first and UI E2E only after one of these conditions is met:
 
 - a frontend route and page are added;
 - the existing functionality is intentionally owned by another screen and documented as such; or

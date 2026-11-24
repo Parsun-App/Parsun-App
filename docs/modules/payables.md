@@ -5,7 +5,7 @@ proveedores. La UI debe replicar exactamente la de
 `features/finance/treasury/receivables` cambiando cliente -> proveedor,
 factura -> compra y cobro -> pago.
 
-> Backend contract: `/home/gabriel/Documents/Work/Personals/Cashly/cashly-api/docs/modules/PAYABLES.md`
+> Backend contract: `/home/gabriel/Documents/Work/Personals/Parsun/parsun-api/docs/modules/PAYABLES.md`
 >
 > API base paths: `/api/payables`, `/api/supplier-payments`,
 > `/api/reports/finance/accounts-payable/pdf`.

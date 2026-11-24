@@ -54,15 +54,17 @@
                   (onClick)="actionsMenu.hide(); showChangeEmailDialog.set(true)"
                   styleClass="w-full justify-start text-left text-sm"
                 />
-                <p-button
-                  [appPermission]="'DELETE'"
-                  [label]="'finance.billing.creditnotes.delete' | translate"
-                  icon="pi pi-trash"
-                  severity="danger"
-                  [link]="true"
-                  (onClick)="actionsMenu.hide(); onDelete()"
-                  styleClass="w-full justify-start text-left text-sm"
-                />
+                @if (currentUser.deletable !== false) {
+                  <p-button
+                    [appPermission]="'DELETE'"
+                    [label]="'finance.billing.creditnotes.delete' | translate"
+                    icon="pi pi-trash"
+                    severity="danger"
+                    [link]="true"
+                    (onClick)="actionsMenu.hide(); onDelete()"
+                    styleClass="w-full justify-start text-left text-sm"
+                  />
+                }
               </app-detail-actions-menu>
             </div>
           </app-details-card-header>

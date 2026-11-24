@@ -20,6 +20,7 @@ import { FormContainerComponent } from '@core/forms/components/cards/form-contai
 import { FormHeaderComponent } from '@core/forms/components/headers/form-header/form-header.component';
 
 import { FormActionsComponent } from '@core/forms/components/headers/form-actions/form-actions.component';
+import { OrderStatus } from '@features/sales/orders/models/enums/order-status.enum';
 import { PendingTabsService } from '@core/pending-tabs';
 import { PENDING_TABS_CONFIG } from '@core/pending-tabs/constants';
 import { OrderApplicationService } from '@features/sales/orders/services/application/order-application.service';
@@ -74,6 +75,7 @@ export class OrderFormPageComponent implements OnInit, OnDestroy {
   readonly orderId = signal<string | null>(null);
   readonly orderNumber = signal<string | null>(null);
   readonly isSubmitting = signal<boolean>(false);
+  readonly isCustomerDraft = signal<boolean>(false);
   readonly selectedCustomer = signal<CustomerList | null>(null);
   readonly selectedCustomerLabel = signal<{ alias: string; legalName: string } | null>(null);
   readonly pickerVisible = signal<boolean>(false);
@@ -96,6 +98,7 @@ export class OrderFormPageComponent implements OnInit, OnDestroy {
   readonly form = this.fb.group({
     customerId: ['', [Validators.required]],
     notes: [''],
+    itemsRevision: [0],
   });
 
   ngOnInit(): void {
@@ -188,6 +191,7 @@ export class OrderFormPageComponent implements OnInit, OnDestroy {
   private loadOrder(id: string): void {
     this.orderService.loadById(id).subscribe({
       next: (order) => {
+        this.isCustomerDraft.set(order.status === OrderStatus.CUSTOMER_DRAFT);
         this.orderNumber.set(order.orderNumber ?? null);
         this.form.patchValue({ notes: order.notes ?? '' });
         this.selectedCustomerLabel.set({
@@ -253,6 +257,8 @@ export class OrderFormPageComponent implements OnInit, OnDestroy {
 
   onItemsChange(updated: OrderItemFormData[]): void {
     this.items.set(updated);
+    this.form.markAsDirty();
+    this.form.controls.itemsRevision.setValue((this.form.controls.itemsRevision.value ?? 0) + 1);
     this.updateSubmitTooltip();
     this.scheduleAutoSave();
   }

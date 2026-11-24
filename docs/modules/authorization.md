@@ -108,7 +108,13 @@ Loads and saves roles and departments used by the user/role/department screens:
 | `saveDepartment(value)` | `POST /api/departments` or `PUT /api/departments/:id` |
 | `delete(kind, id)`      | `DELETE /api/roles/:id` or `/api/departments/:id`     |
 
-The permission catalog comes from `GET /api/permissions/catalog`. Current grants come exclusively from `GET /api/auth/access` as `permissions: string[]`.
+The permission registry is defined by the API (`PermissionRegistry` / `PermissionCatalog`). The role editor mirrors it statically in `permissions/permission-catalog.ts`, which must stay in sync with `GET /api/permissions/catalog`. Current grants come exclusively from `GET /api/auth/access` as `permissions: string[]`.
+
+### Portal Web permissions
+
+The catalog includes a `PORTAL` area with the permissions for every customer-portal module: dashboard, products, quotes, orders, invoices, payments, and profile. These codes live under `platform/portal/permissions` and are grouped by the notification preferences card like every other module.
+
+The portal backend still authorizes customers with `ROLE_PORTAL_CUSTOMER`; the `PORTAL_*` codes are the role-administration surface for the portal and are not yet enforced by the `/api/portal/**` chain.
 
 ---
 

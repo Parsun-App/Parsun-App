@@ -18,7 +18,7 @@ This guide describes the cross-cutting code that features build on. Feature-spec
 | `pending-tabs/` | Unsaved-changes tracking, guard, and dropdown                                    |
 | `preferences/`  | User preferences and per-area chart/card appearance                              |
 | `shortcuts/`    | Keyboard shortcut service, directives, navigator, and help dialog                |
-| `theme/`        | Theme service and the PrimeNG `CashlyPreset`                                     |
+| `theme/`        | Theme service and the PrimeNG `ParsunPreset`                                     |
 
 ### Forms
 
@@ -77,7 +77,7 @@ Use it for forms that can lose unsaved changes. The dropdown in the layout lists
 
 `UserPreferencesService` stores language, theme mode (`system`, `light`, `dark`), color mode (`minimal`, `informative`), shortcut enablement, and shortcut hints. Preferences are cached and synchronized with `GET/PUT /api/auth/preferences` when authenticated.
 
-`ThemeService` toggles the `.my-app-dark` class; `module-appearance.ts` provides area colors and chart palettes. `CashlyPreset` configures PrimeNG.
+`ThemeService` toggles the `.my-app-dark` class; `module-appearance.ts` provides area colors and chart palettes. `ParsunPreset` configures PrimeNG.
 
 ### Shortcuts
 

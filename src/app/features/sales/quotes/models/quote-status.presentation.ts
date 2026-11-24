@@ -4,6 +4,7 @@ import { QuoteStatus } from '@features/sales/quotes/models/enums/quote-status.en
 export function quoteStatusVariant(status: QuoteStatus): StatusVariant {
   const variants: Record<QuoteStatus, StatusVariant> = {
     [QuoteStatus.DRAFT]: 'label',
+    [QuoteStatus.CUSTOMER_DRAFT]: 'info',
     [QuoteStatus.CANCELLED]: 'danger',
     [QuoteStatus.CONVERTED_TO_ORDER]: 'success',
     [QuoteStatus.CONVERTED_TO_INVOICE]: 'success',

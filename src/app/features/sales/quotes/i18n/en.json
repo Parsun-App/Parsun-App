@@ -64,5 +64,6 @@
   "sales.quotes.quotesReport": "Quotes report",
   "sales.quotes.createQuoteAction": "Create quote",
   "sales.quotes.saveQuote": "Save quote",
-  "sales.quotes.editQuoteWithNumber": "Edit Quote ${number}"
+  "sales.quotes.editQuoteWithNumber": "Edit Quote ${number}",
+  "sales.quotes.customerDraftStockNotice": "This quote was created from the customer portal. Assign stock per warehouse on each line before converting it."
 }

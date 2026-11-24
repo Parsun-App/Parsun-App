@@ -87,18 +87,31 @@ export class DeleteDialogService {
   }
 
   private errorMessage(error: unknown): string {
-    if (
-      typeof error === 'object' &&
-      error !== null &&
-      'error' in error &&
-      typeof error.error === 'object' &&
-      error.error !== null &&
-      'message' in error.error &&
-      typeof error.error.message === 'string'
-    ) {
-      return error.error.message;
+    const details = this.errorDetails(error);
+    if (!details) return this.t('common.delete.error');
+    if (this.status(error) === 409 && typeof details['error'] === 'string' && details['error']) {
+      return details['error'];
     }
-
+    if (typeof details['message'] === 'string' && details['message']) {
+      return details['message'];
+    }
+    if (typeof details['error'] === 'string' && details['error']) {
+      return details['error'];
+    }
     return this.t('common.delete.error');
+  }
+
+  private errorDetails(error: unknown): Record<string, unknown> | null {
+    if (typeof error !== 'object' || error === null || !('error' in error)) return null;
+    const details = (error as { error?: unknown }).error;
+    return typeof details === 'object' && details !== null
+      ? (details as Record<string, unknown>)
+      : null;
+  }
+
+  private status(error: unknown): number | undefined {
+    if (typeof error !== 'object' || error === null || !('status' in error)) return undefined;
+    const status = (error as { status?: unknown }).status;
+    return typeof status === 'number' ? status : undefined;
   }
 }
