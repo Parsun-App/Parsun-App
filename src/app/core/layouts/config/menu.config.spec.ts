@@ -223,7 +223,7 @@ describe('ERP navigation', () => {
       ['Presupuestos', ['Reporte de Presupuestos PDF']],
       ['Pedidos', ['Reporte de Pedidos PDF']],
       ['Compras', ['Reporte de Compras PDF']],
-      ['Productos', ['Reporte de Productos PDF', 'Catálogo Comercial PDF']],
+      ['Productos', ['Reporte de Productos', 'Catálogo Comercial PDF']],
       ['Almacenes', ['Reportes']],
       ['Caja', ['Reportes de Caja']],
       ['Cuentas por cobrar', ['Cuentas por Cobrar PDF']],

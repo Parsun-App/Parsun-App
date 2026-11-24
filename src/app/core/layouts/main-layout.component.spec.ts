@@ -236,7 +236,7 @@ describe('MainLayoutComponent', () => {
       const reports = collect(menu).filter(
         (item) =>
           [
-            'Reporte de Productos PDF',
+            'Reporte de Productos',
             'Catálogo Comercial PDF',
             'Stock',
             'Movimientos',

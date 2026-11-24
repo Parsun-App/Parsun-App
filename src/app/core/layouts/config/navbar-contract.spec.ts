@@ -20,7 +20,7 @@ const REPORT_ACTIONS: ReadonlyArray<readonly [label: string, action: string]> = 
   ['Reporte de Presupuestos PDF', 'REPORT_QUOTES'],
   ['Reporte de Pedidos PDF', 'REPORT_ORDERS'],
   ['Reporte de Compras PDF', 'REPORT_PURCHASES'],
-  ['Reporte de Productos PDF', 'REPORT_PRODUCTS'],
+  ['Reporte de Productos', 'REPORT_PRODUCTS'],
   ['Catálogo Comercial PDF', 'REPORT_COMMERCIAL_CATALOG'],
   ['Stock', 'REPORT_STOCK'],
   ['Movimientos', 'REPORT_MOVEMENTS'],
