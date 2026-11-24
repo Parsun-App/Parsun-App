@@ -1,6 +1,7 @@
 import { Injectable, inject, signal, OnDestroy } from '@angular/core';
 import { Client, IMessage } from '@stomp/stompjs';
 import { Subject } from 'rxjs';
+import { environment } from '@env/environment';
 import { AuthService } from '@features/platform/auth/services/application/auth-application.service';
 import { AppNotification } from '@features/platform/notifications/services/api/notification-api.service';
 
@@ -21,7 +22,9 @@ export class NotificationWebSocketService implements OnDestroy {
 
     if (this.stompClient?.active) return;
 
-    const origin = window.location.origin;
+    const origin = environment.apiUrl.startsWith('http')
+      ? new URL(environment.apiUrl).origin
+      : window.location.origin;
     const wsProtocol = origin.startsWith('https') ? 'wss:' : 'ws:';
     const wsUrl = `${wsProtocol}//${new URL(origin).host}/ws`;
 
