@@ -329,7 +329,9 @@ export class CustomersListPageComponent implements OnInit {
       );
     }
 
-    actions.push(deleteAction(() => this.onDelete(customer)));
+    if (customer.deletable) {
+      actions.push(deleteAction(() => this.onDelete(customer)));
+    }
     actions.push(
       auditHistoryAction({
         entityType: 'CUSTOMER',

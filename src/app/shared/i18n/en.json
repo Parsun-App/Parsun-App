@@ -148,6 +148,7 @@
   "shared.noChangesToSave": "There are no changes to save",
   "shared.requiredFields": "Required fields: {{fields}}",
   "shared.fields.name": "Name",
+  "shared.fields.code": "Code",
   "shared.fields.category": "Category",
   "shared.fields.customer": "Customer",
   "shared.fields.invoice": "Invoice",

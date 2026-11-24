@@ -42,7 +42,7 @@ export class SupplierMapper {
       creditDays: details.creditDays,
       creditLimit: details.creditLimit,
       active: details.active,
-      hasPurchases: false,
+      hasPurchases: details.deletable === false,
     };
   }
 

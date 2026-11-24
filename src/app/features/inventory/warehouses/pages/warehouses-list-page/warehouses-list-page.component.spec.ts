@@ -102,6 +102,14 @@ describe('WarehousesListPageComponent', () => {
     ]);
   });
 
+  it('hides the delete action when the warehouse has connections', () => {
+    const labels = component
+      .actionsFor({ ...warehouse, deletable: false })
+      .map((action) => action.label);
+
+    expect(labels).not.toContain('Eliminar');
+  });
+
   it('executes the registered delete action on the active warehouse list', () => {
     const deletion = TestBed.inject(DeleteDialogService);
 

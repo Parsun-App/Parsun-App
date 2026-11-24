@@ -4,6 +4,14 @@
     <app-panel-card>
       <div class="p-6 flex flex-col gap-4">
         <app-text-input
+          [label]="'inventory.warehouses.code' | translate"
+          [placeholder]="'shared.fields.code' | translate"
+          [errorMessage]="'inventory.warehouses.labels.aCodeIsRequired' | translate"
+          [readonly]="isEditMode()"
+          [control]="asFormControl('code')"
+        />
+
+        <app-text-input
           [label]="'inventory.warehouses.name' | translate"
           [placeholder]="'inventory.warehouses.warehouseName' | translate"
           [errorMessage]="'inventory.warehouses.labels.aNameIsRequired' | translate"

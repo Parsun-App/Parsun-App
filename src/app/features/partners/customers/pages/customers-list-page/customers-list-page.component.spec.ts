@@ -146,7 +146,7 @@ describe('CustomersListPageComponent', () => {
 
     expect(
       component.actionsFor({ ...mockCustomer, deletable: false }).map((action) => action.label),
-    ).toEqual(['Ver detalle', 'Editar', 'Cambiar contraseña', 'Eliminar', 'Historial']);
+    ).toEqual(['Ver detalle', 'Editar', 'Cambiar contraseña', 'Historial']);
   });
 
   it('should return correct type label', () => {

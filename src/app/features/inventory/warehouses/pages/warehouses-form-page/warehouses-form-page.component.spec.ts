@@ -26,6 +26,7 @@ describe('WarehousesFormPageComponent', () => {
 
   const mockWarehouse: WarehouseDetails = {
     id: 'wh-001',
+    code: 'WH-001',
     name: 'Almacén Central',
     state: 'Distrito Capital',
     municipality: 'Libertador',
@@ -134,6 +135,7 @@ describe('WarehousesFormPageComponent', () => {
   it('should have correct form structure', () => {
     fixture.detectChanges();
     expect(component.form.get('name')).toBeTruthy();
+    expect(component.form.get('code')).toBeTruthy();
     expect(component.form.get('state')).toBeTruthy();
     expect(component.form.get('municipality')).toBeTruthy();
     expect(component.form.get('address')).toBeTruthy();
@@ -146,6 +148,13 @@ describe('WarehousesFormPageComponent', () => {
     const nameControl = component.form.get('name');
     nameControl?.setValue('');
     expect(nameControl?.hasError('required')).toBe(true);
+  });
+
+  it('should mark code as required', () => {
+    fixture.detectChanges();
+    const codeControl = component.form.get('code');
+    codeControl?.setValue('');
+    expect(codeControl?.hasError('required')).toBe(true);
   });
 
   it('should mark state as required', () => {
@@ -204,6 +213,7 @@ describe('WarehousesFormPageComponent', () => {
   it('should clear submit tooltip when form is valid', () => {
     fixture.detectChanges();
     component.form.patchValue({
+      code: 'WH-TEST',
       name: 'Test Warehouse',
       state: 'Distrito Capital',
       municipality: 'Libertador',
@@ -216,6 +226,7 @@ describe('WarehousesFormPageComponent', () => {
     it('should call service.create with payload when form is valid', () => {
       fixture.detectChanges();
       component.form.patchValue({
+        code: 'WH-NEW',
         name: 'Nuevo Almacén',
         state: 'Distrito Capital',
         municipality: 'Libertador',
@@ -228,6 +239,7 @@ describe('WarehousesFormPageComponent', () => {
       component.onSubmit();
 
       expect(mockService.create).toHaveBeenCalledWith({
+        code: 'WH-NEW',
         name: 'Nuevo Almacén',
         state: 'Distrito Capital',
         municipality: 'Libertador',
@@ -240,6 +252,7 @@ describe('WarehousesFormPageComponent', () => {
     it('should navigate to /warehouses detail on create success', () => {
       fixture.detectChanges();
       component.form.patchValue({
+        code: 'WH-NEW',
         name: 'Nuevo Almacén',
         state: 'Distrito Capital',
         municipality: 'Libertador',
@@ -261,6 +274,7 @@ describe('WarehousesFormPageComponent', () => {
       createComponent();
       fixture.detectChanges();
       component.form.patchValue({
+        code: 'WH-NEW',
         name: 'Nuevo Almacén',
         state: 'Distrito Capital',
         municipality: 'Libertador',
@@ -289,6 +303,7 @@ describe('WarehousesFormPageComponent', () => {
     it('should convert empty address to undefined', () => {
       fixture.detectChanges();
       component.form.patchValue({
+        code: 'WH-NEW',
         name: 'Nuevo Almacén',
         state: 'Distrito Capital',
         municipality: 'Libertador',

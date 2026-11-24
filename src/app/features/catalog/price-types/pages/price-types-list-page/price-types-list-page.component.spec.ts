@@ -186,9 +186,9 @@ describe('PriceTypesListPageComponent', () => {
     });
   });
 
-  it('should always offer the delete action and leave eligibility to the backend', () => {
+  it('hides the delete action when the price type is linked to other modules', () => {
     const nonDeletable: PriceTypeList = { ...mockPriceType, deletable: false };
     const actions = component.actionsFor(nonDeletable);
-    expect(actions.some((a) => a.label === 'Eliminar')).toBe(true);
+    expect(actions.some((a) => a.label === 'Eliminar')).toBe(false);
   });
 });

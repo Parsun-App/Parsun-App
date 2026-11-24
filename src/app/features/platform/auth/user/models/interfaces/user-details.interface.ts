@@ -11,6 +11,7 @@ export interface UserDetails extends UserProfile {
   role?: UserType;
   active: boolean;
   emailVerified: boolean;
+  deletable?: boolean;
   createdAt: string;
   updatedAt: string;
 }

@@ -31,6 +31,7 @@ import {
 } from '@features/partners/customers/data/venezuela-geo.data';
 
 interface WarehouseFormData {
+  code: string;
   name: string;
   state: string;
   municipality: string;
@@ -77,6 +78,7 @@ export class WarehousesFormPageComponent
   submitTooltip = signal('');
 
   private readonly FIELD_LABELS: Record<string, string> = {
+    code: 'shared.fields.code',
     name: 'shared.fields.name',
     state: 'shared.fields.state',
     municipality: 'shared.fields.municipality',
@@ -108,6 +110,7 @@ export class WarehousesFormPageComponent
 
   createForm(): FormGroup {
     return this.fb.group({
+      code: ['', [Validators.required, Validators.maxLength(50)]],
       name: ['', [Validators.required, Validators.maxLength(150)]],
       state: ['', [Validators.required]],
       municipality: ['', [Validators.required]],
@@ -132,7 +135,6 @@ export class WarehousesFormPageComponent
   protected override getPendingTabTitle(formData: WarehouseFormData): string {
     return formData.name?.trim() || super.getPendingTabTitle(formData);
   }
-
   private updateSubmitTooltip(): void {
     const invalid = Object.entries(this.FIELD_LABELS)
       .filter(([key]) => this.form.get(key)?.invalid)
@@ -143,6 +145,7 @@ export class WarehousesFormPageComponent
   protected override restoreFormData(data: WarehouseFormData): void {
     this.selectedStateName.set(data.state);
     this.form.patchValue({
+      code: data.code,
       name: data.name,
       state: data.state,
       municipality: data.municipality,
@@ -157,6 +160,7 @@ export class WarehousesFormPageComponent
       next: (warehouse) => {
         this.selectedStateName.set(warehouse.state);
         this.form.patchValue({
+          code: warehouse.code,
           name: warehouse.name,
           state: warehouse.state,
           municipality: warehouse.municipality,
@@ -211,7 +215,7 @@ export class WarehousesFormPageComponent
           },
         });
       } else {
-        this.service.create(payload).subscribe({
+        this.service.create({ code: value.code, ...payload }).subscribe({
           next: (created) => {
             this.markAsSubmitted();
             this.messageService.add({

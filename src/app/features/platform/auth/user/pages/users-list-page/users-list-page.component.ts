@@ -263,7 +263,9 @@ export class UsersListPageComponent implements OnInit {
       viewAction(() => this.onView(user)),
       editAction(() => this.onEdit(user)),
     ];
-    actions.push(deleteAction(() => this.onDelete(user)));
+    if (user.deletable) {
+      actions.push(deleteAction(() => this.onDelete(user)));
+    }
     actions.push(
       auditHistoryAction({ entityType: 'USER', entityId: user.id, label: user.userName }),
     );

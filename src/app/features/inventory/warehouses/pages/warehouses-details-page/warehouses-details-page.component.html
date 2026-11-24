@@ -83,6 +83,10 @@
           <div class="p-4 sm:p-6">
             <app-details-info-grid>
               <app-details-info-field
+                [label]="'shared.fields.code' | translate"
+                [value]="currentWarehouse.code"
+              />
+              <app-details-info-field
                 [label]="'finance.treasury.paymentmethods.name' | translate"
                 [value]="currentWarehouse.name"
               />

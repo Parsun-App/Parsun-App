@@ -38,6 +38,7 @@ describe('ProductsListPageComponent', () => {
     purchasePrice: 60,
     productPrices: [{ priceTypeId: 'pt-001', price: 120 }],
     stockTotal: 50,
+    deletable: true,
   };
 
   const pdfMocks = [

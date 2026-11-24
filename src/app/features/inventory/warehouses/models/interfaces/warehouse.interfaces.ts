@@ -1,5 +1,6 @@
 export interface WarehouseList {
   id: string;
+  code: string;
   name: string;
   state: string;
   municipality: string;
@@ -40,6 +41,7 @@ export interface MovementFilters {
 
 export interface WarehouseDetails {
   id: string;
+  code: string;
   name: string;
   state: string;
   municipality: string;
@@ -54,6 +56,7 @@ export interface WarehouseDetails {
 }
 
 export interface WarehouseCreate {
+  code: string;
   name: string;
   state: string;
   municipality: string;
