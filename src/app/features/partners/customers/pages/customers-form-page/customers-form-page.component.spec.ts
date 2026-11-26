@@ -77,6 +77,23 @@ describe('CustomersFormPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should detect warehouse access changes against the initial set', () => {
+    component.initialWarehouseIds.set(new Set(['wh-001']));
+
+    component.warehouseAccess.set([
+      { id: '', customerId: 'uuid-001', warehouseId: 'wh-001', warehouseName: 'Almacén 1' },
+      { id: '', customerId: 'uuid-001', warehouseId: 'wh-002', warehouseName: 'Almacén 2' },
+    ]);
+
+    expect(component.warehouseAccessChanged()).toBe(true);
+
+    component.warehouseAccess.set([
+      { id: '', customerId: 'uuid-001', warehouseId: 'wh-001', warehouseName: 'Almacén 1' },
+    ]);
+
+    expect(component.warehouseAccessChanged()).toBe(false);
+  });
+
   it('should be in create mode by default', () => {
     expect(component.isEditMode()).toBe(false);
   });

@@ -41,7 +41,7 @@ import {
 export class CustomerAddressesSectionComponent {
   form = input.required<FormGroup>();
 
-  readonly stateOptions = VENEZUELA_STATE_NAMES;
+  readonly stateNames = VENEZUELA_STATE_NAMES;
 
   private fb = inject(FormBuilder);
   private cdr = inject(ChangeDetectorRef);
@@ -62,9 +62,23 @@ export class CustomerAddressesSectionComponent {
     return this.addressesArray.at(index) as FormGroup;
   }
 
+  stateOptions(index: number): string[] {
+    const state = this.addressGroup(index).get('state')?.value as string | null;
+    if (state && !this.stateNames.includes(state)) {
+      return [state, ...this.stateNames];
+    }
+    return this.stateNames;
+  }
+
   municipalityOptions(index: number): string[] {
-    const state = this.addressGroup(index).get('state')?.value;
-    return state ? getMunicipalitiesForState(state) : [];
+    const group = this.addressGroup(index);
+    const state = group.get('state')?.value as string | null;
+    const municipality = group.get('municipality')?.value as string | null;
+    const options = state ? getMunicipalitiesForState(state) : [];
+    if (municipality && !options.includes(municipality)) {
+      return [municipality, ...options];
+    }
+    return options;
   }
 
   onStateChange(index: number): void {

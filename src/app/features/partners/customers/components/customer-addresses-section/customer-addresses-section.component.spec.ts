@@ -60,6 +60,22 @@ describe('CustomerAddressesSectionComponent', () => {
     expect(component.addressGroup(1).get('billing')?.value).toBe(false);
   });
 
+  it('should keep legacy state values visible in the state options', () => {
+    component.addAddress();
+    component.addressGroup(0).get('state')?.setValue('01');
+
+    expect(component.stateOptions(0)[0]).toBe('01');
+    expect(component.stateOptions(0)).toContain('Nueva Esparta');
+  });
+
+  it('should keep legacy municipality values visible in the municipality options', () => {
+    component.addAddress();
+    component.addressGroup(0).get('state')?.setValue('01');
+    component.addressGroup(0).get('municipality')?.setValue('01');
+
+    expect(component.municipalityOptions(0)).toContain('01');
+  });
+
   it('should remove address', () => {
     component.addAddress();
     component.addAddress();

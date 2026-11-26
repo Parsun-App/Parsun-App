@@ -13,13 +13,18 @@ import { EMPTY } from 'rxjs';
   imports: [ReactiveFormsModule, FormActionsComponent],
   template: `
     <form [formGroup]="form">
-      <app-form-actions [disabled]="false" [trackChanges]="trackChanges" />
+      <app-form-actions
+        [disabled]="false"
+        [trackChanges]="trackChanges"
+        [hasExternalChanges]="hasExternalChanges"
+      />
     </form>
   `,
 })
 class FormActionsHostComponent {
   readonly form = new FormGroup({ name: new FormControl('') });
   trackChanges = true;
+  hasExternalChanges = false;
 }
 
 const routerMock = { url: '/test', events: EMPTY };
@@ -160,6 +165,18 @@ describe('FormActionsComponent', () => {
     routerMock.url = '/test/edit';
     const hostFixture = TestBed.createComponent(FormActionsHostComponent);
     hostFixture.componentInstance.trackChanges = false;
+    hostFixture.detectChanges();
+
+    const actions = hostFixture.debugElement.query(By.directive(FormActionsComponent))
+      .componentInstance as FormActionsComponent;
+
+    expect(actions.submitDisabled()).toBe(false);
+  });
+
+  it('should enable submit when external changes exist on a pristine edit form', () => {
+    routerMock.url = '/test/edit';
+    const hostFixture = TestBed.createComponent(FormActionsHostComponent);
+    hostFixture.componentInstance.hasExternalChanges = true;
     hostFixture.detectChanges();
 
     const actions = hostFixture.debugElement.query(By.directive(FormActionsComponent))
