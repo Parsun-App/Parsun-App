@@ -101,7 +101,6 @@
               formControlName="issueDate"
               [dateFormat]="'dd/mm/yy'"
               [showIcon]="true"
-              appendTo="body"
               styleClass="w-full"
             />
             @if (paymentType() === 'CREDIT') {
@@ -154,7 +153,6 @@
                 optionLabel="label"
                 optionValue="value"
                 styleClass="w-full"
-                appendTo="body"
               />
             } @else {
               <input
@@ -243,6 +241,7 @@
         [cancelLabel]="'shared.cancel' | translate"
         [loading]="isSubmitting()"
         [disabled]="form.invalid || items().length === 0"
+        [hasExternalChanges]="hasExternalChanges()"
         [tooltipMessage]="submitTooltip()"
         (cancel)="cancel()"
       />
