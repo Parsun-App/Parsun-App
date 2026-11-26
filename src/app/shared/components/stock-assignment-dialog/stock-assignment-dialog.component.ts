@@ -1,4 +1,5 @@
 import { LocalizedNumberPipe } from '@core/i18n/localized-format.pipe';
+import { LanguageService } from '@core/i18n/language.service';
 import { TranslatePipe } from '@core/i18n/translate.pipe';
 import {
   ChangeDetectionStrategy,
@@ -59,6 +60,7 @@ const nonNegative = (value: number): number => Math.max(0, value);
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StockAssignmentDialogComponent implements OnChanges {
+  readonly locale = inject(LanguageService).locale;
   private readonly orderApi = inject(OrderApiService);
   private readonly quoteApi = inject(QuoteApiService);
   private readonly messages = inject(MessageService);
@@ -82,7 +84,9 @@ export class StockAssignmentDialogComponent implements OnChanges {
       return {
         total,
         matches: Math.abs(total - line.quantity) < QUANTITY_TOLERANCE,
-        overStock: line.entries.some((entry) => entry.allocated > entry.available),
+        overStock: line.entries.some(
+          (entry) => entry.allocated - entry.available > QUANTITY_TOLERANCE,
+        ),
       };
     }),
   );

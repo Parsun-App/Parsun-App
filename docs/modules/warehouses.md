@@ -490,8 +490,8 @@ export class WarehouseValidators {
     return (control: AbstractControl): ValidationErrors | null => {
       if (!control.value) return null;
 
-      if (control.value <= 0 || !Number.isInteger(control.value)) {
-        return { invalidQuantity: 'Quantity must be a positive integer' };
+      if (control.value <= 0 || control.value < 0.001) {
+        return { invalidQuantity: 'Quantity must be a positive decimal (min 0.001)' };
       }
 
       return null;
