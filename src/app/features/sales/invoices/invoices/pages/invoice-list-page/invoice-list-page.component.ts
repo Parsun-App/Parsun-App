@@ -5,7 +5,6 @@ import {
   returnStatusVariant,
 } from '@features/sales/invoices/invoices/models/invoice-status.presentation';
 import { TranslateOptionsPipe } from '@core/i18n/translate-options.pipe';
-import { provideTranslatedConfirmation } from '@core/i18n/translated-feedback.service';
 import {
   LocalizedCurrencyPipe,
   LocalizedDatePipe,
@@ -38,7 +37,7 @@ import { TooltipModule } from 'primeng/tooltip';
 import { PopoverModule } from 'primeng/popover';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DatePickerModule } from 'primeng/datepicker';
-import { ConfirmationService, MessageService, SortEvent } from 'primeng/api';
+import { MessageService, SortEvent } from 'primeng/api';
 
 import { LoadingSpinnerComponent } from '@shared/components/ui/loading-spinner/loading-spinner.component';
 import { EmptyStateComponent } from '@shared/components/ui/empty-state/empty-state.component';
@@ -65,6 +64,11 @@ import {
 } from '@features/sales/invoices/invoices/components/confirm-invoice-dialog/confirm-invoice-dialog.component';
 import { DuplicateInvoiceDialogComponent } from '@features/sales/invoices/invoices/components/duplicate-invoice-dialog/duplicate-invoice-dialog.component';
 import { InvoiceApplicationService } from '@features/sales/invoices/invoices/services/application/invoice-application.service';
+import { INVOICE_SUCCESS_MESSAGES } from '@features/sales/invoices/invoices/messages/success-messages';
+import {
+  INVOICE_ERROR_MESSAGES,
+  invoiceErrorDetail,
+} from '@features/sales/invoices/invoices/messages/error-messages';
 import { InvoiceFilters } from '@features/sales/invoices/invoices/services/api/invoice-api.service';
 import {
   InvoiceStatus,
@@ -126,7 +130,6 @@ import { PaginatorComponent } from '@shared/components/ui/paginator/paginator.co
     DuplicateInvoiceDialogComponent,
   ],
   templateUrl: './invoice-list-page.component.html',
-  providers: [provideTranslatedConfirmation()],
 })
 export class InvoiceListPageComponent implements OnInit {
   private readonly deletion = inject(DeleteDialogService);
@@ -134,7 +137,6 @@ export class InvoiceListPageComponent implements OnInit {
 
   private readonly invoiceService = inject(InvoiceApplicationService);
   private readonly router = inject(Router);
-  private readonly confirmationService = inject(ConfirmationService);
   private readonly messageService = inject(MessageService);
   private readonly pdfViewerService = inject(PdfViewerService);
 
@@ -385,20 +387,13 @@ export class InvoiceListPageComponent implements OnInit {
         next: () => {
           this.confirmDialogVisible.set(false);
           this.invoiceToConfirm.set(null);
-          this.messageService.add({
-            severity: 'success',
-            summary: 'Éxito',
-            detail: 'Factura confirmada exitosamente',
-            life: 3000,
-          });
+          this.messageService.add(INVOICE_SUCCESS_MESSAGES.confirmed);
           this.loadWithFilters();
         },
-        error: (err: { error?: { message?: string } }) => {
+        error: (err: unknown) => {
           this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: err?.error?.message || 'Error al confirmar.',
-            life: 5000,
+            ...INVOICE_ERROR_MESSAGES.confirm,
+            detail: invoiceErrorDetail(err, INVOICE_ERROR_MESSAGES.confirm.detail),
           });
         },
       });
@@ -419,21 +414,14 @@ export class InvoiceListPageComponent implements OnInit {
     this.invoiceService.cancel(event.invoiceId, event.reason).subscribe({
       next: () => {
         this.invoiceToCancel.set(null);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Éxito',
-          detail: 'Factura cancelada exitosamente',
-          life: 3000,
-        });
+        this.messageService.add(INVOICE_SUCCESS_MESSAGES.cancelled);
         this.loadWithFilters();
       },
-      error: () => {
+      error: (err: unknown) => {
         this.invoiceToCancel.set(null);
         this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error al cancelar la factura. Por favor, intente nuevamente.',
-          life: 5000,
+          ...INVOICE_ERROR_MESSAGES.cancel,
+          detail: invoiceErrorDetail(err, INVOICE_ERROR_MESSAGES.cancel.detail),
         });
       },
     });
@@ -454,21 +442,14 @@ export class InvoiceListPageComponent implements OnInit {
     this.invoiceService.duplicate(event.invoiceId, event.customerId).subscribe({
       next: () => {
         this.invoiceToDuplicate.set(null);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Éxito',
-          detail: 'Factura duplicada exitosamente',
-          life: 3000,
-        });
+        this.messageService.add(INVOICE_SUCCESS_MESSAGES.duplicated);
         this.loadWithFilters();
       },
-      error: () => {
+      error: (err: unknown) => {
         this.invoiceToDuplicate.set(null);
         this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error al duplicar la factura. Por favor, intente nuevamente.',
-          life: 5000,
+          ...INVOICE_ERROR_MESSAGES.duplicate,
+          detail: invoiceErrorDetail(err, INVOICE_ERROR_MESSAGES.duplicate.detail),
         });
       },
     });

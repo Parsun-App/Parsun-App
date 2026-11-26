@@ -14,6 +14,11 @@ import { InvoiceApplicationService } from '@features/sales/invoices/invoices/ser
 import { InvoiceApiService } from '@features/sales/invoices/invoices/services/api/invoice-api.service';
 import { InvoiceMapper } from '@features/sales/invoices/invoices/services/mappers/invoice.mapper';
 import { InvoiceList } from '@features/sales/invoices/invoices/models/interfaces/invoice-list.interface';
+import { INVOICE_SUCCESS_MESSAGES } from '@features/sales/invoices/invoices/messages/success-messages';
+import {
+  INVOICE_ERROR_MESSAGES,
+  invoiceErrorDetail,
+} from '@features/sales/invoices/invoices/messages/error-messages';
 import { CancelInvoiceDialogComponent } from '@features/sales/invoices/invoices/components/cancel-invoice-dialog/cancel-invoice-dialog.component';
 import {
   ConfirmInvoiceDialogComponent,
@@ -87,9 +92,9 @@ export class InvoiceActionDialogHostComponent {
         takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
-        next: () => this.succeed('Factura confirmada exitosamente'),
-        error: (err: { error?: { message?: string } }) =>
-          this.fail(err?.error?.message || 'Error al confirmar.'),
+        next: () => this.succeed(INVOICE_SUCCESS_MESSAGES.confirmed.detail),
+        error: (err: unknown) =>
+          this.fail(invoiceErrorDetail(err, INVOICE_ERROR_MESSAGES.confirm.detail)),
       });
   }
 
@@ -98,9 +103,9 @@ export class InvoiceActionDialogHostComponent {
       .cancel(event.invoiceId, event.reason)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => this.succeed('Factura cancelada exitosamente'),
-        error: (err: { error?: { message?: string } }) =>
-          this.fail(err?.error?.message || 'Error al cancelar la factura.'),
+        next: () => this.succeed(INVOICE_SUCCESS_MESSAGES.cancelled.detail),
+        error: (err: unknown) =>
+          this.fail(invoiceErrorDetail(err, INVOICE_ERROR_MESSAGES.cancel.detail)),
       });
   }
 
@@ -109,9 +114,9 @@ export class InvoiceActionDialogHostComponent {
       .duplicate(event.invoiceId, event.customerId)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
-        next: () => this.succeed('Factura duplicada exitosamente'),
-        error: (err: { error?: { message?: string } }) =>
-          this.fail(err?.error?.message || 'Error al duplicar la factura.'),
+        next: () => this.succeed(INVOICE_SUCCESS_MESSAGES.duplicated.detail),
+        error: (err: unknown) =>
+          this.fail(invoiceErrorDetail(err, INVOICE_ERROR_MESSAGES.duplicate.detail)),
       });
   }
 

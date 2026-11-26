@@ -35,7 +35,6 @@
         optionLabel="label"
         optionValue="value"
         styleClass="w-full"
-        appendTo="body"
       />
     </div>
 
@@ -79,7 +78,6 @@
           optionValue="value"
           [placeholder]="'finance.billing.returns.selectWarehouse' | translate"
           styleClass="w-full"
-          appendTo="body"
         />
         <p class="text-xs text-surface-400 dark:text-surface-500 mt-1.5">
           {{
@@ -109,7 +107,7 @@
                 @for (line of returnLines(); track line.invoiceLineId) {
                   <tr class="border-b border-surface-100 dark:border-surface-800">
                     <td class="py-2">{{ line.productName }}</td>
-                    <td class="text-right py-2">{{ line.quantity }}</td>
+                    <td class="text-right py-2">{{ line.quantity | localizedNumber: '1.0-3' }}</td>
                     <td class="text-right py-2">{{ line.unitPrice | localizedNumber: '1.2-2' }}</td>
                     <td class="text-right py-2 font-medium">
                       {{ line.quantity * line.unitPrice | localizedNumber: '1.2-2' }}

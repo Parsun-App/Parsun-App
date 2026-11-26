@@ -159,6 +159,10 @@ describe('InvoiceFormPageComponent', () => {
     expect(component.isEditMode()).toBe(false);
   });
 
+  it('should inject the root MessageService so toasts reach the global outlet', () => {
+    expect(fixture.debugElement.injector.get(MessageService)).toBe(TestBed.inject(MessageService));
+  });
+
   it('should be in EDIT mode when id is provided', () => {
     (TestBed as TestBedStatic).resetTestingModule();
     configureTestBed('inv-001');
@@ -563,10 +567,12 @@ describe('InvoiceFormPageComponent', () => {
       expect(addSpy).toHaveBeenCalledWith(expect.objectContaining({ severity: 'error' }));
     });
 
-    it('should not submit when form is invalid', () => {
+    it('should not submit when form is invalid and warn the user', () => {
       fixture.detectChanges();
+      const addSpy = vi.spyOn(messageService, 'add');
       component.submit();
       expect(mockService.create).not.toHaveBeenCalled();
+      expect(addSpy).toHaveBeenCalledWith(expect.objectContaining({ severity: 'warn' }));
     });
 
     it('should not submit when no items', () => {
@@ -721,6 +727,36 @@ describe('InvoiceFormPageComponent', () => {
       httpMock.match(() => true).forEach((req) => req.flush([]));
 
       expect(navigateSpy).toHaveBeenCalledWith(['/sales/invoices']);
+    });
+
+    it('should detect external changes when the stock allocations are modified', () => {
+      (TestBed as TestBedStatic).resetTestingModule();
+      configureTestBed('inv-001');
+      createComponent();
+      fixture.detectChanges();
+
+      expect(component.hasExternalChanges()).toBe(false);
+
+      const [line] = component.items();
+      component.onItemsChange([{ ...line, quantity: line.quantity + 0.5 }]);
+
+      expect(component.hasExternalChanges()).toBe(true);
+      expect(component.form.dirty).toBe(true);
+    });
+
+    it('should clear external changes when the items match the loaded baseline again', () => {
+      (TestBed as TestBedStatic).resetTestingModule();
+      configureTestBed('inv-001');
+      createComponent();
+      fixture.detectChanges();
+
+      const baseline = component.items();
+      const [line] = baseline;
+
+      component.onItemsChange([{ ...line, quantity: line.quantity + 1 }]);
+      component.onItemsChange(baseline);
+
+      expect(component.hasExternalChanges()).toBe(false);
     });
   });
 });
