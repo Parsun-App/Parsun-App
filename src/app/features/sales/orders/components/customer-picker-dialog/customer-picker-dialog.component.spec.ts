@@ -107,18 +107,12 @@ describe('CustomerPickerDialogComponent', () => {
   });
 
   it('should have pageSize of 10', () => {
-    expect(dialog.pageSize).toBe(10);
+    expect(dialog.pageSize()).toBe(10);
   });
 
-  it('should have pageLabel computed', () => {
-    dialog.totalPages.set(3);
-    dialog.currentPage.set(0);
-    expect(dialog.pageLabel()).toBe('Página 1 de 3');
-  });
-
-  it('should have empty pageLabel when no pages', () => {
-    dialog.totalPages.set(0);
-    expect(dialog.pageLabel()).toBe('');
+  it('should calculate the first record from the current page', () => {
+    dialog.currentPage.set(2);
+    expect(dialog.first()).toBe(20);
   });
 
   it('should have activeFilterCount as 0 when no filter', () => {
@@ -346,28 +340,24 @@ describe('CustomerPickerDialogComponent - interactions', () => {
 
   it('should load previous page', () => {
     dialog.currentPage.set(2);
-    dialog.onPagePrev();
+    dialog.onPageChange({ first: 10, rows: 10, page: 1, pageCount: 3 });
     expect(mockCustomerApi.getForPicker).toHaveBeenCalledWith(expect.objectContaining({ page: 1 }));
-  });
-
-  it('should not load previous page when on first page', () => {
-    dialog.currentPage.set(0);
-    dialog.onPagePrev();
-    expect(mockCustomerApi.getForPicker).toHaveBeenCalledTimes(1);
   });
 
   it('should load next page', () => {
     dialog.totalPages.set(3);
     dialog.currentPage.set(0);
-    dialog.onPageNext();
+    dialog.onPageChange({ first: 10, rows: 10, page: 1, pageCount: 3 });
     expect(mockCustomerApi.getForPicker).toHaveBeenCalledWith(expect.objectContaining({ page: 1 }));
   });
 
-  it('should not load next page when on last page', () => {
-    dialog.totalPages.set(3);
+  it('should reload from the first page when the page size changes', () => {
     dialog.currentPage.set(2);
-    dialog.onPageNext();
-    expect(mockCustomerApi.getForPicker).toHaveBeenCalledTimes(1);
+    dialog.onPageChange({ first: 0, rows: 25, page: 0, pageCount: 1 });
+    expect(dialog.pageSize()).toBe(25);
+    expect(mockCustomerApi.getForPicker).toHaveBeenCalledWith(
+      expect.objectContaining({ page: 0, size: 25 }),
+    );
   });
 
   it('should load with type filter when selectType is called', () => {

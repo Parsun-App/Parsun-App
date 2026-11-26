@@ -16,6 +16,7 @@
   "navigation.options.paid": "Pagadas",
   "navigation.options.fullyReturned": "Totalmente devueltas",
   "shared.selected": "Seleccionado",
+  "shared.showingFirstToLastOfTotalrecords": "Mostrando {first} a {last} de {totalRecords} registros",
   "shared.language.spanish": "Español",
   "shared.language.english": "Inglés",
   "shared.previousPage": "Página anterior",

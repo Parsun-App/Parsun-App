@@ -120,7 +120,7 @@ describe('ProductPickerDialogComponent', () => {
     dialog.onDialogShow();
 
     expect(loader).toHaveBeenCalledWith(
-      expect.objectContaining({ page: 0, size: dialog.pageSize }),
+      expect.objectContaining({ page: 0, size: dialog.pageSize() }),
     );
     expect(dialog.products()).toEqual([product, inactiveProduct]);
     expect(dialog.totalElements()).toBe(2);
@@ -407,11 +407,28 @@ describe('ProductPickerDialogComponent', () => {
     fixture.detectChanges();
 
     dialog.onDialogShow();
-    dialog.onPageNext();
+    dialog.onPageChange({ first: 10, rows: 10, page: 1, pageCount: 3 });
     expect(pagedLoader).toHaveBeenLastCalledWith(expect.objectContaining({ page: 1 }));
 
-    dialog.onPagePrev();
+    dialog.onPageChange({ first: 0, rows: 10, page: 0, pageCount: 3 });
     expect(pagedLoader).toHaveBeenLastCalledWith(expect.objectContaining({ page: 0 }));
+  });
+
+  it('should reload from the first page when the page size changes', () => {
+    const pagedLoader = vi.fn((filters: ProductPickerFilters) =>
+      of({ ...page, totalPages: 3, number: filters.page }),
+    );
+    host.loader = pagedLoader;
+    fixture.detectChanges();
+
+    dialog.onDialogShow();
+    dialog.onPageChange({ first: 10, rows: 10, page: 1, pageCount: 3 });
+    dialog.onPageChange({ first: 0, rows: 25, page: 0, pageCount: 1 });
+
+    expect(dialog.pageSize()).toBe(25);
+    expect(pagedLoader).toHaveBeenLastCalledWith(
+      expect.objectContaining({ page: 0, size: 25 }),
+    );
   });
 
   it('should build the stock entries for a product', () => {
