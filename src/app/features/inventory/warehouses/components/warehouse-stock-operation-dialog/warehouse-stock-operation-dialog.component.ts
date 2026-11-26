@@ -82,6 +82,7 @@ export class WarehouseStockOperationDialogComponent implements OnChanges {
   readonly stockLoading = signal(false);
   readonly pickerVisible = signal(false);
   readonly pickerLineIndex = signal(0);
+  readonly excludedProductIds = signal<Set<string>>(new Set());
   readonly pickedProductLabels = signal<Map<string, string>>(new Map());
   readonly stock = signal<WarehouseStockItem[]>([]);
   readonly form = this.formBuilder.group({ lines: this.formBuilder.array([this.createLine()]) });
@@ -106,8 +107,10 @@ export class WarehouseStockOperationDialogComponent implements OnChanges {
     if (changes['visible']?.currentValue) this.initialize();
   }
 
-  addLine(): void {
-    this.lines.push(this.createLine());
+  addLine(): FormGroup {
+    const line = this.createLine();
+    this.lines.push(line);
+    return line;
   }
 
   removeLine(index: number): void {
@@ -126,26 +129,48 @@ export class WarehouseStockOperationDialogComponent implements OnChanges {
   }
 
   openProductPicker(index: number): void {
+    const selected = new Set<string>();
+    this.lines.controls.forEach((line, lineIndex) => {
+      if (lineIndex === index) return;
+      const productId = line.get('productId')?.value;
+      if (productId) selected.add(productId);
+    });
+    this.excludedProductIds.set(selected);
     this.pickerLineIndex.set(index);
     this.pickerVisible.set(true);
   }
 
   onProductsPicked(selections: ProductPickerSelection[]): void {
-    const selection = selections[0];
-    const line = this.lines.at(this.pickerLineIndex());
-    if (!selection || !line) {
+    if (!selections.length) {
       this.pickerVisible.set(false);
       return;
     }
-    line.patchValue({ productId: selection.product.id });
-    if (this.operation() === 'entry' && !line.get('unitPrice')?.value) {
-      line.patchValue({ unitPrice: selection.unitPrice || null });
-    }
-    this.pickedProductLabels.update((labels) =>
-      new Map(labels).set(selection.product.id, selection.product.name),
-    );
-    this.onProductSelected(selection.product.id);
+
+    selections.forEach((selection, index) => {
+      const line = index === 0 ? this.targetLine() : this.nextAvailableLine();
+      line.patchValue({ productId: selection.product.id });
+      if (this.operation() === 'entry' && !line.get('unitPrice')?.value) {
+        line.patchValue({ unitPrice: selection.unitPrice || null });
+      }
+      this.pickedProductLabels.update((labels) =>
+        new Map(labels).set(selection.product.id, selection.product.name),
+      );
+      this.onProductSelected(selection.product.id);
+    });
+
     this.pickerVisible.set(false);
+  }
+
+  private targetLine(): FormGroup {
+    const line = this.lines.at(this.pickerLineIndex()) as FormGroup | null;
+    return line ?? this.nextAvailableLine();
+  }
+
+  private nextAvailableLine(): FormGroup {
+    const empty = this.lines.controls.find((line) => !line.get('productId')?.value) as
+      | FormGroup
+      | undefined;
+    return empty ?? this.addLine();
   }
 
   productLabel(productId: string | null): string {

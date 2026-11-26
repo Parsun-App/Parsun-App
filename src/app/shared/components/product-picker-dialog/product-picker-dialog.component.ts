@@ -79,6 +79,7 @@ export class ProductPickerDialogComponent {
   readonly allowUnlimitedStock = input<boolean>(false);
   readonly selectionMode = input<'multiple' | 'single'>('multiple');
   readonly showWarehouseStock = input<boolean>(true);
+  readonly reloadOnOpen = input<boolean>(true);
   readonly excludedProductIds = input<Set<string>>(new Set());
   readonly singleWarehouse = input<SingleWarehouseContext | null>(null);
   readonly loadProducts = input.required<ProductPickerLoader>();
@@ -162,7 +163,7 @@ export class ProductPickerDialogComponent {
 
   constructor() {
     effect(() => {
-      if (this.visible()) {
+      if (this.visible() && this.reloadOnOpen()) {
         this.initialized = false;
       }
     });
