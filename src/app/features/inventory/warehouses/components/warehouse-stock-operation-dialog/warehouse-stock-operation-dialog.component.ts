@@ -204,7 +204,7 @@ export class WarehouseStockOperationDialogComponent implements OnChanges {
   private createLine(): FormGroup {
     return this.formBuilder.group({
       productId: [null as string | null, Validators.required],
-      quantity: [1, [Validators.required, Validators.min(0.01)]],
+      quantity: [1, [Validators.required, Validators.min(0.001)]],
       unitPrice: [null as number | null],
       notes: [''],
     });

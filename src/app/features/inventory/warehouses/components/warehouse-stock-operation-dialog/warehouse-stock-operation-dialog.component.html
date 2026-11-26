@@ -93,9 +93,9 @@
               >
               <p-inputnumber
                 formControlName="quantity"
-                [min]="0.01"
+                [min]="0.001"
                 [minFractionDigits]="0"
-                [maxFractionDigits]="2"
+                [maxFractionDigits]="3"
                 fluid
               />
               @if (line.get('quantity')?.invalid && line.get('quantity')?.touched) {
