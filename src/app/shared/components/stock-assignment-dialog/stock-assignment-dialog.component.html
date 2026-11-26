@@ -85,6 +85,7 @@
                       </p>
                     </div>
                     <p-inputNumber
+                      [locale]="locale()"
                       [ngModel]="entry.allocated"
                       (ngModelChange)="updateAllocation(li, ei, $event)"
                       [min]="0"

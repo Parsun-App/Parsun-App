@@ -51,7 +51,7 @@
             }}</label>
             <p-select
               formControlName="state"
-              [options]="stateOptions"
+              [options]="stateOptions($index)"
               [placeholder]="'partners.suppliers.selectTheState' | translate"
               [filter]="true"
               [filterPlaceholder]="'partners.customers.labels.searchStates' | translate"

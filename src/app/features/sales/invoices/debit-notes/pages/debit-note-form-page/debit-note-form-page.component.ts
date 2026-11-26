@@ -137,6 +137,12 @@ export class DebitNoteFormPageComponent implements OnInit {
   submit(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Formulario incompleto',
+        detail: 'Revise los campos requeridos antes de continuar.',
+        life: 5000,
+      });
       return;
     }
 
@@ -162,12 +168,12 @@ export class DebitNoteFormPageComponent implements OnInit {
           });
           this.router.navigate(['/sales/debit-notes', created.id]);
         },
-        error: () => {
+        error: (err: { error?: { message?: string } }) => {
           this.isSubmitting.set(false);
           this.messageService.add({
             severity: 'error',
             summary: 'Error',
-            detail: 'Error al crear la nota de débito',
+            detail: err?.error?.message || 'Error al crear la nota de débito',
             life: 5000,
           });
         },

@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { DialogModule } from 'primeng/dialog';
 import { Popover, PopoverModule } from 'primeng/popover';
+import { PaginatorState } from 'primeng/paginator';
 import { SelectModule } from 'primeng/select';
 import { CustomerApiService } from '@features/partners/customers/services/api/customer-api.service';
 import { CustomerList } from '@features/partners/customers/models/interfaces/customer-list.interface';
@@ -33,6 +34,7 @@ import { DialogHeaderComponent } from '@shared/components/ui/dialog-header/dialo
 import { TableRowSkeletonComponent } from '@shared/components/ui/skeletons/table-row-skeleton.component';
 import { CardSkeletonComponent } from '@shared/components/ui/skeletons/card-skeleton.component';
 import { DataTableComponent } from '@shared/components/ui/data-table/data-table.component';
+import { PaginatorComponent } from '@shared/components/ui/paginator/paginator.component';
 
 @Component({
   selector: 'app-customer-picker-dialog',
@@ -46,6 +48,7 @@ import { DataTableComponent } from '@shared/components/ui/data-table/data-table.
     TableCardComponent,
     CancelButtonComponent,
     ListFilterComponent,
+    PaginatorComponent,
     TranslateOptionsPipe,
     TranslatePipe,
     DialogModule,
@@ -88,14 +91,10 @@ export class CustomerPickerDialogComponent {
   readonly filterType = signal<CustomerType | null>(null);
 
   readonly customerTypes = [...CUSTOMER_TYPES];
-  readonly pageSize = PAGE_SIZE;
+  readonly pageSize = signal(PAGE_SIZE);
+  readonly rowsPerPageOptions = [10, 25, 50];
+  readonly first = computed(() => this.currentPage() * this.pageSize());
   readonly getCustomerTypeLabel = getCustomerTypeLabel;
-
-  readonly pageLabel = computed(() => {
-    const total = this.totalPages();
-    const current = this.currentPage() + 1;
-    return total > 0 ? `Página ${current} de ${total}` : '';
-  });
 
   readonly activeFilterCount = computed(() => {
     return this.filterType() !== null ? 1 : 0;
@@ -116,16 +115,15 @@ export class CustomerPickerDialogComponent {
     this.load(0);
   }
 
-  onPagePrev(): void {
-    if (this.currentPage() > 0) {
-      this.load(this.currentPage() - 1);
+  onPageChange(event: PaginatorState): void {
+    const rows = event.rows ?? this.pageSize();
+    const first = event.first ?? 0;
+    if (rows !== this.pageSize()) {
+      this.pageSize.set(rows);
+      this.load(0);
+      return;
     }
-  }
-
-  onPageNext(): void {
-    if (this.currentPage() < this.totalPages() - 1) {
-      this.load(this.currentPage() + 1);
-    }
+    this.load(Math.floor(first / rows));
   }
 
   onSelect(customer: CustomerList): void {
@@ -184,7 +182,7 @@ export class CustomerPickerDialogComponent {
         search: this.search() || undefined,
         type: this.filterType() ?? undefined,
         page,
-        size: PAGE_SIZE,
+        size: this.pageSize(),
       })
       .subscribe({
         next: (response) => {

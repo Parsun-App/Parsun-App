@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostListener,
   computed,
   input,
   output,
@@ -76,6 +77,11 @@ export class ListFilterComponent {
   readonly cleared = output<void>();
 
   private readonly filterPopover = viewChild<Popover>('filterPopover');
+
+  @HostListener('window:scroll')
+  onWindowScroll(): void {
+    this.filterPopover()?.hide();
+  }
 
   close(): void {
     this.filterPopover()?.hide();

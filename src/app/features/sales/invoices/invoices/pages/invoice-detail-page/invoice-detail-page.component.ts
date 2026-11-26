@@ -44,6 +44,11 @@ import { DeleteDialogService } from '@shared/services/delete-dialog.service';
 import { PdfViewerService } from '@core/pdf-viewer';
 import { InvoiceList } from '@features/sales/invoices/invoices/models/interfaces/invoice-list.interface';
 import { InvoiceApplicationService } from '@features/sales/invoices/invoices/services/application/invoice-application.service';
+import { INVOICE_SUCCESS_MESSAGES } from '@features/sales/invoices/invoices/messages/success-messages';
+import {
+  INVOICE_ERROR_MESSAGES,
+  invoiceErrorDetail,
+} from '@features/sales/invoices/invoices/messages/error-messages';
 import {
   InvoiceStatus,
   getInvoiceStatusLabel,
@@ -114,12 +119,7 @@ export class InvoiceDetailPageComponent implements OnInit {
     if (id) {
       this.invoiceService.loadById(id).subscribe({
         error: () => {
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Error al cargar la factura. Es posible que no exista.',
-            life: 5000,
-          });
+          this.messageService.add(INVOICE_ERROR_MESSAGES.load);
           this.router.navigate(['/sales/invoices']);
         },
       });
@@ -146,20 +146,13 @@ export class InvoiceDetailPageComponent implements OnInit {
     this.invoiceService.confirm(invoice.id, data).subscribe({
       next: () => {
         this.confirmDialogVisible.set(false);
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Éxito',
-          detail: 'Factura confirmada exitosamente',
-          life: 3000,
-        });
+        this.messageService.add(INVOICE_SUCCESS_MESSAGES.confirmed);
         this.invoiceService.loadById(invoice.id).subscribe();
       },
-      error: () => {
+      error: (err: unknown) => {
         this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error al confirmar.',
-          life: 5000,
+          ...INVOICE_ERROR_MESSAGES.confirm,
+          detail: invoiceErrorDetail(err, INVOICE_ERROR_MESSAGES.confirm.detail),
         });
       },
     });
@@ -177,20 +170,13 @@ export class InvoiceDetailPageComponent implements OnInit {
     this.cancelDialogVisible.set(false);
     this.invoiceService.cancel(event.invoiceId, event.reason).subscribe({
       next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Éxito',
-          detail: 'Factura cancelada exitosamente',
-          life: 3000,
-        });
+        this.messageService.add(INVOICE_SUCCESS_MESSAGES.cancelled);
         this.invoiceService.loadById(event.invoiceId).subscribe();
       },
-      error: () => {
+      error: (err: unknown) => {
         this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error al cancelar la factura. Por favor, intente nuevamente.',
-          life: 5000,
+          ...INVOICE_ERROR_MESSAGES.cancel,
+          detail: invoiceErrorDetail(err, INVOICE_ERROR_MESSAGES.cancel.detail),
         });
       },
     });
@@ -225,20 +211,13 @@ export class InvoiceDetailPageComponent implements OnInit {
     this.duplicateDialogVisible.set(false);
     this.invoiceService.duplicate(event.invoiceId, event.customerId).subscribe({
       next: () => {
-        this.messageService.add({
-          severity: 'success',
-          summary: 'Éxito',
-          detail: 'Factura duplicada exitosamente',
-          life: 3000,
-        });
+        this.messageService.add(INVOICE_SUCCESS_MESSAGES.duplicated);
         this.router.navigate(['/sales/invoices']);
       },
-      error: () => {
+      error: (err: unknown) => {
         this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Error al duplicar la factura. Por favor, intente nuevamente.',
-          life: 5000,
+          ...INVOICE_ERROR_MESSAGES.duplicate,
+          detail: invoiceErrorDetail(err, INVOICE_ERROR_MESSAGES.duplicate.detail),
         });
       },
     });

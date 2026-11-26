@@ -1,13 +1,39 @@
-<p-paginator
-  [first]="first()"
-  [rows]="rows()"
-  [totalRecords]="totalRecords()"
-  [rowsPerPageOptions]="rowsPerPageOptions()"
-  [showCurrentPageReport]="showCurrentPageReport()"
-  [currentPageReportTemplate]="currentPageReportTemplate()"
-  [styleClass]="styleClass()"
-  [dropdownAppendTo]="dropdownAppendTo()"
-  [showPageLinks]="showPageLinks()"
-  [showFirstLastIcon]="showFirstLastIcon()"
-  (onPageChange)="pageChange.emit($event)"
-/>
+@if (nativeRowsSelector()) {
+  <div class="flex items-center justify-end gap-2">
+    <select
+      [value]="rows()"
+      class="h-9 rounded-lg border border-surface-300 bg-surface-0 px-2 text-sm text-surface-700 dark:border-surface-600 dark:bg-surface-900 dark:text-surface-200"
+      (change)="onNativeRowsChange($event)"
+    >
+      @for (option of rowsPerPageOptions(); track option) {
+        <option [value]="option">{{ option }}</option>
+      }
+    </select>
+    <p-paginator
+      [first]="first()"
+      [rows]="rows()"
+      [totalRecords]="totalRecords()"
+      [rowsPerPageOptions]="[]"
+      [showCurrentPageReport]="showCurrentPageReport()"
+      [currentPageReportTemplate]="currentPageReportTemplate()"
+      [styleClass]="styleClass()"
+      [showPageLinks]="showPageLinks()"
+      [showFirstLastIcon]="showFirstLastIcon()"
+      (onPageChange)="pageChange.emit($event)"
+    />
+  </div>
+} @else {
+  <p-paginator
+    [first]="first()"
+    [rows]="rows()"
+    [totalRecords]="totalRecords()"
+    [rowsPerPageOptions]="rowsPerPageOptions()"
+    [showCurrentPageReport]="showCurrentPageReport()"
+    [currentPageReportTemplate]="currentPageReportTemplate()"
+    [styleClass]="styleClass()"
+    [dropdownAppendTo]="dropdownAppendTo()"
+    [showPageLinks]="showPageLinks()"
+    [showFirstLastIcon]="showFirstLastIcon()"
+    (onPageChange)="pageChange.emit($event)"
+  />
+}

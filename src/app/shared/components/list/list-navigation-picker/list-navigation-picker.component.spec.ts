@@ -68,7 +68,7 @@ describe('ListNavigationPickerComponent acceptance', () => {
     expect(component.selectedRecord()).toBeNull();
     expect(search).toHaveBeenCalledWith('Other');
     component.selectRecord(record);
-    component.changePage(1);
+    component.changePage({ first: 10, rows: 10, page: 1, pageCount: 2 });
     expect(component.selectedRecord()).toBeNull();
     expect(paginate).toHaveBeenCalledWith({ first: 10, rows: 10 });
     expect(select).not.toHaveBeenCalled();

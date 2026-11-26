@@ -34,7 +34,6 @@
                   [filter]="true"
                   filterBy="name"
                   styleClass="w-full"
-                  appendTo="body"
                 />
               </div>
               <div class="flex flex-col gap-1.5">
@@ -53,7 +52,6 @@
                   [filter]="true"
                   filterBy="name"
                   styleClass="w-full"
-                  appendTo="body"
                 />
               </div>
               <div
@@ -73,7 +71,6 @@
                   [ngModel]="groupBy()"
                   (ngModelChange)="onGroupByChange($event)"
                   styleClass="w-full"
-                  appendTo="body"
                 />
               </div>
             </app-list-filter>
@@ -113,17 +110,17 @@
             {{ totals.warehouseCount | localizedNumber: '1.0-0' }}
           </app-stat-card>
           <app-stat-card labelKey="inventory.warehouses.physicalStock">
-            {{ totals.totalQuantity | localizedNumber: '1.0-2' }}
+            {{ totals.totalQuantity | localizedNumber: '1.0-3' }}
           </app-stat-card>
           <app-stat-card labelKey="inventory.warehouses.reserved">
-            {{ totals.reservedQuantity | localizedNumber: '1.0-2' }}
+            {{ totals.reservedQuantity | localizedNumber: '1.0-3' }}
           </app-stat-card>
           <app-stat-card
             labelKey="inventory.warehouses.available"
             [tone]="totals.availableQuantity < 0 ? 'danger' : 'default'"
             extraClass="col-span-2 lg:col-span-1"
           >
-            {{ totals.availableQuantity | localizedNumber: '1.0-2' }}
+            {{ totals.availableQuantity | localizedNumber: '1.0-3' }}
           </app-stat-card>
         </div>
       }
@@ -184,7 +181,7 @@
                         {{ 'inventory.warehouses.physical' | translate }}
                       </dt>
                       <dd class="mt-1 font-mono font-semibold">
-                        {{ group.quantity | localizedNumber: '1.0-2' }}
+                        {{ group.quantity | localizedNumber: '1.0-3' }}
                       </dd>
                     </div>
                     <div>
@@ -192,7 +189,7 @@
                         {{ 'inventory.warehouses.reserved' | translate }}
                       </dt>
                       <dd class="mt-1 font-mono font-semibold">
-                        {{ group.reserved | localizedNumber: '1.0-2' }}
+                        {{ group.reserved | localizedNumber: '1.0-3' }}
                       </dd>
                     </div>
                     <div>
@@ -203,7 +200,7 @@
                         class="mt-1 font-mono font-semibold"
                         [class.text-red-600]="group.available < 0"
                       >
-                        {{ group.available | localizedNumber: '1.0-2' }}
+                        {{ group.available | localizedNumber: '1.0-3' }}
                       </dd>
                     </div>
                   </dl>
@@ -274,16 +271,16 @@
                             </td>
                           }
                           <td class="px-4 py-3 text-right font-mono">
-                            {{ item.quantity | localizedNumber: '1.0-2' }}
+                            {{ item.quantity | localizedNumber: '1.0-3' }}
                           </td>
                           <td class="px-4 py-3 text-right font-mono">
-                            {{ item.reserved | localizedNumber: '1.0-2' }}
+                            {{ item.reserved | localizedNumber: '1.0-3' }}
                           </td>
                           <td
                             class="px-4 py-3 text-right font-mono font-semibold"
                             [class.text-red-600]="item.available < 0"
                           >
-                            {{ item.available | localizedNumber: '1.0-2' }}
+                            {{ item.available | localizedNumber: '1.0-3' }}
                           </td>
                         </tr>
                       }
@@ -314,7 +311,7 @@
                             {{ 'inventory.warehouses.physical' | translate }}
                           </dt>
                           <dd class="mt-1 font-mono text-sm">
-                            {{ item.quantity | localizedNumber: '1.0-2' }}
+                            {{ item.quantity | localizedNumber: '1.0-3' }}
                           </dd>
                         </div>
                         <div>
@@ -322,7 +319,7 @@
                             {{ 'inventory.warehouses.reserved' | translate }}
                           </dt>
                           <dd class="mt-1 font-mono text-sm">
-                            {{ item.reserved | localizedNumber: '1.0-2' }}
+                            {{ item.reserved | localizedNumber: '1.0-3' }}
                           </dd>
                         </div>
                         <div>
@@ -333,7 +330,7 @@
                             class="mt-1 font-mono text-sm font-semibold"
                             [class.text-red-600]="item.available < 0"
                           >
-                            {{ item.available | localizedNumber: '1.0-2' }}
+                            {{ item.available | localizedNumber: '1.0-3' }}
                           </dd>
                         </div>
                       </dl>
@@ -389,16 +386,16 @@
                       {{ item.categoryName || ('inventory.warehouses.uncategorized' | translate) }}
                     </td>
                     <td class="px-4 py-3 text-right font-mono">
-                      {{ item.quantity | localizedNumber: '1.0-2' }}
+                      {{ item.quantity | localizedNumber: '1.0-3' }}
                     </td>
                     <td class="px-4 py-3 text-right font-mono">
-                      {{ item.reserved | localizedNumber: '1.0-2' }}
+                      {{ item.reserved | localizedNumber: '1.0-3' }}
                     </td>
                     <td
                       class="px-4 py-3 text-right font-mono font-semibold"
                       [class.text-red-600]="item.available < 0"
                     >
-                      {{ item.available | localizedNumber: '1.0-2' }}
+                      {{ item.available | localizedNumber: '1.0-3' }}
                     </td>
                   </tr>
                 }
@@ -429,7 +426,7 @@
                       {{ 'inventory.warehouses.physical' | translate }}
                     </dt>
                     <dd class="mt-1 font-mono text-sm">
-                      {{ item.quantity | localizedNumber: '1.0-2' }}
+                      {{ item.quantity | localizedNumber: '1.0-3' }}
                     </dd>
                   </div>
                   <div>
@@ -437,7 +434,7 @@
                       {{ 'inventory.warehouses.reserved' | translate }}
                     </dt>
                     <dd class="mt-1 font-mono text-sm">
-                      {{ item.reserved | localizedNumber: '1.0-2' }}
+                      {{ item.reserved | localizedNumber: '1.0-3' }}
                     </dd>
                   </div>
                   <div>
@@ -448,7 +445,7 @@
                       class="mt-1 font-mono text-sm font-semibold"
                       [class.text-red-600]="item.available < 0"
                     >
-                      {{ item.available | localizedNumber: '1.0-2' }}
+                      {{ item.available | localizedNumber: '1.0-3' }}
                     </dd>
                   </div>
                 </dl>

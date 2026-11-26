@@ -718,6 +718,22 @@ a:focus-visible {
   @apply shadow-xl;
 }
 
+.p-select-overlay {
+  max-width: min(560px, 92vw);
+}
+
+.p-select-label,
+.p-select-option-label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.p-select-option {
+  min-width: 0;
+}
+
 .parsun-informative :is([data-module='sales'], .parsun-module-sales) {
   --parsun-accent: #1e40af;
 }
