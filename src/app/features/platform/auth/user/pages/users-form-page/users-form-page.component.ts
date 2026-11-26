@@ -6,6 +6,7 @@ import { AuthService } from '@features/platform/auth/services/application/auth-a
 import { AuthorizationService } from '@features/platform/auth/authorization/services/authorization.service';
 import { BusinessModule } from '@features/platform/auth/user/models/enums/business-module.enum';
 import { computed } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { UserPhotoService } from '@features/platform/auth/services/api/user-photo.service';
 import { switchMap, of, catchError, finalize, map } from 'rxjs';
 import { DestroyRef } from '@angular/core';
@@ -95,9 +96,13 @@ export class UsersFormPageComponent extends BaseFormComponent<UserFormData> {
   readonly showChangeEmailDialog = signal(false);
   private readonly photoDestroy = inject(DestroyRef);
   readonly photo = new FormControl<File | null>(null);
+  private readonly photoFile = toSignal(this.photo.valueChanges, {
+    initialValue: this.photo.value,
+  });
   readonly photoUrl = signal<string | null>(null);
   readonly removePhoto = signal(false);
   readonly savingPhoto = signal(false);
+  readonly hasExternalChanges = computed(() => !!this.photoFile() || this.removePhoto());
   readonly loading = this.service.loading;
   constructor() {
     super();
