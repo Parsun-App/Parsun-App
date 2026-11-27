@@ -8,17 +8,20 @@
   [draggable]="false"
 >
   <div class="mb-3 text-sm text-surface-500">{{ warehouseName() }}</div>
-  <app-product-picker-dialog
-    mode="purchase"
-    [visible]="pickerVisible()"
-    [selectionMode]="'single'"
-    [showWarehouseStock]="false"
-    [allowUnlimitedStock]="true"
-    [loadProducts]="loadPickerProducts"
-    [subtitleKeyOverride]="'inventory.warehouses.selectProductsForStockMovement'"
-    (productsSelected)="onProductsPicked($event)"
-    (cancelled)="pickerVisible.set(false)"
-  />
+  @if (visible()) {
+    <app-product-picker-dialog
+      mode="purchase"
+      [visible]="pickerVisible()"
+      [showWarehouseStock]="false"
+      [allowUnlimitedStock]="true"
+      [loadProducts]="loadPickerProducts"
+      [excludedProductIds]="excludedProductIds()"
+      [reloadOnOpen]="false"
+      [subtitleKeyOverride]="'inventory.warehouses.selectProductsForStockMovement'"
+      (productsSelected)="onProductsPicked($event)"
+      (cancelled)="pickerVisible.set(false)"
+    />
+  }
   <form [formGroup]="form" class="flex flex-col gap-4 py-2">
     @if (stockLoading()) {
       <div class="flex items-center gap-2 text-sm text-surface-500">
